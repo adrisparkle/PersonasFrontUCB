@@ -11,6 +11,12 @@ import Login from 'src/modules/Auth/Login.vue'
 import Employee from 'src/modules/Employees'
 // Branches Module
 import Branches from 'src/modules/Branches'
+// Roles Module
+import Roles from 'src/modules/Roles'
+// Access Module
+import Access from 'src/modules/Access'
+// Users Module
+import Users from 'src/modules/Users'
 
 import store from '../store'
 
@@ -76,6 +82,65 @@ let branchesMenu = {
   ]
 }
 
+let rolesMenu = {
+  path: '/roles',
+  component: Layout,
+  redirect: '/roles',
+  children: [
+    {
+      path: '/',
+      name: 'Roles',
+      component: Roles,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+let accessMenu = {
+  path: '/access',
+  component: Layout,
+  redirect: '/access',
+  children: [
+    {
+      path: '/',
+      name: 'Permisos',
+      component: Access,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
+let usersMenu = {
+  path: '/users',
+  component: Layout,
+  redirect: '/users',
+  children: [
+    {
+      path: '/',
+      name: 'Usuarios',
+      component: Users,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
 const routes = [
   {
     path: '/',
@@ -85,6 +150,9 @@ const routes = [
   userMenu,
   employeeMenu,
   branchesMenu,
+  rolesMenu,
+  accessMenu,
+  usersMenu,
   {path: '*', component: NotFound}
 ]
 

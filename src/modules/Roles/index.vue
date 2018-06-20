@@ -15,8 +15,8 @@
           <input type="text" placeholder="Nombre" class="form-control" v-model="Name">
         </div>
         <div class="form-group">
-          <label>Abbr</label>
-          <input type="text" placeholder="Abbr" class="form-control" v-model="Abr">
+          <label>Nivel</label>
+          <input type="text" placeholder="Nivel" class="form-control" v-model="Level">
         </div>
       </crud-form>
     </div>
@@ -33,19 +33,19 @@
           this.$store.commit('crud/formDataFieldSetter', {field: 'Name', val: value})
         }
       },
-      Abr: {
+      Level: {
         get () {
-          return this.$store.state.crud.formData.Abr
+          return this.$store.state.crud.formData.Level
         },
         set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'Abr', val: value})
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Level', val: value})
         }
       }
     },
     data () {
       return {
-        url: '/branches/',
-        propsToSearch: ['Name', 'Abr'],
+        url: '/rol/',
+        propsToSearch: ['Name', 'Level'],
         tableColumns: [
           {
             prop: 'Id',
@@ -58,8 +58,8 @@
             minWidth: 100
           },
           {
-            prop: 'Abr',
-            label: 'Abr.',
+            prop: 'Level',
+            label: 'Nivel',
             minWidth: 100
           }
         ],

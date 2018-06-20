@@ -10,7 +10,6 @@
 </template>
 <script>
   import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
-  import axios from 'axios'
   export default {
     components: {
       [CollapseTransition.name]: CollapseTransition
@@ -24,27 +23,6 @@
       }
     },
     created () {
-      axios.get('/Persona/' + this.$store.getters.usernameGetter, {
-        headers: {
-          authorization: 'Bearer ' + this.$store.getters.accessTokenGetter
-        }
-      })
-        .then(response => {
-          this.posts = response.data
-          console.log(this.posts)
-        })
-        .catch(e => {
-          this.error.push(e)
-        })
-
-      // async / await version (created() becomes async created())
-      //
-      // try {
-      //   const response = await axios.get(`http://jsonplaceholder.typicode.com/posts`)
-      //   this.posts = response.data
-      // } catch (e) {
-      //   this.errors.push(e)
-      // }
     },
     methods: {
       toggleMenu () {

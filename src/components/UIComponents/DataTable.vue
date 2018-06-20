@@ -32,15 +32,16 @@
             <el-table-column v-for="column in tableColumns"
                              :key="column.label"
                              :min-width="column.minWidth"
+                             :formatter="cellValueRenderer"
                              :prop="column.prop"
                              :label="column.label">
             </el-table-column>
             <el-table-column
-              :min-width="120"
+              :min-width="80"
               fixed="right"
               label="Actions">
               <template slot-scope="props">
-                <slot name="buttons" :queriedData="queriedData" :index="props.$index">
+                <slot name="buttons" :queriedData="queriedData" :index="props.$index" :handleEdit="handleEdit" :handleDelete="handleDelete">
                 </slot>
               </template>
             </el-table-column>
@@ -137,10 +138,6 @@
       tableColumns: {
         type: Array,
         required: true
-      },
-      actions: {
-        type: Object,
-        required: true
       }
     },
     data () {
@@ -150,17 +147,28 @@
     },
     methods: {
       handleEdit (index) {
-        console.log(index)
-      },
-      handleDelete (index, row) {
-        let indexToDelete = this.tableData.findIndex((tableRow) => tableRow.id === row.id)
-        if (indexToDelete >= 0) {
-          this.tableData.splice(indexToDelete, 1)
+        const formData = {
+          url: this.url,
+          id: index
         }
+        this.$store.commit('crud/editSetter', true)
+        this.$store.dispatch('crud/find', formData)
+      },
+      handleDelete (index) {
+        const formData = {
+          url: this.url,
+          id: index
+        }
+        this.$store.dispatch('crud/remove', formData)
+      },
+      cellValueRenderer (row, column, cellValue) {
+        const isBool = typeof row[column.property] === 'boolean'
+        return !isBool ? cellValue : String(cellValue)
       }
     },
     mounted () {
       this.$store.dispatch('crud/loadData', this.url)
+      this.$store.commit('crud/formDataCleaner')
     }
   }
 </script>

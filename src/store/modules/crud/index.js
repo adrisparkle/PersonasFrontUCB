@@ -4,7 +4,8 @@ import mutations from './mutations'
 
 const state = {
   data: [],
-  id: null
+  formData: {},
+  edit: false
 }
 
 export default {

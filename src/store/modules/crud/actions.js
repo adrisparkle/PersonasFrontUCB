@@ -1,4 +1,5 @@
 import axios from 'axios/index'
+import swal from 'sweetalert2'
 
 const loadData = ({ commit }, url) => {
   axios.get(url)
@@ -8,15 +9,89 @@ const loadData = ({ commit }, url) => {
     .catch(error => console.log(error))
 }
 
-const create = ({ dispatch }, formData) => {
-  axios.post(formData.url, formData.values)
+const find = ({ commit }, formData) => {
+  axios.get(formData.url + '/' + formData.id)
     .then(response => {
-      dispatch('loadData', formData.url)
+      commit('formDataSetter', response.data)
     })
     .catch(error => console.log(error))
 }
 
+const create = ({ dispatch, commit, state }, url) => {
+  axios.post(url, state.formData)
+    .then(response => {
+      swal({
+        title: `Good job!`,
+        text: 'You clicked the button!',
+        buttonsStyling: false,
+        confirmButtonClass: 'btn btn-success btn-fill',
+        type: 'success'
+      })
+      dispatch('loadData', url)
+      commit('formDataCleaner')
+    })
+    .catch(error => console.log(error))
+}
+
+const update = ({ dispatch, commit, state }, url) => {
+  axios.put(url + '/' + state.formData.Id, state.formData)
+    .then(response => {
+      swal({
+        title: `Good job!`,
+        text: 'You clicked the button!',
+        buttonsStyling: false,
+        confirmButtonClass: 'btn btn-success btn-fill',
+        type: 'success'
+      })
+      dispatch('loadData', url)
+      commit('formDataCleaner')
+      commit('editSetter', false)
+    })
+    .catch(error => console.log(error))
+}
+
+const remove = ({ dispatch }, formData) => {
+  swal({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this imaginary file!',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, keep it',
+    confirmButtonClass: 'btn btn-success btn-fill',
+    cancelButtonClass: 'btn btn-danger btn-fill',
+    buttonsStyling: false
+  }).then(function () {
+    axios.delete(formData.url + '/' + formData.id)
+      .then(response => {
+        swal({
+          title: 'Deleted!',
+          text: 'Your imaginary file has been deleted.',
+          type: 'success',
+          confirmButtonClass: 'btn btn-success btn-fill',
+          buttonsStyling: false
+        })
+        dispatch('loadData', formData.url)
+      })
+      .catch(error => console.log(error))
+  }, function (dismiss) {
+    // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+    if (dismiss === 'cancel') {
+      swal({
+        title: 'Cancelled',
+        text: 'Your imaginary file is safe :)',
+        type: 'error',
+        confirmButtonClass: 'btn btn-info btn-fill',
+        buttonsStyling: false
+      })
+    }
+  })
+}
+
 export default {
   loadData,
-  create
+  create,
+  remove,
+  find,
+  update
 }

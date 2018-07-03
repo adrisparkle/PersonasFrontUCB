@@ -19,13 +19,12 @@ import router from '@/router'
 // vuex setup
 import store from './store/index.js'
 
-// library imports
 
 import './assets/sass/paper-dashboard.scss'
 import './assets/sass/element_variables.scss'
 import './assets/sass/demo.scss'
 
-import sidebarLinks from './components/UIComponents/SidebarPlugin/sidebarLinks'
+import sidebarLinks from './sidebarLinks'
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(GlobalDirectives)

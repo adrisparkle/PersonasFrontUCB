@@ -9,9 +9,6 @@
           <el-tooltip class="item" effect="dark" content="Eliminar" placement="top-start">
             <a class="btn btn-simple btn-xs btn-danger btn-icon"  @click="props.handleDelete(props.queriedData[props.index].Id)"><i class="fa fa-trash-alt"></i></a>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Añadir Permisos" placement="top-start">
-            <a class="btn btn-simple btn-xs btn-success btn-icon"  @click="addAccess(props.queriedData[props.index].Id)"><i class="fa fa-plus"></i></a>
-          </el-tooltip>
         </template>
       </data-tables>
     </div>
@@ -22,17 +19,14 @@
           <input type="text" placeholder="Nombre" class="form-control" v-model="Name">
         </div>
         <div class="form-group">
-          <label>Nivel</label>
-          <input type="text" placeholder="Nivel" class="form-control" v-model="Level">
+          <label>Codigo</label>
+          <input type="text" placeholder="Codigo" class="form-control" v-model="Cod">
         </div>
       </crud-form>
     </div>
   </div>
 </template>
 <script>
-  import Vue from 'vue'
-  import {Tooltip} from 'element-ui'
-  Vue.use(Tooltip)
   export default {
     computed: {
       Name: {
@@ -43,19 +37,19 @@
           this.$store.commit('crud/formDataFieldSetter', {field: 'Name', val: value})
         }
       },
-      Level: {
+      Cod: {
         get () {
-          return this.$store.state.crud.formData.Level
+          return this.$store.state.crud.formData.Cod
         },
         set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'Level', val: value})
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Cod', val: value})
         }
       }
     },
     data () {
       return {
-        url: '/rol/',
-        propsToSearch: ['Name', 'Level'],
+        url: '/organizationalunit/',
+        propsToSearch: ['Name'],
         tableColumns: [
           {
             prop: 'Id',
@@ -63,13 +57,13 @@
             minWidth: 50
           },
           {
-            prop: 'Name',
-            label: 'Nombre',
-            minWidth: 100
+            prop: 'Cod',
+            label: 'Cod.',
+            minWidth: 50
           },
           {
-            prop: 'Level',
-            label: 'Nivel',
+            prop: 'Name',
+            label: 'Nombre',
             minWidth: 100
           }
         ],
@@ -81,13 +75,8 @@
         },
         formData: {
           Name: null,
-          Level: null
+          Cod: null
         }
-      }
-    },
-    methods: {
-      addAccess (index) {
-        this.$store.commit('crud/editSetter')
       }
     }
   }

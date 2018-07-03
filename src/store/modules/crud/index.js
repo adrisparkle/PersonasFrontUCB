@@ -5,7 +5,8 @@ import mutations from './mutations'
 const state = {
   data: [],
   formData: {},
-  edit: false
+  edit: false,
+  isLoading: false
 }
 
 export default {

@@ -3,13 +3,17 @@
     <div class="col-md-8 card">
       <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
         <template slot="buttons" slot-scope="props">
-          <a class="btn btn-simple btn-xs btn-icon btn-info" @click="props.handleEdit(props.queriedData[props.index].Id)"><i class="ti-pencil"></i></a>
-          <a class="btn btn-simple btn-xs btn-danger btn-icon"  @click="props.handleDelete(props.queriedData[props.index].Id)"><i class="ti-close"></i></a>
+          <el-tooltip class="item" effect="dark" content="Modificar" placement="top-start">
+            <a class="btn btn-simple btn-xs btn-icon btn-info" @click="props.handleEdit(props.queriedData[props.index].Id)"><i class="fa fa-edit"></i></a>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Eliminar" placement="top-start">
+            <a class="btn btn-simple btn-xs btn-danger btn-icon"  @click="props.handleDelete(props.queriedData[props.index].Id)"><i class="fa fa-trash-alt"></i></a>
+          </el-tooltip>
         </template>
       </data-tables>
     </div>
     <div class="col-md-4">
-      <crud-form v-bind="{url}">
+      <crud-form v-bind="{url,formData}">
         <div class="form-group">
           <label>Metodo</label>
           <input type="text" placeholder="Metodo" class="form-control" v-model="Method">
@@ -22,7 +26,7 @@
           <label>Desc</label>
           <input type="text" placeholder="Description" class="form-control" v-model="Description">
         </div>
-        <div class="form-group" v-if="this.$store.state.crud.edit">
+        <div class="form-group">
           <label>¿Public?</label>
           <p-switch v-model="Public">
             <i class="fa fa-check" slot="on"></i>
@@ -90,7 +94,7 @@
           {
             prop: 'Method',
             label: 'Metodo',
-            minWidth: 100
+            minWidth: 50
           },
           {
             prop: 'Path',
@@ -113,6 +117,12 @@
           currentPage: 1,
           perPageOptions: [5, 10, 20],
           total: 0
+        },
+        formData: {
+          Method: null,
+          Path: null,
+          Description: null,
+          Public: false
         }
       }
     }

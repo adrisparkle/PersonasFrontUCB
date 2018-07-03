@@ -5,10 +5,20 @@ const formDataSetter = (state, data) => {
   state.formData = data
 }
 const formDataCleaner = (state) => {
-  state.formData = {}
+  let formData
+  for (formData in state.formData) {
+    if (formData === 'Id') {
+      delete state.formData[formData]
+    } else {
+      state.formData[formData] = null
+    }
+  }
 }
 const editSetter = (state, data) => {
   state.edit = data
+}
+const loadSetter = (state, data) => {
+  state.isLoading = data
 }
 
 const formDataFieldSetter = (state, data) => {
@@ -19,5 +29,6 @@ export default {
   formDataSetter,
   formDataFieldSetter,
   formDataCleaner,
-  editSetter
+  editSetter,
+  loadSetter
 }

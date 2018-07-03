@@ -9,53 +9,47 @@
           <el-tooltip class="item" effect="dark" content="Eliminar" placement="top-start">
             <a class="btn btn-simple btn-xs btn-danger btn-icon"  @click="props.handleDelete(props.queriedData[props.index].Id)"><i class="fa fa-trash-alt"></i></a>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Añadir Permisos" placement="top-start">
-            <a class="btn btn-simple btn-xs btn-success btn-icon"  @click="addAccess(props.queriedData[props.index].Id)"><i class="fa fa-plus"></i></a>
-          </el-tooltip>
         </template>
       </data-tables>
     </div>
     <div class="col-md-4">
       <crud-form v-bind="{url,formData}">
         <div class="form-group">
-          <label>Nombre</label>
-          <input type="text" placeholder="Nombre" class="form-control" v-model="Name">
+          <label>Codigo</label>
+          <input type="text" placeholder="Codigo" class="form-control" v-model="Cod">
         </div>
         <div class="form-group">
-          <label>Nivel</label>
-          <input type="text" placeholder="Nivel" class="form-control" v-model="Level">
+          <label>Categoria</label>
+          <input type="text" placeholder="Categoria" class="form-control" v-model="Category">
         </div>
       </crud-form>
     </div>
   </div>
 </template>
 <script>
-  import Vue from 'vue'
-  import {Tooltip} from 'element-ui'
-  Vue.use(Tooltip)
   export default {
     computed: {
-      Name: {
+      Cod: {
         get () {
-          return this.$store.state.crud.formData.Name
+          return this.$store.state.crud.formData.Cod
         },
         set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'Name', val: value})
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Cod', val: value})
         }
       },
-      Level: {
+      Category: {
         get () {
-          return this.$store.state.crud.formData.Level
+          return this.$store.state.crud.formData.Category
         },
         set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'Level', val: value})
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Category', val: value})
         }
       }
     },
     data () {
       return {
-        url: '/rol/',
-        propsToSearch: ['Name', 'Level'],
+        url: '/level/',
+        propsToSearch: ['Cod', 'Category'],
         tableColumns: [
           {
             prop: 'Id',
@@ -63,13 +57,13 @@
             minWidth: 50
           },
           {
-            prop: 'Name',
-            label: 'Nombre',
+            prop: 'Cod',
+            label: 'Codigo',
             minWidth: 100
           },
           {
-            prop: 'Level',
-            label: 'Nivel',
+            prop: 'Category',
+            label: 'Categoria',
             minWidth: 100
           }
         ],
@@ -80,14 +74,9 @@
           total: 0
         },
         formData: {
-          Name: null,
-          Level: null
+          Cod: null,
+          Category: null
         }
-      }
-    },
-    methods: {
-      addAccess (index) {
-        this.$store.commit('crud/editSetter')
       }
     }
   }

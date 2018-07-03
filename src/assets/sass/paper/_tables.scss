@@ -225,6 +225,16 @@
     padding-left: $padding-base-horizontal;
   }
 }
+.el-table .cell {
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: normal!important;
+  line-height: 23px;
+  padding-left: 10px;
+  padding-right: 8px;
+}
 
 .card-plain .el-table {
   background-color: transparent;

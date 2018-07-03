@@ -18,8 +18,10 @@ const find = ({ commit }, formData) => {
 }
 
 const create = ({ dispatch, commit, state }, url) => {
+  commit('loadSetter', true)
   axios.post(url, state.formData)
     .then(response => {
+      commit('loadSetter', false)
       swal({
         title: `Good job!`,
         text: 'You clicked the button!',
@@ -30,7 +32,10 @@ const create = ({ dispatch, commit, state }, url) => {
       dispatch('loadData', url)
       commit('formDataCleaner')
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      commit('loadSetter', false)
+      console.log(error)
+    })
 }
 
 const update = ({ dispatch, commit, state }, url) => {

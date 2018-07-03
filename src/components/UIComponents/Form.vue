@@ -12,6 +12,7 @@
       <div class="card-content">
         <slot></slot>
         <button type="submit" class="btn btn-fill btn-info">Enviar</button>
+        <button v-if="this.$store.state.crud.edit" type="cancel" class="btn btn-fill btn-danger" @click.prevent="cancel">Cancelar</button>
       </div>
     </form>
   </div> <!-- end card -->
@@ -23,6 +24,10 @@
       url: {
         type: String,
         required: true
+      },
+      formData: {
+        type: Object,
+        required: true
       }
     },
     methods: {
@@ -32,7 +37,14 @@
         } else {
           this.$store.dispatch('crud/update', this.url)
         }
+      },
+      cancel () {
+        this.$store.commit('crud/formDataCleaner')
+        this.$store.commit('crud/editSetter', false)
       }
+    },
+    mounted () {
+      this.$store.commit('crud/formDataSetter', this.formData)
     }
   }
 </script>

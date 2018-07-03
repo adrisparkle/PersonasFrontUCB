@@ -17,6 +17,19 @@ import Roles from 'src/modules/Roles'
 import Access from 'src/modules/Access'
 // Users Module
 import Users from 'src/modules/Users'
+// Distribution Module
+import Dist from 'src/modules/Distribution'
+// Level Module
+import Level from 'src/modules/Level'
+// Positions Module
+import Positions from 'src/modules/Positions'
+// PerformanceArea Module
+import PerformanceArea from 'src/modules/PerformanceArea'
+// OrganizationalUnit Module
+import OrganizationalUnit from 'src/modules/OrganizationalUnit'
+// Dependency Module
+import Dependency from 'src/modules/Dependency'
+
 
 import store from '../store'
 
@@ -141,6 +154,125 @@ let usersMenu = {
   ]
 }
 
+let distMenu = {
+  path: '/distribution',
+  component: Layout,
+  redirect: '/distribution',
+  children: [
+    {
+      path: '/',
+      name: 'Distribución por centros de costo',
+      component: Dist,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
+let levelMenu = {
+  path: '/levels',
+  component: Layout,
+  redirect: '/levels',
+  children: [
+    {
+      path: '/',
+      name: 'Nivel Gerarquico',
+      component: Level,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
+let positionsMenu = {
+  path: '/positions',
+  component: Layout,
+  redirect: '/positions',
+  children: [
+    {
+      path: '/',
+      name: 'Cargos',
+      component: Positions,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
+let dependencyMenu = {
+  path: '/dependency',
+  component: Layout,
+  redirect: '/dependency',
+  children: [
+    {
+      path: '/',
+      name: 'Dependencia Organigrama',
+      component: Dependency,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
+let performanceAreaMenu = {
+  path: '/performancearea',
+  component: Layout,
+  redirect: '/performancearea',
+  children: [
+    {
+      path: '/',
+      name: 'Area Desempeño',
+      component: PerformanceArea,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
+let organizationalUnitMenu = {
+  path: '/organizationalunit',
+  component: Layout,
+  redirect: '/organizationalunit',
+  children: [
+    {
+      path: '/',
+      name: 'Unidad Organizacional',
+      component: OrganizationalUnit,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
 const routes = [
   {
     path: '/',
@@ -153,6 +285,12 @@ const routes = [
   rolesMenu,
   accessMenu,
   usersMenu,
+  distMenu,
+  levelMenu,
+  positionsMenu,
+  performanceAreaMenu,
+  organizationalUnitMenu,
+  dependencyMenu,
   {path: '*', component: NotFound}
 ]
 

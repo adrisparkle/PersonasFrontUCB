@@ -1,5 +1,11 @@
 <template>
   <div class="row buttons-with-margin">
+    <button type="button" class="btn btn-wd btn-success">
+	                                            <span class="btn-label">
+	                                                <i class="fa fa-check"></i>
+	                                            </span>
+      Success
+    </button>
     <div class="col-md-12">
       <div class="card">
         <div class="row">

@@ -1,7 +1,7 @@
 const userIdGetter = state => state.userId
 const accessTokenGetter = state => state.token
-const isAuthenticated = (state) => {
-  if (state.token) {
+const isAuthenticated = () => {
+  if (localStorage.getItem('token')) {
     return true
   }
 }

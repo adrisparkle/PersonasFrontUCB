@@ -228,7 +228,7 @@
 .el-table .cell {
   box-sizing: border-box;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: initial!important;
   white-space: normal;
   word-break: normal!important;
   line-height: 23px;

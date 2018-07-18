@@ -2,7 +2,7 @@ export default [
   {
     name: 'Auth',
     icon: 'fa fa-key',
-    collapsed: false,
+    collapsed: true,
     children: [{
       name: 'Usuarios',
       path: '/users/'
@@ -19,7 +19,7 @@ export default [
   {
     name: 'Organización',
     icon: 'fa fa-briefcase',
-    collapsed: false,
+    collapsed: true,
     children: [{
       name: 'Regionales',
       path: '/branches/'
@@ -46,13 +46,29 @@ export default [
     }]
   },
   {
+    name: 'Distribución',
+    icon: 'fa fa-coins',
+    collapsed: true,
+    children: [{
+      name: 'Proceso',
+      path: '/distribution/'
+    },
+    {
+      name: 'Grupo Contable',
+      path: '/grupocontable/'
+    },
+    {
+      name: 'Tipo Empleado Distribucion',
+      path: '/tipoempleadodist/'
+    },
+    {
+      name: 'Cuentas Contables',
+      path: '/cuentascontables/'
+    }]
+  },
+  {
     name: 'Empleados',
     icon: 'fa fa-user-tie',
     path: '/employee/'
-  },
-  {
-    name: 'Distribución',
-    icon: 'fa fa-coins',
-    path: '/distribution/'
   }
 ]

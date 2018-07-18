@@ -35,6 +35,7 @@ Vue.use(VeeValidate)
 locale.use(lang)
 
 axios.defaults.baseURL = 'http://172.16.0.246:8000/api'
+axios.defaults.headers.common['id'] = localStorage.getItem('userId')
 
 /* eslint-disable no-new */
 new Vue({

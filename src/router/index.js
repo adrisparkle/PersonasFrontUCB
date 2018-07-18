@@ -29,7 +29,12 @@ import PerformanceArea from 'src/modules/PerformanceArea'
 import OrganizationalUnit from 'src/modules/OrganizationalUnit'
 // Dependency Module
 import Dependency from 'src/modules/Dependency'
-
+// Grupo Contable Module
+import GrupoContable from 'src/modules/GrupoContable'
+// Cuentas Contable Module
+import CuentasContables from 'src/modules/CuentasContables'
+// Tipo Empleado dist Module
+import TipoEmpleadoDist from 'src/modules/TipoEmpleadoDist'
 
 import store from '../store'
 
@@ -273,6 +278,67 @@ let organizationalUnitMenu = {
     }
   ]
 }
+
+let grupoContableMenu = {
+  path: '/grupocontable',
+  component: Layout,
+  redirect: '/grupocontable',
+  children: [
+    {
+      path: '/',
+      name: 'Grupo Contable',
+      component: GrupoContable,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
+let cuentasContablesMenu = {
+  path: '/cuentascontables',
+  component: Layout,
+  redirect: '/cuentascontables',
+  children: [
+    {
+      path: '/',
+      name: 'Cuentas Contables',
+      component: CuentasContables,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
+let tipoEmpleadoDistMenu = {
+  path: '/tipoempleadodist',
+  component: Layout,
+  redirect: '/tipoempleadodist',
+  children: [
+    {
+      path: '/',
+      name: 'Tipo Empleado Distribucion',
+      component: TipoEmpleadoDist,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
 const routes = [
   {
     path: '/',
@@ -291,6 +357,9 @@ const routes = [
   performanceAreaMenu,
   organizationalUnitMenu,
   dependencyMenu,
+  grupoContableMenu,
+  cuentasContablesMenu,
+  tipoEmpleadoDistMenu,
   {path: '*', component: NotFound}
 ]
 

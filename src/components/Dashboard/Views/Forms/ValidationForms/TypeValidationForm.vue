@@ -97,7 +97,6 @@
               <small class="text-danger" v-show="idSource.invalid">
                 {{ getError('idSource') }}
               </small>
-
             </div>
             <div class="col-sm-3">
               <input class="form-control"

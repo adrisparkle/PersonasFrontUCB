@@ -151,6 +151,9 @@
       },
       validate () {
         this.$store.dispatch('dist/uploadedFiles')
+        if (this.$store.state.dist.uploadedFiles.id) {
+          this.$store.dispatch('crud/loadData', '/Payroll/Geterrors/' + this.$store.state.dist.uploadedFiles.id)
+        }
         return this.$validator.validateAll()
       }
     },

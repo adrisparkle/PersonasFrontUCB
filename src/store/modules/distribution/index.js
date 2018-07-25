@@ -6,7 +6,11 @@ const state = {
   mes: null,
   gestion: null,
   segmentoOrigen: '',
-  uploadedFiles: []
+  uploadedFiles: {
+    array: [],
+    state: '',
+    id: ''
+  }
 }
 
 export default {

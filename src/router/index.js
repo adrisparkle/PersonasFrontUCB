@@ -35,6 +35,8 @@ import GrupoContable from 'src/modules/GrupoContable'
 import CuentasContables from 'src/modules/CuentasContables'
 // Tipo Empleado dist Module
 import TipoEmpleadoDist from 'src/modules/TipoEmpleadoDist'
+// Process Module
+import Process from 'src/modules/Process'
 
 import store from '../store'
 
@@ -339,6 +341,26 @@ let tipoEmpleadoDistMenu = {
   ]
 }
 
+let processMenu = {
+  path: '/process',
+  component: Layout,
+  redirect: '/process',
+  children: [
+    {
+      path: '/',
+      name: 'Procesos',
+      component: Process,
+      beforeEnter (to, from, next) {
+        if (store.getters['auth/isAuthenticated']) {
+          next()
+        } else {
+          next('/')
+        }
+      }
+    }
+  ]
+}
+
 const routes = [
   {
     path: '/',
@@ -360,6 +382,7 @@ const routes = [
   grupoContableMenu,
   cuentasContablesMenu,
   tipoEmpleadoDistMenu,
+  processMenu,
   {path: '*', component: NotFound}
 ]
 

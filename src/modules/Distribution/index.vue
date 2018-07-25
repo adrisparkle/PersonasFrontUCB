@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card card-wizard" id="wizardCard">
-          <form-wizard shape="tab"
+          <form-wizard shape="tab" ref="wizard"
                        @on-complete="wizardComplete"
                        error-color="#D32F2F"
                        color="#FFA000"
@@ -28,38 +28,35 @@
             <tab-content title="Pregrado"
                          :before-change="validateFirstStep"
                          icon="fa fa-graduation-cap">
-              <h5 class="text-center">PASO :4 Subir el Archivo Planilla.</h5>
+              <h5 class="text-center">PASO :4 Subir el Archivo Pregrado.</h5>
               <file-uploader :url="PreUrl" fileType="PREGRADO"></file-uploader>
             </tab-content>
             <tab-content title="Posgrado"
                          :before-change="validateFirstStep"
                          icon="fa fa-graduation-cap">
-              <h5 class="text-center">PASO :5 Subir el Archivo Planilla.</h5>
-              <file-uploader :url="PosUrl" fileType="POSTGRADO"></file-uploader>
+              <h5 class="text-center">PASO :5 Subir el Archivo Posgrado.</h5>
+              <file-uploader :url="PosUrl" fileType="POSGRADO"></file-uploader>
             </tab-content>
             <tab-content title="Otras Regionales"
                          :before-change="validateFirstStep"
                          icon="fa fa-graduation-cap">
-              <h5 class="text-center">PASO :6 Subir el Archivo Planilla.</h5>
-              <file-uploader :url="ORUrl" fileType="OTRA REGIONAL"></file-uploader>
+              <h5 class="text-center">PASO :6 Subir el Archivo Otras Regionales.</h5>
+              <file-uploader :url="ORUrl" fileType="OTRAS REGIONALES"></file-uploader>
             </tab-content>
             <tab-content title="Descuentos"
                          :before-change="validateFirstStep"
                          icon="fa fa-graduation-cap">
-              <h5 class="text-center">PASO :7 Subir el Archivo Planilla.</h5>
+              <h5 class="text-center">PASO :7 Subir el Archivo Descuentos.</h5>
               <file-uploader :url="desUrl" fileType="DESCUENTO"></file-uploader>
             </tab-content>
             <tab-content title="Distribución"
                          icon="ti-check">
-              <h2 class="text-center text-space">Yuhuuu!
-                <br>
-                <small>Click on "<b>Finish</b>" to join our community</small>
-              </h2>
+              <end-step></end-step>
             </tab-content>
 
             <button slot="prev" class="btn btn-default btn-fill btn-wd btn-back">Atras</button>
             <button slot="next" class="btn btn-info btn-fill btn-wd btn-next">Siguiente</button>
-            <button slot="finish"  class="btn btn-warning btn-fill btn-wd">Distribuir</button>
+            <button slot="finish" class="btn btn-warning btn-fill btn-wd">Finalizar</button>
           </form-wizard>
         </div>
       </div>
@@ -70,6 +67,7 @@
   import {FormWizard, TabContent} from 'vue-form-wizard'
   import 'vue-form-wizard/dist/vue-form-wizard.min.css'
   import FirstStep from './Steps/FirstStep.vue'
+  import EndStep from './Steps/EndStep'
   import swal from 'sweetalert2'
   import FileUploader from 'src/components/UIComponents/FileUploader'
 
@@ -90,6 +88,7 @@
       FormWizard,
       TabContent,
       FirstStep,
+      EndStep,
       FileUploader
     },
     methods: {
@@ -103,6 +102,9 @@
         }
         swal('Good job!', 'You clicked the finish button!', 'success')
       }
+    },
+    mounted () {
+      this.$refs.wizard.changeTab(0, 1)
     }
   }
 </script>

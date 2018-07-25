@@ -36,7 +36,7 @@
                              :prop="column.prop"
                              :label="column.label">
             </el-table-column>
-            <el-table-column
+            <el-table-column v-if="actions"
               :min-width="80"
               fixed="right"
               label="Actions">
@@ -126,6 +126,10 @@
             total: 0
           }
         }
+      },
+      actions: {
+        type: Boolean,
+        default: true
       },
       url: {
         type: String,

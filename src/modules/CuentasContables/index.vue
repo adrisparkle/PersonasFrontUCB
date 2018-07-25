@@ -201,6 +201,7 @@
             {Id: 'D_ANTI', Name: 'D_ANTI'},
             {Id: 'D_OTR', Name: 'D_OTR'},
             {Id: 'D_PCOB', Name: 'D_PCOB'},
+            {Id: 'REINT', Name: 'REINTEGRO'},
             {Id: 'D_REND', Name: 'D_REND'}]
         }
       }

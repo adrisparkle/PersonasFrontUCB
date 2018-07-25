@@ -13,9 +13,16 @@ const gestionSetter = (state, data) => {
 const uploadedFilesSetter = (state, data) => {
   state.uploadedFiles = data
 }
+
+const uploadedFilesCleaner = (state) => {
+  state.uploadedFiles.array = []
+  state.uploadedFiles.state = ''
+  state.uploadedFiles.id = ''
+}
 export default {
   segmentoSetter,
   mesSetter,
   gestionSetter,
-  uploadedFilesSetter
+  uploadedFilesSetter,
+  uploadedFilesCleaner
 }

@@ -1,14 +1,14 @@
 <template>
   <div class="col-md-12">
     <div  class="uploader">
-      <div class="sa" v-if="this.$store.state.dist.uploadedFiles.includes(fileType)">
+      <div class="sa" v-if="this.$store.state.dist.uploadedFiles.array.includes(fileType)">
         <div class="sa-success">
           <div class="sa-success-tip"></div>
           <div class="sa-success-long"></div>
           <div class="sa-success-placeholder"></div>
           <div class="sa-success-fix"></div>
         </div>
-        <button type="button" class="btn btn-wd btn-danger" style="margin-top: 25px; margin-left: 10px" @click="deleteFile">
+        <button v-if="this.$store.state.dist.uploadedFiles.state==='STARTED' || this.$store.state.dist.uploadedFiles.state==='ERROR'"  type="button" class="btn btn-wd btn-danger" style="margin-top: 25px; margin-left: 10px" @click="deleteFile">
           <span class="btn-label">
               <i class="fa fa-times"></i>
           </span>
@@ -59,12 +59,15 @@
     },
     methods: {
       deleteFile () {
-        axios.delete(this.url,
-          {
+        axios.delete(this.url, {
+          data: {
             mes: this.$store.state.dist.mes,
             gestion: this.$store.state.dist.gestion,
             segmentoOrigen: this.$store.state.dist.segmentoOrigen
-          })
+          }
+        }).then(response => {
+          this.$store.dispatch('dist/uploadedFiles')
+        })
       },
       loadTemplate () {
         axios.get(this.url,

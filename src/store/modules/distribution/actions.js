@@ -8,7 +8,11 @@ const uploadedFiles = ({ commit, state }) => {
   }
   axios.post('/payroll/checkupload', formData)
     .then(response => {
-      commit('uploadedFilesSetter', response.data)
+      if (response.data !== '') {
+        commit('uploadedFilesSetter', response.data)
+      } else {
+        commit('uploadedFilesCleaner')
+      }
     })
     .catch(error => console.log(error))
 }

@@ -8,7 +8,7 @@ const state = {
   segmentoOrigen: '',
   uploadedFiles: {
     array: [],
-    state: '',
+    state: 'STARTED',
     id: ''
   }
 }

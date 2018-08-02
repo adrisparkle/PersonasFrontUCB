@@ -4,6 +4,11 @@ const authUser = (state, authData) => {
   state.userId = authData.userId
 }
 
+const refreshUser = (state, authData) => {
+  state.token = authData.token
+}
+
 export default {
-  authUser
+  authUser,
+  refreshUser
 }

@@ -16,7 +16,7 @@ const uploadedFilesSetter = (state, data) => {
 
 const uploadedFilesCleaner = (state) => {
   state.uploadedFiles.array = []
-  state.uploadedFiles.state = ''
+  state.uploadedFiles.state = 'STARTED'
   state.uploadedFiles.id = ''
 }
 export default {

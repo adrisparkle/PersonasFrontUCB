@@ -24,18 +24,18 @@ import './assets/sass/paper-dashboard.scss'
 import './assets/sass/element_variables.scss'
 import './assets/sass/demo.scss'
 
-import sidebarLinks from './sidebarLinks'
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(GlobalDirectives)
 Vue.use(GlobalComponents)
 Vue.use(VueNotify)
-Vue.use(SideBar, {sidebarLinks: sidebarLinks})
+Vue.use(SideBar)
 Vue.use(VeeValidate)
 locale.use(lang)
 
-axios.defaults.baseURL = 'http://172.16.0.246:8001/api'
+axios.defaults.baseURL = 'http://192.168.18.75:8002/api'
 axios.defaults.headers.common['id'] = localStorage.getItem('userId')
+axios.defaults.headers.common['token'] = localStorage.getItem('token')
 
 /* eslint-disable no-new */
 new Vue({

@@ -37,12 +37,27 @@ import CuentasContables from 'src/modules/CuentasContables'
 import TipoEmpleadoDist from 'src/modules/TipoEmpleadoDist'
 // Process Module
 import Process from 'src/modules/Process'
+// Menu Module
+import Module from 'src/modules/Menu'
 
-import store from '../store'
 
+// import store from '../store'
 Vue.use(VueRouter)
 
-let userMenu = {
+let moduleMenu = {
+  path: '/module/',
+  component: Layout,
+  redirect: '/module/',
+  children: [
+    {
+      path: '/',
+      name: 'Modulos',
+      component: Module
+    }
+  ]
+}
+
+let profileMenu = {
   path: '/user',
   component: Layout,
   redirect: '/user/profile',
@@ -50,113 +65,71 @@ let userMenu = {
     {
       path: 'profile',
       name: 'User Page',
-      component: UserProfile,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: UserProfile
     }
   ]
 }
 
 let employeeMenu = {
-  path: '/employee',
+  path: '/persona/',
   component: Layout,
-  redirect: '/employee',
+  redirect: '/persona/',
   children: [
     {
       path: '/',
       name: 'Empleados',
-      component: Employee,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Employee
     }
   ]
 }
 
 let branchesMenu = {
-  path: '/branches',
+  path: '/regional',
   component: Layout,
-  redirect: '/branches',
+  redirect: '/regional',
   children: [
     {
       path: '/',
       name: 'Regionales',
-      component: Branches,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Branches
     }
   ]
 }
 
 let rolesMenu = {
-  path: '/roles',
+  path: '/rol',
   component: Layout,
-  redirect: '/roles',
+  redirect: '/rol',
   children: [
     {
       path: '/',
       name: 'Roles',
-      component: Roles,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Roles
     }
   ]
 }
 let accessMenu = {
-  path: '/access',
+  path: '/acceso',
   component: Layout,
-  redirect: '/access',
+  redirect: '/acceso',
   children: [
     {
       path: '/',
       name: 'Permisos',
-      component: Access,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Access
     }
   ]
 }
 
 let usersMenu = {
-  path: '/users',
+  path: '/usuario',
   component: Layout,
-  redirect: '/users',
+  redirect: '/usuario',
   children: [
     {
       path: '/',
       name: 'Usuarios',
-      component: Users,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Users
     }
   ]
 }
@@ -169,114 +142,72 @@ let distMenu = {
     {
       path: '/',
       name: 'Distribución por centros de costo',
-      component: Dist,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Dist
     }
   ]
 }
 
 let levelMenu = {
-  path: '/levels',
+  path: '/nivel',
   component: Layout,
-  redirect: '/levels',
+  redirect: '/nivel',
   children: [
     {
       path: '/',
       name: 'Nivel Gerarquico',
-      component: Level,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Level
     }
   ]
 }
 
 let positionsMenu = {
-  path: '/positions',
+  path: '/cargo',
   component: Layout,
-  redirect: '/positions',
+  redirect: '/cargo',
   children: [
     {
       path: '/',
       name: 'Cargos',
-      component: Positions,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Positions
     }
   ]
 }
 
 let dependencyMenu = {
-  path: '/dependency',
+  path: '/dependencias/',
   component: Layout,
-  redirect: '/dependency',
+  redirect: '/dependencias/',
   children: [
     {
       path: '/',
       name: 'Dependencia Organigrama',
-      component: Dependency,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Dependency
     }
   ]
 }
 
 let performanceAreaMenu = {
-  path: '/performancearea',
+  path: '/areadesempenio/',
   component: Layout,
-  redirect: '/performancearea',
+  redirect: '/areadesempenio/',
   children: [
     {
       path: '/',
       name: 'Area Desempeño',
-      component: PerformanceArea,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: PerformanceArea
     }
   ]
 }
 
 let organizationalUnitMenu = {
-  path: '/organizationalunit',
+  path: '/unidadorganizacional',
   component: Layout,
-  redirect: '/organizationalunit',
+  redirect: '/unidadorganizacional',
   children: [
     {
       path: '/',
       name: 'Unidad Organizacional',
-      component: OrganizationalUnit,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: OrganizationalUnit
     }
   ]
 }
@@ -289,14 +220,7 @@ let grupoContableMenu = {
     {
       path: '/',
       name: 'Grupo Contable',
-      component: GrupoContable,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: GrupoContable
     }
   ]
 }
@@ -309,54 +233,33 @@ let cuentasContablesMenu = {
     {
       path: '/',
       name: 'Cuentas Contables',
-      component: CuentasContables,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: CuentasContables
     }
   ]
 }
 
 let tipoEmpleadoDistMenu = {
-  path: '/tipoempleadodist',
+  path: '/tipoempleadodistribucion',
   component: Layout,
-  redirect: '/tipoempleadodist',
+  redirect: '/tipoempleadodistribucion',
   children: [
     {
       path: '/',
       name: 'Tipo Empleado Distribucion',
-      component: TipoEmpleadoDist,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: TipoEmpleadoDist
     }
   ]
 }
 
 let processMenu = {
-  path: '/process',
+  path: '/proceso',
   component: Layout,
-  redirect: '/process',
+  redirect: '/proceso',
   children: [
     {
       path: '/',
       name: 'Procesos',
-      component: Process,
-      beforeEnter (to, from, next) {
-        if (store.getters['auth/isAuthenticated']) {
-          next()
-        } else {
-          next('/')
-        }
-      }
+      component: Process
     }
   ]
 }
@@ -367,7 +270,7 @@ const routes = [
     name: 'Login',
     component: Login
   },
-  userMenu,
+  profileMenu,
   employeeMenu,
   branchesMenu,
   rolesMenu,
@@ -383,6 +286,7 @@ const routes = [
   cuentasContablesMenu,
   tipoEmpleadoDistMenu,
   processMenu,
+  moduleMenu,
   {path: '*', component: NotFound}
 ]
 

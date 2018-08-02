@@ -55,6 +55,9 @@
           this.$sidebar.displaySidebar(false)
         }
       }
+    },
+    created () {
+      this.$store.dispatch('auth/reload')
     }
   }
 

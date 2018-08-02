@@ -104,7 +104,7 @@
       }
     },
     mounted () {
-      this.$refs.wizard.changeTab(0, 1)
+      // this.$refs.wizard.changeTab(0, 1)
     }
   }
 </script>

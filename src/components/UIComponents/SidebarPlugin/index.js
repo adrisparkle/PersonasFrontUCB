@@ -48,4 +48,19 @@ const SidebarPlugin = {
   }
 }
 
+const axios = require('axios')
+
+axios.get('http://172.16.0.246:8001/api/auth/getmenu', {
+  headers: {
+    'token': localStorage.getItem('token'),
+    'id': localStorage.getItem('userId')
+  }
+})
+  .then(function (response) {
+    SidebarStore.sidebarLinks = response.data
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+
 export default SidebarPlugin

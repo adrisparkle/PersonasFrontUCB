@@ -72,11 +72,14 @@
       loadTemplate () {
         axios.get(this.url,
           {
-            responseType: 'arraybuffer'
+            responseType: 'arraybuffer',
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'token': localStorage.getItem('token')
+            }
           }
         )
           .then(response => {
-            this.$refs.file.value = ''
             const blob = new Blob([response.data], {
               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             })
@@ -100,7 +103,8 @@
           {
             responseType: 'arraybuffer',
             headers: {
-              'Content-Type': 'multipart/form-data'
+              'Content-Type': 'multipart/form-data',
+              'token': localStorage.getItem('token')
             }
           }
         )

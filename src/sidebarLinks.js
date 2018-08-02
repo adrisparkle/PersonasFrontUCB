@@ -46,7 +46,7 @@ export default [
     }]
   },
   {
-    name: 'Distribución',
+    name: 'SALOMON',
     icon: 'fa fa-coins',
     collapsed: true,
     children: [{

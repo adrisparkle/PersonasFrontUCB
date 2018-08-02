@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-md-8 card">
-      <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
+      <data-tables v-bind="{url, propsToSearch, tableColumns}">
         <template slot="buttons" slot-scope="props">
           <el-tooltip class="item" effect="dark" content="Modificar" placement="top-start">
             <a class="btn btn-simple btn-xs btn-icon btn-info" @click="props.handleEdit(props.queriedData[props.index].Id)"><i class="fa fa-edit"></i></a>
@@ -112,15 +112,10 @@
             minWidth: 70
           }
         ],
-        pagination: {
-          perPage: 5,
-          currentPage: 1,
-          perPageOptions: [5, 10, 20],
-          total: 0
-        },
         formData: {
           Method: null,
           Path: null,
+          Module: null,
           Description: null,
           Public: false
         }

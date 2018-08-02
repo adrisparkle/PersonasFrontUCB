@@ -1,31 +1,36 @@
 <template>
-  <div class="row">
-    <div class="col-md-8 card">
-      <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
-        <template slot="buttons" slot-scope="props">
-          <el-tooltip class="item" effect="dark" content="Modificar" placement="top-start">
-            <a class="btn btn-simple btn-xs btn-icon btn-info" @click="props.handleEdit(props.queriedData[props.index].Id)"><i class="fa fa-edit"></i></a>
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Eliminar" placement="top-start">
-            <a class="btn btn-simple btn-xs btn-danger btn-icon"  @click="props.handleDelete(props.queriedData[props.index].Id)"><i class="fa fa-trash-alt"></i></a>
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="Añadir Permisos" placement="top-start">
-            <a class="btn btn-simple btn-xs btn-success btn-icon"  @click="addAccess(props.queriedData[props.index].Id)"><i class="fa fa-plus"></i></a>
-          </el-tooltip>
-        </template>
-      </data-tables>
+  <div>
+    <div v-if="!access" class="row">
+      <div class="col-md-8 card">
+        <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
+          <template slot="buttons" slot-scope="props">
+            <el-tooltip class="item" effect="dark" content="Modificar" placement="top-start">
+              <a class="btn btn-simple btn-xs btn-icon btn-info" @click="props.handleEdit(props.queriedData[props.index].Id)"><i class="fa fa-edit"></i></a>
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="Eliminar" placement="top-start">
+              <a class="btn btn-simple btn-xs btn-danger btn-icon"  @click="props.handleDelete(props.queriedData[props.index].Id)"><i class="fa fa-trash-alt"></i></a>
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="Añadir Permisos" placement="top-start">
+              <a class="btn btn-simple btn-xs btn-success btn-icon"  @click="addAccess(props.queriedData[props.index].Id)"><i class="fa fa-plus"></i></a>
+            </el-tooltip>
+          </template>
+        </data-tables>
+      </div>
+      <div class="col-md-4">
+        <crud-form v-bind="{url,formData}">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="Nombre" class="form-control" v-model="Name">
+          </div>
+          <div class="form-group">
+            <label>Nivel</label>
+            <input type="text" placeholder="Nivel" class="form-control" v-model="Level">
+          </div>
+        </crud-form>
+      </div>
     </div>
-    <div class="col-md-4">
-      <crud-form v-bind="{url,formData}">
-        <div class="form-group">
-          <label>Nombre</label>
-          <input type="text" placeholder="Nombre" class="form-control" v-model="Name">
-        </div>
-        <div class="form-group">
-          <label>Nivel</label>
-          <input type="text" placeholder="Nivel" class="form-control" v-model="Level">
-        </div>
-      </crud-form>
+    <div v-else class="row">
+      HOLA MUNDo
     </div>
   </div>
 </template>
@@ -55,6 +60,7 @@
     data () {
       return {
         url: '/rol/',
+        access: false,
         propsToSearch: ['Name', 'Level'],
         tableColumns: [
           {
@@ -87,7 +93,8 @@
     },
     methods: {
       addAccess (index) {
-        this.$store.commit('crud/editSetter')
+        console.log(index)
+        this.access = true
       }
     }
   }

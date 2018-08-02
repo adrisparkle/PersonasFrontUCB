@@ -1,5 +1,8 @@
 <template>
   <div>
+    <loading :active.sync="this.$store.state.crud.isLoading"
+             :can-cancel="false"
+             :is-full-page="true"></loading>
     <nav class="navbar navbar-transparent navbar-absolute">
       <div class="container">
         <div class="navbar-header">
@@ -59,7 +62,11 @@
   </div>
 </template>
 <script>
+  import Loading from 'vue-loading-overlay'
   export default {
+    components: {
+      Loading
+    },
     props: {
       logo: {
         type: String,

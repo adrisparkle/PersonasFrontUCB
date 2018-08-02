@@ -2,7 +2,11 @@ import axios from 'axios/index'
 import swal from 'sweetalert2'
 
 const loadData = ({ commit }, url) => {
-  axios.get(url)
+  axios.get(url, {
+    headers: {
+      'token': localStorage.getItem('token')
+    }
+  })
     .then(response => {
       commit('dataSetter', response.data)
     })
@@ -10,7 +14,11 @@ const loadData = ({ commit }, url) => {
 }
 
 const find = ({ commit }, formData) => {
-  axios.get(formData.url + '/' + formData.id)
+  axios.get(formData.url + '/' + formData.id, {
+    headers: {
+      'token': localStorage.getItem('token')
+    }
+  })
     .then(response => {
       commit('formDataSetter', response.data)
     })
@@ -19,7 +27,11 @@ const find = ({ commit }, formData) => {
 
 const create = ({ dispatch, commit, state }, url) => {
   commit('loadSetter', true)
-  axios.post(url, state.formData)
+  axios.post(url, state.formData, {
+    headers: {
+      'token': localStorage.getItem('token')
+    }
+  })
     .then(response => {
       commit('loadSetter', false)
       swal({
@@ -39,7 +51,11 @@ const create = ({ dispatch, commit, state }, url) => {
 }
 
 const update = ({ dispatch, commit, state }, url) => {
-  axios.put(url + '/' + state.formData.Id, state.formData)
+  axios.put(url + '/' + state.formData.Id, state.formData, {
+    headers: {
+      'token': localStorage.getItem('token')
+    }
+  })
     .then(response => {
       swal({
         title: `Good job!`,
@@ -67,7 +83,11 @@ const remove = ({ dispatch }, formData) => {
     cancelButtonClass: 'btn btn-danger btn-fill',
     buttonsStyling: false
   }).then(function () {
-    axios.delete(formData.url + '/' + formData.id)
+    axios.delete(formData.url + '/' + formData.id, {
+      headers: {
+        'token': localStorage.getItem('token')
+      }
+    })
       .then(response => {
         swal({
           title: 'Deleted!',

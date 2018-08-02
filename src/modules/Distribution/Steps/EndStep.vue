@@ -39,6 +39,12 @@
           <div class="sa-success-fix"></div>
         </div>
       </div>
+      <button v-if="this.$store.state.dist.uploadedFiles.state==='PROCESSED'" type="button" class="btn btn-wd btn-fill btn-info" style="margin: 0 auto" @click="comprobante">
+        <span class="btn-label">
+            <i class="fa fa-file-excel" ></i>
+               Descargar comprobate
+        </span>
+      </button>
     </div>
   </div>
 </template>
@@ -96,6 +102,25 @@
           .then(response => {
             this.$store.dispatch('dist/uploadedFiles')
             this.loadTotales()
+          })
+          .catch(error => console.log(error))
+      },
+      comprobante () {
+        axios.get('/payroll/getdistribution/' + this.$store.state.dist.uploadedFiles.id,
+          {
+            responseType: 'arraybuffer'
+          }
+        )
+          .then(response => {
+            const blob = new Blob([response.data], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'Dist ' + this.fileType + '.xlsx')
+            document.body.appendChild(link)
+            link.click()
           })
           .catch(error => console.log(error))
       },

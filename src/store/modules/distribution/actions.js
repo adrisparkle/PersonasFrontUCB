@@ -6,7 +6,11 @@ const uploadedFiles = ({ commit, state }) => {
     gestion: state.gestion,
     segmentoOrigen: state.segmentoOrigen
   }
-  axios.post('/payroll/checkupload', formData)
+  axios.post('/payroll/checkupload', formData, {
+    headers: {
+      'token': localStorage.getItem('token')
+    }
+  })
     .then(response => {
       if (response.data !== '') {
         commit('uploadedFilesSetter', response.data)

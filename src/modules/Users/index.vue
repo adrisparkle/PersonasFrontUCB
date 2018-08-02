@@ -1,4 +1,5 @@
 <template>
+
   <div class="row">
     <div class="col-md-8 card">
       <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
@@ -17,7 +18,7 @@
         </div>
         <div class="form-group" v-if="!this.$store.state.crud.edit">
           <label>Password</label>
-          <input type="text" placeholder="Password" class="form-control" v-model="Password">
+          <input type="password" placeholder="Password" class="form-control" v-model="Password">
         </div>
         <div class="form-group">
           <el-select class="select-info"

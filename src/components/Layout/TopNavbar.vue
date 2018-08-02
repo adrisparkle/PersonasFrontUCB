@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <router-link to="/admin/overview">
+            <router-link to="#" v-on:click.native="logout">
               <i class="ti-lock"></i> Cerrar Sesión
             </router-link>
           </li>
@@ -43,6 +43,9 @@
       },
       minimizeSidebar () {
         this.$sidebar.toggleMinimize()
+      },
+      logout () {
+        this.$store.dispatch('auth/logout')
       }
     }
   }

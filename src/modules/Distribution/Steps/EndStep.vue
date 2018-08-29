@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12" style="text-align:center">
       <data-tables v-if="this.$store.state.dist.uploadedFiles.state==='WARNING' || this.$store.state.dist.uploadedFiles.state==='ERROR'"  v-bind="{url, propsToSearch, tableColumns,actions}">
       </data-tables>
       <el-table v-if="this.$store.state.dist.uploadedFiles.state==='VALIDATED'" class="table-striped" :data="tableData">

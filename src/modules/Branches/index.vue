@@ -22,11 +22,47 @@
           <label>Abbr</label>
           <input type="text" placeholder="Abbr" class="form-control" v-model="Abr">
         </div>
+        <div class="form-group">
+          <label>AD GroupName</label>
+          <input type="text" placeholder="ADGroupName" class="form-control" v-model="ADGroupName">
+        </div>
+        <div class="form-group">
+          <label>AD OU Name</label>
+          <input type="text" placeholder="ADOUName" class="form-control" v-model="ADOUName">
+        </div>
+
+        <div class="form-group">
+          <el-select class="select-info"
+                     size="large"
+                     placeholder="Unidad Generica"
+                     v-model="DependencyId">
+            <el-option v-for="option in values"
+                       class="select-danger"
+                       :value="option.Id"
+                       :label= "option.Cod + '-' + option.Name"
+                       :key="option.Id">
+            </el-option>
+          </el-select>
+        </div>
+
+        <div class="form-group">
+          <label>Iniciales Interregional</label>
+          <input type="text" placeholder="InitialsInterRegional" class="form-control" v-model="InitialsInterRegional">
+        </div>
+        <div class="form-group">
+          <label>Serie Comprobante SAP</label>
+          <input type="text" placeholder="SerieComprobanteContalbeSAP" class="form-control" v-model="SerieComprobanteContalbeSAP">
+        </div>
+        <div class="form-group">
+          <label>Socio Generico Derechos Lab.</label>
+          <input type="text" placeholder="SocioGenericDerechosLaborales" class="form-control" v-model="SocioGenericDerechosLaborales">
+        </div>
       </crud-form>
     </div>
   </div>
 </template>
 <script>
+  import axios from 'axios'
   export default {
     computed: {
       Name: {
@@ -44,6 +80,54 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'Abr', val: value})
         }
+      },
+      ADGroupName: {
+        get () {
+          return this.$store.state.crud.formData.ADGroupName
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'ADGroupName', val: value})
+        }
+      },
+      ADOUName: {
+        get () {
+          return this.$store.state.crud.formData.ADOUName
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'ADOUName', val: value})
+        }
+      },
+      DependencyId: {
+        get () {
+          return this.$store.state.crud.formData.DependencyId
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'DependencyId', val: value})
+        }
+      },
+      InitialsInterRegional: {
+        get () {
+          return this.$store.state.crud.formData.InitialsInterRegional
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'InitialsInterRegional', val: value})
+        }
+      },
+      SerieComprobanteContalbeSAP: {
+        get () {
+          return this.$store.state.crud.formData.SerieComprobanteContalbeSAP
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'SerieComprobanteContalbeSAP', val: value})
+        }
+      },
+      SocioGenericDerechosLaborales: {
+        get () {
+          return this.$store.state.crud.formData.SocioGenericDerechosLaborales
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'SocioGenericDerechosLaborales', val: value})
+        }
       }
     },
     data () {
@@ -54,17 +138,47 @@
           {
             prop: 'Id',
             label: '#',
-            minWidth: 50
+            minWidth: 35
           },
           {
             prop: 'Name',
             label: 'Nombre',
-            minWidth: 100
+            minWidth: 80
           },
           {
             prop: 'Abr',
             label: 'Abr.',
-            minWidth: 100
+            minWidth: 40
+          },
+          {
+            prop: 'ADGroupName',
+            label: 'AD GroupName',
+            minWidth: 120
+          },
+          {
+            prop: 'ADOUName',
+            label: 'AD OU Name',
+            minWidth: 120
+          },
+          {
+            prop: 'Dependency',
+            label: 'Unidad Generica',
+            minWidth: 120
+          },
+          {
+            prop: 'InitialsInterRegional',
+            label: 'Iniciales Interregional',
+            minWidth: 120
+          },
+          {
+            prop: 'SerieComprobanteContalbeSAP',
+            label: 'Serie Comprobante SAP',
+            minWidth: 120
+          },
+          {
+            prop: 'SocioGenericDerechosLaborales',
+            label: 'Socio Generico Derechos Lab.',
+            minWidth: 120
           }
         ],
         pagination: {
@@ -75,9 +189,28 @@
         },
         formData: {
           Name: null,
-          Abr: null
-        }
+          Abr: null,
+          ADGroupName: null,
+          ADOUName: null,
+          DependencyId: null,
+          SerieComprobanteContalbeSAP: null,
+          InitialsInterRegional: null,
+          SocioGenericDerechosLaborales: null
+        },
+        values: []
       }
+    },
+    methods: {
+      loadData () {
+        axios.get('dependency/')
+          .then(response => {
+            this.values = response.data
+          })
+          .catch(error => console.log(error))
+      }
+    },
+    created () {
+      this.loadData()
     }
   }
 </script>

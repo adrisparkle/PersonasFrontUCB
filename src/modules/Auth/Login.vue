@@ -35,7 +35,7 @@
                     </div>
                     <div class="card-content">
                       <div class="form-group">
-                        <label>Email</label>
+                        <label>Usuario</label>
                         <input type="email" placeholder="Ingrese email" class="form-control input-no-border" id="email" v-model="email">
                       </div>
                       <div class="form-group">

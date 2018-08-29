@@ -26,6 +26,23 @@
             <label>Nivel</label>
             <input type="text" placeholder="Nivel" class="form-control" v-model="Level">
           </div>
+          <div class="form-group">
+            <label>AD GroupName</label>
+            <input type="text" placeholder="ADGroupName" class="form-control" v-model="ADGroupName">
+          </div>
+          <div class="form-group">
+            <el-select class="select-info"
+                       size="large"
+                       placeholder="Recurso"
+                       v-model="ResourceId">
+              <el-option v-for="option in values"
+                         class="select-danger"
+                         :value="option.Id"
+                         :label="option.Name"
+                         :key="option.Id">
+              </el-option>
+            </el-select>
+          </div>
         </crud-form>
       </div>
     </div>
@@ -37,8 +54,12 @@
 <script>
   import Vue from 'vue'
   import {Tooltip} from 'element-ui'
+  import axios from 'axios'
+  import FooterForm from '../../components/UIComponents/FooterForm'
+
   Vue.use(Tooltip)
   export default {
+    components: {FooterForm},
     computed: {
       Name: {
         get () {
@@ -55,6 +76,22 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'Level', val: value})
         }
+      },
+      ADGroupName: {
+        get () {
+          return this.$store.state.crud.formData.ADGroupName
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'ADGroupName', val: value})
+        }
+      },
+      ResourceId: {
+        get () {
+          return this.$store.state.crud.formData.ResourceId
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'ResourceId', val: value})
+        }
       }
     },
     data () {
@@ -66,7 +103,7 @@
           {
             prop: 'Id',
             label: '#',
-            minWidth: 50
+            minWidth: 35
           },
           {
             prop: 'Name',
@@ -76,6 +113,16 @@
           {
             prop: 'Level',
             label: 'Nivel',
+            minWidth: 35
+          },
+          {
+            prop: 'ADGroupName',
+            label: 'AD GroupName',
+            minWidth: 110
+          },
+          {
+            prop: 'Resource',
+            label: 'Default Resource',
             minWidth: 100
           }
         ],
@@ -87,15 +134,27 @@
         },
         formData: {
           Name: null,
-          Level: null
-        }
+          Level: null,
+          ADGroupName: null
+        },
+        values: []
       }
     },
     methods: {
       addAccess (index) {
         console.log(index)
         this.access = true
+      },
+      loadData () {
+        axios.get('resource/')
+          .then(response => {
+            this.values = response.data
+          })
+          .catch(error => console.log(error))
       }
+    },
+    created () {
+      this.loadData()
     }
   }
 </script>

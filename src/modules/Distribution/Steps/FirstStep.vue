@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5 class="text-center">PASO :1 Completar informacion general sobre los archivos.</h5>
+    <h5 class="text-center">PASO:1 Identificar Periodo de Proceso.</h5>
     <div class="row">
       <div class="col-md-3 el-col-md-offset-3">
         <div class="form-group">

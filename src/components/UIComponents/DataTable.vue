@@ -45,6 +45,7 @@
                 </slot>
               </template>
             </el-table-column>
+            </el-table-column>
           </el-table>
         </div>
         <div class="col-sm-6 pagination-info">

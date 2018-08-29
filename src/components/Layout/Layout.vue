@@ -3,7 +3,7 @@
     <loading :active.sync="this.$store.state.crud.isLoading"
              :can-cancel="false"
              :is-full-page="true"></loading>
-    <side-bar type="sidebar" :sidebar-links="$sidebar.sidebarLinks">
+    <side-bar type="sidebar" :sidebar-links="sidebarLinks">
       <user-menu></user-menu>
       <form class="navbar-form navbar-left navbar-search-form navbar-search-form-mobile" role="search">
         <div class="input-group">
@@ -29,6 +29,8 @@
 
 </style>
 <script>
+  import axios from 'axios'
+  import Vue from 'vue'
   import TopNavbar from './TopNavbar.vue'
   import ContentFooter from './ContentFooter.vue'
   import DashboardContent from './Content.vue'
@@ -39,6 +41,8 @@
   // Import stylesheet
   import 'vue-loading-overlay/dist/vue-loading.min.css'
   // Using axios for the example only
+  import SideBar from '../UIComponents/SidebarPlugin'
+  Vue.use(SideBar)
 
   export default {
     components: {
@@ -49,6 +53,11 @@
       MobileMenu,
       Loading
     },
+    data () {
+      return {
+        sidebarLinks: []
+      }
+    },
     methods: {
       toggleSidebar () {
         if (this.$sidebar.showSidebar) {
@@ -56,8 +65,22 @@
         }
       }
     },
-    created () {
+    mounted () {
       this.$store.dispatch('auth/reload')
+    },
+    beforeCreate () {
+      axios.get('/auth/getmenu', {
+        headers: {
+          'token': localStorage.getItem('token'),
+          'id': localStorage.getItem('userId')
+        }
+      })
+        .then(response => {
+          this.sidebarLinks = response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 

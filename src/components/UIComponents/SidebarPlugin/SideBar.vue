@@ -129,6 +129,6 @@
     width: 45px!important;
   }
   .sidebar .logo .logo-img img, .off-canvas-sidebar .logo .logo-img img {
-    max-width: 40px;
+    max-width: 45px;
   }
 </style>

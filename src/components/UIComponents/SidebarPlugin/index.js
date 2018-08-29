@@ -24,6 +24,22 @@ const SidebarStore = {
   }
 }
 
+/*
+const axios = require('axios')
+
+axios.get('http://172.16.0.246:8001/api/auth/getmenu', {
+  headers: {
+    'token': localStorage.getItem('token'),
+    'id': localStorage.getItem('userId')
+  }
+})
+  .then(function (response) {
+    SidebarStore.sidebarLinks = response.data
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+*/
 const SidebarPlugin = {
 
   install (Vue, options) {
@@ -47,20 +63,5 @@ const SidebarPlugin = {
     Vue.component('sidebar-item', SidebarItem)
   }
 }
-
-const axios = require('axios')
-
-axios.get('http://172.16.0.246:8001/api/auth/getmenu', {
-  headers: {
-    'token': localStorage.getItem('token'),
-    'id': localStorage.getItem('userId')
-  }
-})
-  .then(function (response) {
-    SidebarStore.sidebarLinks = response.data
-  })
-  .catch(function (error) {
-    console.log(error)
-  })
 
 export default SidebarPlugin

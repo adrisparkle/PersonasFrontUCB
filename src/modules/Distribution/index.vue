@@ -16,37 +16,37 @@
             </tab-content>
             <tab-content title="Planilla"
                          icon="fa fa-file-invoice-dollar">
-              <h5 class="text-center">PASO :2 Subir el Archivo Planilla.</h5>
+              <h5 class="text-center">PASO :2 Cargar el Archivo Planilla.</h5>
               <file-uploader :url="payrollUrl" fileType="PLANILLA"></file-uploader>
             </tab-content>
             <tab-content title="Paralelos"
                          :before-change="validateFirstStep"
-                         icon="fa fa-graduation-cap">
-              <h5 class="text-center">PASO :3 Subir el Archivo Paralelo.</h5>
+                         icon="fa fa-chalkboard-teacher">
+              <h5 class="text-center">PASO :3 Cargar el Archivo Paralelo.</h5>
               <file-uploader :url="acadUrl" fileType="PARALELO"></file-uploader>
             </tab-content>
             <tab-content title="Pregrado"
                          :before-change="validateFirstStep"
-                         icon="fa fa-graduation-cap">
-              <h5 class="text-center">PASO :4 Subir el Archivo Pregrado.</h5>
+                         icon="ico-acad">
+              <h5 class="text-center">PASO :4 Cargar el Archivo Pregrado.</h5>
               <file-uploader :url="PreUrl" fileType="PREGRADO"></file-uploader>
             </tab-content>
             <tab-content title="Posgrado"
                          :before-change="validateFirstStep"
-                         icon="fa fa-graduation-cap">
-              <h5 class="text-center">PASO :5 Subir el Archivo Posgrado.</h5>
+                         icon="ico-diploma">
+              <h5 class="text-center">PASO :5 Cargar el Archivo Posgrado.</h5>
               <file-uploader :url="PosUrl" fileType="POSGRADO"></file-uploader>
             </tab-content>
             <tab-content title="Otras Regionales"
                          :before-change="validateFirstStep"
-                         icon="fa fa-graduation-cap">
-              <h5 class="text-center">PASO :6 Subir el Archivo Otras Regionales.</h5>
+                         icon="fa fa-university">
+              <h5 class="text-center">PASO :6 Cargar el Archivo Otras Regionales.</h5>
               <file-uploader :url="ORUrl" fileType="OTRAS REGIONALES"></file-uploader>
             </tab-content>
             <tab-content title="Descuentos"
                          :before-change="validateFirstStep"
-                         icon="fa fa-graduation-cap">
-              <h5 class="text-center">PASO :7 Subir el Archivo Descuentos.</h5>
+                         icon="ico-tax">
+              <h5 class="text-center">PASO :7 Cargar el Archivo Descuentos.</h5>
               <file-uploader :url="desUrl" fileType="DESCUENTO"></file-uploader>
             </tab-content>
             <tab-content title="Distribución"
@@ -56,7 +56,7 @@
 
             <button slot="prev" class="btn btn-default btn-fill btn-wd btn-back">Atras</button>
             <button slot="next" class="btn btn-info btn-fill btn-wd btn-next">Siguiente</button>
-            <button slot="finish" class="btn btn-warning btn-fill btn-wd">Finalizar</button>
+            <!--button slot="finish" class="btn btn-warning btn-fill btn-wd">Finalizar</button-->
           </form-wizard>
         </div>
       </div>

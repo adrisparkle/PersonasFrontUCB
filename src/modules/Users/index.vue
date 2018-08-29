@@ -13,22 +13,18 @@
     <div class="col-md-4">
       <crud-form v-bind="{url,formData}">
         <div class="form-group">
-          <label>Nombre</label>
-          <input type="text" placeholder="Nombre" class="form-control" v-model="UserName">
-        </div>
-        <div class="form-group" v-if="!this.$store.state.crud.edit">
-          <label>Password</label>
-          <input type="password" placeholder="Password" class="form-control" v-model="Password">
+          <label>Nombre de Usuario</label>
+          <input type="text" placeholder="Nombre" class="form-control" v-model="UserPrincipalName">
         </div>
         <div class="form-group">
           <el-select class="select-info"
                      size="large"
-                     placeholder="Rol"
-                     v-model="RolId">
+                     placeholder="CUNI"
+                     v-model="PeopleId">
             <el-option v-for="option in values"
                        class="select-danger"
                        :value="option.Id"
-                       :label="option.Name"
+                       :label="option.CUNI"
                        :key="option.Id">
             </el-option>
           </el-select>
@@ -41,35 +37,27 @@
   import axios from 'axios'
   export default {
     computed: {
-      UserName: {
+      UserPrincipalName: {
         get () {
-          return this.$store.state.crud.formData.UserName
+          return this.$store.state.crud.formData.UserPrincipalName
         },
         set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'UserName', val: value})
+          this.$store.commit('crud/formDataFieldSetter', {field: 'UserPrincipalName', val: value})
         }
       },
-      Password: {
+      PeopleId: {
         get () {
-          return this.$store.state.crud.formData.Password
+          return this.$store.state.crud.formData.PeopleId
         },
         set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'Password', val: value})
-        }
-      },
-      RolId: {
-        get () {
-          return this.$store.state.crud.formData.RolId
-        },
-        set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'RolId', val: value})
+          this.$store.commit('crud/formDataFieldSetter', {field: 'PeopleId', val: value})
         }
       }
     },
     data () {
       return {
         url: '/user',
-        propsToSearch: ['Name', 'Level'],
+        propsToSearch: ['UserPrincipalName', 'person'],
         tableColumns: [
           {
             prop: 'Id',
@@ -77,13 +65,13 @@
             minWidth: 50
           },
           {
-            prop: 'UserName',
+            prop: 'UserPrincipalName',
             label: 'Usuario',
             minWidth: 100
           },
           {
-            prop: 'Rol',
-            label: 'Rol',
+            prop: 'person',
+            label: 'Empleado',
             minWidth: 100
           }
         ],
@@ -96,15 +84,13 @@
         select: '',
         values: [],
         formData: {
-          UserName: null,
-          Password: null,
-          RolId: ''
+          UserPrincipalName: null
         }
       }
     },
     methods: {
       loadData () {
-        axios.get('rol/')
+        axios.get('people/')
           .then(response => {
             this.values = response.data
           })

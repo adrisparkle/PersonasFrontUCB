@@ -39,227 +39,137 @@ import TipoEmpleadoDist from 'src/modules/TipoEmpleadoDist'
 import Process from 'src/modules/Process'
 // Menu Module
 import Module from 'src/modules/Menu'
+// Centros de Resp Module
+import B1UnidadOrganizacional from 'src/modules/B1UnidadOrganizacional'
+import B1PEI from 'src/modules/B1PEI'
+import B1PlanEstudios from 'src/modules/B1PlanEstudios'
+import B1Paralelo from 'src/modules/B1Paralelo'
+import B1Periodo from 'src/modules/B1Periodo'
+import B1Proyecto from 'src/modules/B1Proyecto'
 
 
 // import store from '../store'
 Vue.use(VueRouter)
 
-let moduleMenu = {
-  path: '/module/',
+let Menu = {
+  path: '/',
   component: Layout,
-  redirect: '/module/',
+  redirect: '/',
   children: [
     {
-      path: '/',
+      path: 'module/',
       name: 'Modulos',
       component: Module
-    }
-  ]
-}
-
-let profileMenu = {
-  path: '/user',
-  component: Layout,
-  redirect: '/user/profile',
-  children: [
+    },
     {
-      path: 'profile',
-      name: 'User Page',
-      component: UserProfile
-    }
-  ]
-}
-
-let employeeMenu = {
-  path: '/persona/',
-  component: Layout,
-  redirect: '/persona/',
-  children: [
-    {
-      path: '/',
+      path: 'persona/',
       name: 'Empleados',
       component: Employee
-    }
-  ]
-}
-
-let branchesMenu = {
-  path: '/regional',
-  component: Layout,
-  redirect: '/regional',
-  children: [
+    },
     {
-      path: '/',
+      path: 'regional/',
       name: 'Regionales',
       component: Branches
-    }
-  ]
-}
-
-let rolesMenu = {
-  path: '/rol',
-  component: Layout,
-  redirect: '/rol',
-  children: [
+    },
     {
-      path: '/',
+      path: 'rol/',
       name: 'Roles',
       component: Roles
-    }
-  ]
-}
-let accessMenu = {
-  path: '/acceso',
-  component: Layout,
-  redirect: '/acceso',
-  children: [
+    },
     {
-      path: '/',
+      path: 'acceso/',
       name: 'Permisos',
       component: Access
-    }
-  ]
-}
-
-let usersMenu = {
-  path: '/usuario',
-  component: Layout,
-  redirect: '/usuario',
-  children: [
+    },
     {
-      path: '/',
+      path: 'usuario/',
       name: 'Usuarios',
       component: Users
-    }
-  ]
-}
-
-let distMenu = {
-  path: '/distribution',
-  component: Layout,
-  redirect: '/distribution',
-  children: [
+    },
     {
-      path: '/',
+      path: 'distribution/',
       name: 'Distribución por centros de costo',
       component: Dist
-    }
-  ]
-}
-
-let levelMenu = {
-  path: '/nivel',
-  component: Layout,
-  redirect: '/nivel',
-  children: [
+    },
     {
-      path: '/',
+      path: 'nivel/',
       name: 'Nivel Gerarquico',
       component: Level
-    }
-  ]
-}
-
-let positionsMenu = {
-  path: '/cargo',
-  component: Layout,
-  redirect: '/cargo',
-  children: [
+    },
     {
-      path: '/',
+      path: 'cargo/',
       name: 'Cargos',
       component: Positions
-    }
-  ]
-}
-
-let dependencyMenu = {
-  path: '/dependencias/',
-  component: Layout,
-  redirect: '/dependencias/',
-  children: [
+    },
     {
-      path: '/',
+      path: 'dependencias/',
       name: 'Dependencia Organigrama',
       component: Dependency
-    }
-  ]
-}
-
-let performanceAreaMenu = {
-  path: '/areadesempenio/',
-  component: Layout,
-  redirect: '/areadesempenio/',
-  children: [
+    },
     {
-      path: '/',
+      path: 'areadesempenio/',
       name: 'Area Desempeño',
       component: PerformanceArea
-    }
-  ]
-}
-
-let organizationalUnitMenu = {
-  path: '/unidadorganizacional',
-  component: Layout,
-  redirect: '/unidadorganizacional',
-  children: [
+    },
     {
-      path: '/',
+      path: 'unidadorganizacional/',
       name: 'Unidad Organizacional',
       component: OrganizationalUnit
-    }
-  ]
-}
-
-let grupoContableMenu = {
-  path: '/grupocontable',
-  component: Layout,
-  redirect: '/grupocontable',
-  children: [
+    },
     {
-      path: '/',
+      path: 'grupocontable/',
       name: 'Grupo Contable',
       component: GrupoContable
-    }
-  ]
-}
-
-let cuentasContablesMenu = {
-  path: '/cuentascontables',
-  component: Layout,
-  redirect: '/cuentascontables',
-  children: [
+    },
     {
-      path: '/',
+      path: 'profile/',
+      name: 'User Page',
+      component: UserProfile
+    },
+    {
+      path: 'cuentascontables/',
       name: 'Cuentas Contables',
       component: CuentasContables
-    }
-  ]
-}
-
-let tipoEmpleadoDistMenu = {
-  path: '/tipoempleadodistribucion',
-  component: Layout,
-  redirect: '/tipoempleadodistribucion',
-  children: [
+    },
     {
-      path: '/',
+      path: 'tipoempleadodistribucion/',
       name: 'Tipo Empleado Distribucion',
       component: TipoEmpleadoDist
-    }
-  ]
-}
-
-let processMenu = {
-  path: '/proceso',
-  component: Layout,
-  redirect: '/proceso',
-  children: [
+    },
     {
-      path: '/',
+      path: '/proceso',
       name: 'Procesos',
       component: Process
+    },
+    {
+      path: '/B1UnidadOrganizacional',
+      name: 'Unidades Organizacionales',
+      component: B1UnidadOrganizacional
+    },
+    {
+      path: '/B1PEI',
+      name: 'PEI',
+      component: B1PEI
+    },
+    {
+      path: '/B1PlanEstudios',
+      name: 'Planes de Estudios',
+      component: B1PlanEstudios
+    },
+    {
+      path: '/B1Paralelo',
+      name: 'Paralelos',
+      component: B1Paralelo
+    },
+    {
+      path: '/B1Periodo',
+      name: 'Periodos',
+      component: B1Periodo
+    },
+    {
+      path: '/B1Proyecto',
+      name: 'Proyectos',
+      component: B1Proyecto
     }
   ]
 }
@@ -270,27 +180,11 @@ const routes = [
     name: 'Login',
     component: Login
   },
-  profileMenu,
-  employeeMenu,
-  branchesMenu,
-  rolesMenu,
-  accessMenu,
-  usersMenu,
-  distMenu,
-  levelMenu,
-  positionsMenu,
-  performanceAreaMenu,
-  organizationalUnitMenu,
-  dependencyMenu,
-  grupoContableMenu,
-  cuentasContablesMenu,
-  tipoEmpleadoDistMenu,
-  processMenu,
-  moduleMenu,
+  Menu,
   {path: '*', component: NotFound}
 ]
 
 export default new VueRouter({
-  routes
-  // mode: 'history'
+  routes,
+  mode: 'hash'
 })

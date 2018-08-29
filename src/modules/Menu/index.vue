@@ -19,8 +19,8 @@
           <input type="text" placeholder="Nombre" class="form-control" v-model="Name">
         </div>
         <div class="form-group">
-          <label>Codigo</label>
-          <input type="text" placeholder="Codigo" class="form-control" v-model="Cod">
+          <label>Icono</label>
+          <input type="text" placeholder="Codigo" class="form-control" v-model="Icon">
         </div>
       </crud-form>
     </div>
@@ -37,12 +37,12 @@
           this.$store.commit('crud/formDataFieldSetter', {field: 'Name', val: value})
         }
       },
-      Cod: {
+      Icon: {
         get () {
-          return this.$store.state.crud.formData.Cod
+          return this.$store.state.crud.formData.Icon
         },
         set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'Cod', val: value})
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Icon', val: value})
         }
       }
     },
@@ -54,16 +54,16 @@
           {
             prop: 'Id',
             label: '#',
-            minWidth: 50
-          },
-          {
-            prop: 'Cod',
-            label: 'Cod.',
-            minWidth: 50
+            minWidth: 30
           },
           {
             prop: 'Name',
             label: 'Nombre',
+            minWidth: 100
+          },
+          {
+            prop: 'Icon',
+            label: 'Icono',
             minWidth: 100
           }
         ],
@@ -75,7 +75,7 @@
         },
         formData: {
           Name: null,
-          Cod: null
+          Icon: null
         }
       }
     }

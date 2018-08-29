@@ -1,15 +1,16 @@
 <template>
   <div class="user">
     <div class="photo">
-      <img src="static/img/faces/face-2.jpg"/>
+      <img src="static/img/faces/face-2.png"/>
     </div>
     <div class="info">
-      <router-link :to="{ name: 'User Page' }">{{ name }}</router-link>
+      <router-link v-if="!sidebarStore.isMinimized" :to="{ }">{{ name }}</router-link>
     </div>
   </div>
 </template>
 <script>
   import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
+  import axios from 'axios'
   export default {
     components: {
       [CollapseTransition.name]: CollapseTransition
@@ -17,17 +18,25 @@
     data () {
       return {
         isClosed: true,
-        name: 'Juan Pablo Castillo Rioja',
+        name: null,
         posts: [],
         error: []
       }
     },
-    created () {
-    },
     methods: {
-      toggleMenu () {
-        this.isClosed = !this.isClosed
+      loadData () {
+        axios.get('user/' + localStorage.getItem('userId'))
+          .then(response => {
+            this.name = response.data.Name
+          })
+          .catch(error => {
+            console.log(error)
+            this.name = 'erooor'
+          })
       }
+    },
+    created () {
+      this.loadData()
     }
   }
 </script>

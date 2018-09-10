@@ -88,7 +88,7 @@ let Menu = {
     },
     {
       path: 'distribution/',
-      name: 'Distribución por centros de costo',
+      name: 'Distribución por Centros de Responsabilidad',
       component: Dist
     },
     {
@@ -138,7 +138,7 @@ let Menu = {
     },
     {
       path: '/proceso',
-      name: 'Procesos',
+      name: 'Historial de Procesos',
       component: Process
     },
     {

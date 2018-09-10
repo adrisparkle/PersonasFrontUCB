@@ -19,7 +19,7 @@
     data () {
       return {
         url: '/payroll/process/',
-        propsToSearch: ['Name', 'Level'],
+        propsToSearch: ['Name', 'gestion', 'mes', 'State'],
         tableColumns: [
           {
             prop: 'Id',

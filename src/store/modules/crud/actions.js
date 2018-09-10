@@ -35,8 +35,8 @@ const create = ({ dispatch, commit, state }, url) => {
     .then(response => {
       commit('loadSetter', false)
       swal({
-        title: `Good job!`,
-        text: 'You clicked the button!',
+        title: `Buen trabajo!`,
+        text: 'se creo el elemento con exito!',
         buttonsStyling: false,
         confirmButtonClass: 'btn btn-success btn-fill',
         type: 'success'
@@ -58,8 +58,8 @@ const update = ({ dispatch, commit, state }, url) => {
   })
     .then(response => {
       swal({
-        title: `Good job!`,
-        text: 'You clicked the button!',
+        title: `Buen trabajo!`,
+        text: 'Se modifico el elemento con exito!',
         buttonsStyling: false,
         confirmButtonClass: 'btn btn-success btn-fill',
         type: 'success'
@@ -73,12 +73,12 @@ const update = ({ dispatch, commit, state }, url) => {
 
 const remove = ({ dispatch }, formData) => {
   swal({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this imaginary file!',
+    title: 'Estas Seguro?',
+    text: 'No será posible volver atras!',
     type: 'warning',
     showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, keep it',
+    confirmButtonText: 'Si, borrar!',
+    cancelButtonText: 'No, cancelar',
     confirmButtonClass: 'btn btn-success btn-fill',
     cancelButtonClass: 'btn btn-danger btn-fill',
     buttonsStyling: false
@@ -90,8 +90,8 @@ const remove = ({ dispatch }, formData) => {
     })
       .then(response => {
         swal({
-          title: 'Deleted!',
-          text: 'Your imaginary file has been deleted.',
+          title: 'Eliminado!',
+          text: 'Se elimino de forma correcta.',
           type: 'success',
           confirmButtonClass: 'btn btn-success btn-fill',
           buttonsStyling: false
@@ -103,8 +103,8 @@ const remove = ({ dispatch }, formData) => {
     // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
     if (dismiss === 'cancel') {
       swal({
-        title: 'Cancelled',
-        text: 'Your imaginary file is safe :)',
+        title: 'Cancelado',
+        text: 'Este item está a salvo :)',
         type: 'error',
         confirmButtonClass: 'btn btn-info btn-fill',
         buttonsStyling: false

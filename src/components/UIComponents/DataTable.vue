@@ -45,7 +45,6 @@
                 </slot>
               </template>
             </el-table-column>
-            </el-table-column>
           </el-table>
         </div>
         <div class="col-sm-6 pagination-info">
@@ -92,7 +91,8 @@
             let isIncluded = false
             for (let key of this.propsToSearch) {
               let rowValue = row[key].toString()
-              if (rowValue.includes && rowValue.includes(this.searchQuery)) {
+              rowValue = rowValue.toUpperCase()
+              if (rowValue.includes && rowValue.includes(this.searchQuery.toUpperCase())) {
                 isIncluded = true
               }
             }

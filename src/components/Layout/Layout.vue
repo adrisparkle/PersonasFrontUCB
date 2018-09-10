@@ -67,20 +67,23 @@
     },
     mounted () {
       this.$store.dispatch('auth/reload')
-    },
-    beforeCreate () {
-      axios.get('/auth/getmenu', {
-        headers: {
-          'token': localStorage.getItem('token'),
-          'id': localStorage.getItem('userId')
-        }
-      })
-        .then(response => {
-          this.sidebarLinks = response.data
+      if (localStorage.getItem('Menu') == null) {
+        axios.get('/auth/getmenu', {
+          headers: {
+            'token': localStorage.getItem('token'),
+            'id': localStorage.getItem('userId')
+          }
         })
-        .catch(function (error) {
-          console.log(error)
-        })
+          .then(response => {
+            console.log(response.data)
+            this.sidebarLinks = response.data
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      } else {
+        this.sidebarLinks = JSON.parse(localStorage.getItem('Menu'))
+      }
     }
   }
 

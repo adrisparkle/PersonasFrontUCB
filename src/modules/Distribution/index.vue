@@ -7,7 +7,7 @@
                        @on-complete="wizardComplete"
                        error-color="#D32F2F"
                        color="#FFA000"
-                       title="Distribucion de planillas por centros de costo"
+                       title="Distribución por Centros de Responsabilidad"
                        subtitle="siga los siguientes pasos">
             <tab-content title="CONFIG"
                          :before-change="validateFirstStep"
@@ -56,7 +56,7 @@
 
             <button slot="prev" class="btn btn-default btn-fill btn-wd btn-back">Atras</button>
             <button slot="next" class="btn btn-info btn-fill btn-wd btn-next">Siguiente</button>
-            <!--button slot="finish" class="btn btn-warning btn-fill btn-wd">Finalizar</button-->
+            <button slot="finish" class="btn btn-warning btn-fill btn-wd">Finalizar</button>
           </form-wizard>
         </div>
       </div>
@@ -68,7 +68,8 @@
   import 'vue-form-wizard/dist/vue-form-wizard.min.css'
   import FirstStep from './Steps/FirstStep.vue'
   import EndStep from './Steps/EndStep'
-  import swal from 'sweetalert2'
+  // import swal from 'sweetalert2'
+  import router from 'src/router/index'
   import FileUploader from 'src/components/UIComponents/FileUploader'
 
   export default {
@@ -96,11 +97,7 @@
         return this.$refs.firstStep.validate()
       },
       wizardComplete () {
-        // we gather models from all steps into one model
-        this.wizardModel = {
-          ...this.$refs.firstStep.model
-        }
-        swal('Good job!', 'You clicked the finish button!', 'success')
+        router.push('/proceso')
       }
     },
     mounted () {

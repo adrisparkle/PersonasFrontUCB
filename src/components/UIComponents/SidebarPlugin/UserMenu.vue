@@ -3,8 +3,8 @@
     <div class="photo">
       <img src="static/img/faces/face-2.png"/>
     </div>
-    <div class="info">
-      <router-link v-if="!sidebarStore.isMinimized" :to="{ }">{{ name }}</router-link>
+    <div class="info" style="font-size: 14px;">
+      <router-link v-if="!sidebarStore.isMinimized" :to="{ }" v-html="name"></router-link>
     </div>
   </div>
 </template>
@@ -28,10 +28,15 @@
         axios.get('user/' + localStorage.getItem('userId'))
           .then(response => {
             this.name = response.data.Name
+            var nth = 0
+            this.name = this.name.replace(/ /g, function (match, i, original) {
+              nth++
+              return (nth === 2) ? '<br>' : match
+            })
           })
           .catch(error => {
             console.log(error)
-            this.name = 'erooor'
+            this.name = 'error de conexion con el Servidor'
           })
       }
     },

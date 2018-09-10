@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!access" class="row">
+    <div class="row" v-if="!access">
       <div class="col-md-8 card">
         <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
           <template slot="buttons" slot-scope="props">
@@ -46,20 +46,49 @@
         </crud-form>
       </div>
     </div>
-    <div v-else class="row">
-      HOLA MUNDo
-    </div>
+    <template v-if="access">
+      <h3>Accesos del Rol: <small>{{username}}</small>
+      <button type="button" class="btn btn-wd btn-fill btn-info" style="margin: 0 auto" @click="EndAccess">
+          <span class="btn-label">
+              <i class="fa fa-file-excel" ></i>
+                 Finalizar
+          </span>
+      </button>
+      </h3>
+      <div class="col-md-8 card">
+      <data-tables v-bind="{url: url1, propsToSearch: propsToSearch1,tableColumns: tableColumns1}">
+        <template slot="buttons" slot-scope="props">
+          <el-tooltip class="item" effect="dark" content="Eliminar" placement="top-start">
+            <a class="btn btn-simple btn-xs btn-danger btn-icon"  @click="removeAccess(props.queriedData[props.index].Id)"><i class="fa fa-trash-alt"></i></a>
+          </el-tooltip>
+        </template>
+      </data-tables>
+      </div>
+      <div class="col-md-4">
+        <crud-form v-bind="{url: url1,formData: formData1}">
+          <div class="form-group">
+            <label>Nombre</label>
+            <model-select :options="options"
+                          v-model="AccessId"
+                          placeholder="Selecciona un Acceso">
+            </model-select>
+          </div>
+        </crud-form>
+      </div>
+
+    </template>
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import {Tooltip} from 'element-ui'
   import axios from 'axios'
-  import FooterForm from '../../components/UIComponents/FooterForm'
+  import { ModelSelect } from 'vue-search-select'
+  import swal from 'sweetalert2'
 
   Vue.use(Tooltip)
   export default {
-    components: {FooterForm},
+    components: {ModelSelect},
     computed: {
       Name: {
         get () {
@@ -92,12 +121,59 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'ResourceId', val: value})
         }
+      },
+      // access form
+      AccessId: {
+        get () {
+          return this.$store.state.crud.formData.AccessId
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'AccessId', val: value})
+        }
       }
     },
     data () {
       return {
-        url: '/rol/',
+        // form Access
+        options: [],
+        formData1: {
+          AccessId: null
+        },
+        // DataTable of Access
+        username: '',
         access: false,
+        baseurl: 'rol/Access/',
+        url1: '',
+        propsToSearch1: ['Method', 'Description', 'Path'],
+        tableColumns1: [
+          {
+            prop: 'Id',
+            label: '#',
+            minWidth: 35
+          },
+          {
+            prop: 'Method',
+            label: 'Metodo',
+            minWidth: 50
+          },
+          {
+            prop: 'Description',
+            label: 'Descripcion',
+            minWidth: 100
+          },
+          {
+            prop: 'Path',
+            label: 'Path',
+            minWidth: 110
+          },
+          {
+            prop: 'Public',
+            label: 'Public',
+            minWidth: 30
+          }
+        ],
+        // DataTable of Rols
+        url: '/rol/',
         propsToSearch: ['Name', 'Level'],
         tableColumns: [
           {
@@ -142,8 +218,58 @@
     },
     methods: {
       addAccess (index) {
-        console.log(index)
         this.access = true
+        this.url1 = this.baseurl + index
+        this.username = index
+      },
+      removeAccess (index) {
+        var acurl = this.url1
+        swal({
+          title: 'Estas Seguro?',
+          text: 'No será posible volver atras!',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, borrar!',
+          cancelButtonText: 'No, cancelar',
+          confirmButtonClass: 'btn btn-success btn-fill',
+          cancelButtonClass: 'btn btn-danger btn-fill',
+          buttonsStyling: false
+        }).then(function () {
+          axios.delete(acurl, {params: {
+            'AccessId': index
+          }},
+            {
+              headers: {
+                'token': localStorage.getItem('token')
+              }
+            })
+            .then(response => {
+              swal({
+                title: 'Eliminado!',
+                text: 'Se elimino de forma correcta.',
+                type: 'success',
+                confirmButtonClass: 'btn btn-success btn-fill',
+                buttonsStyling: false
+              })
+              this.$store.commit('crud/loadData', this.formData1.url)
+              // dispatch('loadData', formData.url)
+            })
+            .catch(error => console.log(error))
+        }, function (dismiss) {
+          // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+          if (dismiss === 'cancel') {
+            swal({
+              title: 'Cancelado',
+              text: 'Este item está a salvo :)',
+              type: 'error',
+              confirmButtonClass: 'btn btn-info btn-fill',
+              buttonsStyling: false
+            })
+          }
+        })
+      },
+      EndAccess (index) {
+        this.access = false
       },
       loadData () {
         axios.get('resource/')
@@ -151,10 +277,22 @@
             this.values = response.data
           })
           .catch(error => console.log(error))
+      },
+      loadAccessData: function () {
+        axios.get('access/')
+          .then(response => {
+            var result = []
+            response.data.forEach(function (access) {
+              result.push({value: access.Id, text: access.Method + ' --- ' + access.Path})
+            })
+            this.options = result
+          })
+          .catch(error => console.log(error))
       }
     },
     created () {
       this.loadData()
+      this.loadAccessData()
     }
   }
 </script>

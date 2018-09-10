@@ -5,7 +5,8 @@ import mutations from './mutations'
 const state = {
   token: null,
   refreshToken: null,
-  userId: null
+  userId: null,
+  Menu: null
 }
 
 export default {

@@ -2,10 +2,11 @@ import axios from 'axios/index'
 import router from 'src/router/index'
 
 const login = ({ commit, dispatch }, authData) => {
+  var accesdef
   commit('crud/loadSetter', true, { root: true })
+  console.log('asd')
   axios.post('/auth/GetToken', authData)
     .then(response => {
-      commit('crud/loadSetter', false, { root: true })
       localStorage.setItem('userId', response.data.Id)
       localStorage.setItem('token', response.data.Token)
       localStorage.setItem('refreshToken', response.data.RefreshToken)
@@ -14,11 +15,21 @@ const login = ({ commit, dispatch }, authData) => {
         refreshToken: response.data.RefreshToken,
         userId: response.data.Id
       })
-      router.go(0)
       axios.defaults.headers.common['token'] = response.data.Token
       dispatch('setLogoutTimer', response.data.RefreshExpiresIn)
       dispatch('setRefreshTimer', response.data.ExpiresIn)
-      router.push(response.data.AccessDefault)
+      accesdef = response.data.AccessDefault
+      return axios.get('/auth/getmenu', {
+        headers: {
+          'token': localStorage.getItem('token'),
+          'id': localStorage.getItem('userId')
+        }
+      })
+    }).then(response => {
+      commit('crud/loadSetter', false, { root: true })
+      router.go(0)
+      router.push(accesdef)
+      localStorage.setItem('Menu', JSON.stringify(response.data))
     })
     .catch(error => {
       console.log(error)
@@ -78,10 +89,12 @@ const logout = ({ commit }) => {
       localStorage.removeItem('userId')
       localStorage.removeItem('token')
       localStorage.removeItem('refreshToken')
+      localStorage.removeItem('Menu')
       commit('authUser', {
         token: null,
         refreshToken: null,
-        userId: null
+        userId: null,
+        Menu: null
       })
       router.push('/')
       router.go(0)

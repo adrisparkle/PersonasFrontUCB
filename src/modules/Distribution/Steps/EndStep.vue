@@ -39,20 +39,51 @@
           <div class="sa-success-fix"></div>
         </div>
       </div>
-      <button v-if="this.$store.state.dist.uploadedFiles.state==='PROCESSED'" type="button" class="btn btn-wd btn-fill btn-info" style="margin: 0 auto" @click="comprobante">
-        <span class="btn-label">
-            <i class="fa fa-file-excel" ></i>
-               Descargar comprobate
-        </span>
-      </button>
+      <br><br>
+      <template v-if="this.$store.state.dist.uploadedFiles.state==='PROCESSED' || this.$store.state.dist.uploadedFiles.state==='INSAP'">
+
+        <button type="button" class="btn btn-wd btn-fill btn-info" style="margin: 0 auto" @click="TotalGeneral">
+          <span class="btn-label">
+              <i class="fa fa-file-excel" ></i>
+                 Total General
+          </span>
+        </button>
+        <button type="button" class="btn btn-wd btn-fill btn-info" style="margin: 0 auto" @click="TotalCuenta">
+          <span class="btn-label">
+              <i class="fa fa-file-excel" ></i>
+                 Total por Cuenta
+          </span>
+        </button>
+
+        <button  type="button" class="btn btn-wd btn-fill btn-info" style="margin: 0 auto" @click="comprobante">
+          <span class="btn-label">
+              <i class="fa fa-file-excel" ></i>
+                 Descargar Detalle
+          </span>
+        </button>
+      </template>
+      <br><br>
+      <template v-if="this.$store.state.dist.uploadedFiles.state==='PROCESSED'">
+        <input type="checkbox" id="checkbox" v-model="checked"> He verificado los datos de la distribución
+        <br><br>
+        <button v-if="checked" type="button" class="btn btn-wd btn-fill btn-success" style="margin: 0 auto" @click="SAPVoucher">
+          <span class="btn-label">
+              <i class="fa fa-file-excel" ></i>
+                 Contabilizar en SAP
+          </span>
+        </button>
+      </template>
+
     </div>
   </div>
 </template>
 <script>
   import axios from 'axios'
+
   export default {
     data () {
       return {
+        checked: false,
         url: '/Payroll/Geterrors/' + this.$store.state.dist.uploadedFiles.id,
         state: this.$store.state.dist.uploadedFiles.state,
         propsToSearch: [ 'CUNI', 'Name', 'Type' ],
@@ -118,7 +149,68 @@
             const url = window.URL.createObjectURL(blob)
             const link = document.createElement('a')
             link.href = url
-            link.setAttribute('download', 'Dist ' + this.fileType + '.xlsx')
+            var filename = response.request.getResponseHeader('Content-Disposition')
+            link.setAttribute('download', filename.split('filename=')[1])
+            document.body.appendChild(link)
+            link.click()
+          })
+          .catch(error => console.log(error))
+      },
+      TotalGeneral () {
+        axios.get('/payroll/GetTotalGeneral/' + this.$store.state.dist.uploadedFiles.id,
+          {
+            responseType: 'arraybuffer'
+          }
+        )
+          .then(response => {
+            const blob = new Blob([response.data], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            var filename = response.request.getResponseHeader('Content-Disposition')
+            link.setAttribute('download', filename.split('filename=')[1])
+            document.body.appendChild(link)
+            link.click()
+          })
+          .catch(error => console.log(error))
+      },
+      TotalCuenta () {
+        axios.get('/payroll/GetTotalCuenta/' + this.$store.state.dist.uploadedFiles.id,
+          {
+            responseType: 'arraybuffer'
+          }
+        )
+          .then(response => {
+            const blob = new Blob([response.data], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            var filename = response.request.getResponseHeader('Content-Disposition')
+            link.setAttribute('download', filename.split('filename=')[1])
+            document.body.appendChild(link)
+            link.click()
+          })
+          .catch(error => console.log(error))
+      },
+      SAPVoucher () {
+        axios.get('/payroll/GetSAPResume/' + this.$store.state.dist.uploadedFiles.id,
+          {
+            responseType: 'arraybuffer'
+          }
+        )
+          .then(response => {
+            const blob = new Blob([response.data], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            var filename = response.request.getResponseHeader('Content-Disposition')
+            link.setAttribute('download', filename.split('filename=')[1])
             document.body.appendChild(link)
             link.click()
           })

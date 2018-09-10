@@ -57,6 +57,10 @@
           <label>Socio Generico Derechos Lab.</label>
           <input type="text" placeholder="SocioGenericDerechosLaborales" class="form-control" v-model="SocioGenericDerechosLaborales">
         </div>
+        <div class="form-group">
+          <label>Codigo en SAP</label>
+          <input type="text" placeholder="CodigoSAP" class="form-control" v-model="CodigoSAP">
+        </div>
       </crud-form>
     </div>
   </div>
@@ -128,6 +132,14 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'SocioGenericDerechosLaborales', val: value})
         }
+      },
+      CodigoSAP: {
+        get () {
+          return this.$store.state.crud.formData.CodigoSAP
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'CodigoSAP', val: value})
+        }
       }
     },
     data () {
@@ -138,27 +150,27 @@
           {
             prop: 'Id',
             label: '#',
-            minWidth: 35
+            minWidth: 50
           },
           {
             prop: 'Name',
             label: 'Nombre',
-            minWidth: 80
+            minWidth: 120
           },
           {
             prop: 'Abr',
             label: 'Abr.',
-            minWidth: 40
+            minWidth: 50
           },
           {
             prop: 'ADGroupName',
             label: 'AD GroupName',
-            minWidth: 120
+            minWidth: 250
           },
           {
             prop: 'ADOUName',
             label: 'AD OU Name',
-            minWidth: 120
+            minWidth: 110
           },
           {
             prop: 'Dependency',
@@ -168,7 +180,7 @@
           {
             prop: 'InitialsInterRegional',
             label: 'Iniciales Interregional',
-            minWidth: 120
+            minWidth: 100
           },
           {
             prop: 'SerieComprobanteContalbeSAP',
@@ -179,6 +191,11 @@
             prop: 'SocioGenericDerechosLaborales',
             label: 'Socio Generico Derechos Lab.',
             minWidth: 120
+          },
+          {
+            prop: 'CodigoSAP',
+            label: 'Codigo en SAP',
+            minWidth: 60
           }
         ],
         pagination: {
@@ -195,7 +212,8 @@
           DependencyId: null,
           SerieComprobanteContalbeSAP: null,
           InitialsInterRegional: null,
-          SocioGenericDerechosLaborales: null
+          SocioGenericDerechosLaborales: null,
+          CodigoSAP: null
         },
         values: []
       }

@@ -18,6 +18,7 @@
     "easy-pie-chart": "^2.1.7",
     "element-ui": "^2.4.3",
     "font-awesome-picker": "^2.0.0",
+    "fullcalendar": "^3.9.0",
     "jquery": "^3.2.1",
     "perfect-scrollbar": "0.7.1",
     "routes": "^2.1.0",
@@ -31,6 +32,7 @@
     "vue-notifyjs": "^0.2.0",
     "vue-router": "^3.0.1",
     "vue-search-select": "^2.6.2",
+    "vuejs-datepicker": "^1.5.3",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -97,6 +99,7 @@
     "sinon": "^2.1.0",
     "sinon-chai": "^2.8.0",
     "url-loader": "^1.0.1",
+    "vue-collapse": "^1.0.31",
     "vue-loader": "^13.0.4",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",

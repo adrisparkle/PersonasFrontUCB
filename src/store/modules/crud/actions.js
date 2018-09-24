@@ -8,6 +8,7 @@ const loadData = ({ commit }, url) => {
     }
   })
     .then(response => {
+      if (response.data === '') { response.data = [] }
       commit('dataSetter', response.data)
     })
     .catch(error => console.log(error))

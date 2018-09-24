@@ -46,6 +46,8 @@ import B1PlanEstudios from 'src/modules/B1PlanEstudios'
 import B1Paralelo from 'src/modules/B1Paralelo'
 import B1Periodo from 'src/modules/B1Periodo'
 import B1Proyecto from 'src/modules/B1Proyecto'
+// Contract List
+import Contractlist from 'src/modules/Contract'
 
 
 // import store from '../store'
@@ -170,6 +172,11 @@ let Menu = {
       path: '/B1Proyecto',
       name: 'Proyectos',
       component: B1Proyecto
+    },
+    {
+      path: '/instancia',
+      name: 'Instancias',
+      component: Contractlist
     }
   ]
 }

@@ -88,14 +88,20 @@
         }
         let result = this.tableData
           .filter((row) => {
-            let isIncluded = false
+            let isIncluded = true
+            let all = ''
             for (let key of this.propsToSearch) {
-              let rowValue = row[key].toString()
-              rowValue = rowValue.toUpperCase()
-              if (rowValue.includes && rowValue.includes(this.searchQuery.toUpperCase())) {
-                isIncluded = true
+              let rowValue = (row[key] == null ? '' : row[key]).toString()
+              rowValue = rowValue.toUpperCase().replace(' ', '')
+              all += rowValue
+            }
+            let separateStr = this.searchQuery.toUpperCase().split(' ')
+            separateStr.forEach(function (word) {
+              if (all.includes && !all.includes(word)) {
+                isIncluded = false
               }
             }
+            )
             return isIncluded
           })
         this.pagination.total = result.length

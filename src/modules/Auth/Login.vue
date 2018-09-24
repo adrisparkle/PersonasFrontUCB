@@ -74,7 +74,7 @@
       },
       logoSis: {
         type: String,
-        default: 'static/img/logo.png'
+        default: 'static/img/logo2.png'
       }
     },
     data () {

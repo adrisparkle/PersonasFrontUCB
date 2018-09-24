@@ -28,12 +28,21 @@
       formData: {
         type: Object,
         required: true
+      },
+      valid: {
+        type: Boolean,
+        default: true
       }
     },
     methods: {
       create () {
         if (!this.$store.state.crud.edit) {
-          this.$store.dispatch('crud/create', this.url)
+          this.$emit('validate')
+          setTimeout(() => {
+            if (this.valid) {
+              this.$store.dispatch('crud/create', this.url)
+            }
+          }, 10)
         } else {
           this.$store.dispatch('crud/update', this.url)
         }

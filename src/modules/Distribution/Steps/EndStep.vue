@@ -64,14 +64,19 @@
       </template>
       <br><br>
       <template v-if="this.$store.state.dist.uploadedFiles.state==='PROCESSED'">
-        <input type="checkbox" id="checkbox" v-model="checked"> He verificado los datos de la distribución
+        <input type="checkbox" id="checkbox" v-model="checked" @click="getRows"> He verificado los datos de la distribución
         <br><br>
-        <button v-if="checked" type="button" class="btn btn-wd btn-fill btn-success" style="margin: 0 auto" @click="SAPVoucher">
-          <span class="btn-label">
-              <i class="fa fa-file-excel" ></i>
-                 Contabilizar en SAP
-          </span>
-        </button>
+        <template v-if="checked">
+          <button v-if="!inprogress" type="button" class="btn btn-wd btn-fill btn-success" style="margin: 0 auto" @click="SAPVoucher">
+            <span class="btn-label">
+                <i class="fa fa-file-excel" ></i>
+                   Contabilizar en SAP
+            </span>
+          </button>
+          <progressbar v-if="inprogress" :currentValue="value">
+
+          </progressbar>
+        </template>
       </template>
 
     </div>
@@ -79,10 +84,14 @@
 </template>
 <script>
   import axios from 'axios'
-
+import progressbar from 'src/components/UIComponents/ProgrssBar'
   export default {
+    components: {progressbar},
     data () {
       return {
+        value: '30',
+        inprogress: false,
+        rowCount: 0,
         checked: false,
         url: '/Payroll/Geterrors/' + this.$store.state.dist.uploadedFiles.id,
         state: this.$store.state.dist.uploadedFiles.state,
@@ -129,6 +138,7 @@
         .catch(error => console.log(error))
       },
       ignore () {
+        this.tableData = []
         axios.get('/payroll/acceptwarnings/' + this.$store.state.dist.uploadedFiles.id)
           .then(response => {
             this.$store.dispatch('dist/uploadedFiles')
@@ -197,6 +207,7 @@
           .catch(error => console.log(error))
       },
       SAPVoucher () {
+        this.inprogress = true
         axios.get('/payroll/GetSAPResume/' + this.$store.state.dist.uploadedFiles.id,
           {
             responseType: 'arraybuffer'
@@ -236,6 +247,14 @@
             this.$store.dispatch('dist/uploadedFiles')
           })
           .catch(error => console.log(error))
+      },
+      getRows () {
+        /* axios.get('/payroll/processRows/' + this.$store.state.dist.uploadedFiles.id)
+          .then(response => {
+            this.rowCount = response.data
+          })
+          .catch(error => console.log(error)) */
+        this.rowCount = 4661
       }
     }
   }

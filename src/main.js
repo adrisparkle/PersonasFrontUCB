@@ -7,6 +7,7 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 import App from './App.vue'
 import axios from 'axios'
+import VueWorker from 'vue-worker'
 
 // Plugins
 import GlobalComponents from './gloablComponents'
@@ -31,6 +32,7 @@ Vue.use(GlobalComponents)
 Vue.use(VueNotify)
 Vue.use(SideBar)
 Vue.use(VeeValidate)
+Vue.use(VueWorker)
 locale.use(lang)
 
 // Dev server

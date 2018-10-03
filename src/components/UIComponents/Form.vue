@@ -2,12 +2,19 @@
   <div class="card">
     <form @submit.prevent="create">
       <div class="card-header">
-        <h4 v-if="!this.$store.state.crud.edit" class="card-title">
-          Crear
-        </h4>
-        <h4 v-else class="card-title">
-          Modificar
-        </h4>
+        <template v-if="tittle===null">
+          <h4 v-if="!this.$store.state.crud.edit" class="card-title">
+            Crear
+          </h4>
+          <h4 v-else class="card-title">
+            Modificar
+          </h4>
+        </template>
+        <template v-else>
+          <h4 class="card-title">
+            {{tittle}}
+          </h4>
+        </template>
       </div>
       <div class="card-content">
         <slot></slot>
@@ -19,6 +26,7 @@
 </template>
 
 <script>
+  import swal from 'sweetalert2'
   export default {
     props: {
       url: {
@@ -32,17 +40,46 @@
       valid: {
         type: Boolean,
         default: true
+      },
+      alert: {
+        type: Boolean,
+        default: false
+      },
+      tittle: {
+        type: String,
+        default: null
       }
     },
     methods: {
       create () {
         if (!this.$store.state.crud.edit) {
           this.$emit('validate')
-          setTimeout(() => {
-            if (this.valid) {
-              this.$store.dispatch('crud/create', this.url)
-            }
-          }, 10)
+          if (this.alert) {
+            swal({
+              title: '¿Estas Seguro?',
+              text: 'Se dará de baja a esta persona',
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Si, dar de baja!',
+              cancelButtonText: 'No, cancelar',
+              confirmButtonClass: 'btn btn-success btn-fill',
+              cancelButtonClass: 'btn btn-danger btn-fill',
+              buttonsStyling: false
+            })
+              .then((willDelete) => {
+                setTimeout(() => {
+                  if (this.valid) {
+                    this.$store.dispatch('crud/create', this.url)
+                  }
+                }, 10)
+              })
+          } else {
+            setTimeout(() => {
+              if (this.valid) {
+                this.$store.dispatch('crud/create', this.url)
+              }
+            }, 10)
+          }
         } else {
           this.$store.dispatch('crud/update', this.url)
         }

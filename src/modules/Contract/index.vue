@@ -52,7 +52,57 @@
         <br>
         <br>
         <br>
-        rem
+        <crud-form v-bind="{url: urlRemove,formData: formDataRemove ,valid,tittle:'Desvincular a:',alert:true}" @validate="Validate">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              Datos de la Persona
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <center>
+                  <h3> {{FullName}} <small>(ci: {{Document}})</small></h3>
+                  <h4>{{Positions}} de {{Dependency}}</h4>
+                </center>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              Información de la Desvinculación
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label>Motivo de la Desvinculación</label>
+                  <div>
+                    <el-select class="select-info"
+                               size="large"
+                               placeholder="Seleccione Motivo"
+                               v-model="Cause">
+
+                      <el-option v-for="option in selectMotivoBaja.values"
+                                 class="select-danger"
+                                 :value="option.Id"
+                                 :label="option.Name"
+                                 :key="option.Id">
+                      </el-option>
+
+                    </el-select>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Fecha Fin</label>
+                  <datepicker :typeable="false"
+                              :bootstrap-styling="true"
+                              :format="format" :language="es"
+                              placeholder="Fecha Finalizacion"
+                              v-model="EndDate">
+                  </datepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+        </crud-form>
       </template>
 <!-- ++++++++++++++++++++++++++++++++     CREATE     +++++++++++++++++++++++++++++++++++++++++-->
       <template v-if="actions==='CREATE'">
@@ -67,7 +117,7 @@
         <br>
         <br>
 
-        <crud-form v-bind="{url,formData,valid}" @validate="Validate">
+        <crud-form v-bind="{url: urlAdd,formData,valid,tittle:'Nueva Ubicación'}" @validate="Validate">
           <div class="panel panel-info">
             <div class="panel-heading">
               Datos de la Persona
@@ -219,6 +269,7 @@
   import { ModelSelect } from 'vue-search-select'
   import Datepicker from 'vuejs-datepicker'
   import {es} from 'vuejs-datepicker/dist/locale'
+  import swal from 'sweetalert2'
 
 
   Vue.use(Tooltip)
@@ -295,6 +346,46 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'EndDate', val: (value.getMonth() + 1) + '-' + value.getDate() + '-' + value.getFullYear()})
         }
+      },
+      Cause: {
+        get () {
+          return this.$store.state.crud.formData.Cause
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Cause', val: value})
+        }
+      },
+      FullName: {
+        get () {
+          return this.$store.state.crud.formData.FullName
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'FullName', val: value})
+        }
+      },
+      Document: {
+        get () {
+          return this.$store.state.crud.formData.Document
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Document', val: value})
+        }
+      },
+      Dependency: {
+        get () {
+          return this.$store.state.crud.formData.Dependency
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Dependency', val: value})
+        }
+      },
+      Positions: {
+        get () {
+          return this.$store.state.crud.formData.Positions
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Positions', val: value})
+        }
       }
     },
     data () {
@@ -304,7 +395,9 @@
         format: 'dd-MMM-yyyy',
         // --- end date picker
         actions: 'LIST',
-        url: '/Contract/List/',
+        url: '/Contract/',
+        urlAdd: '/Contract/Alta',
+        urlRemove: '/Contract/Baja',
         valid: false,
         propsToSearch: ['FullName', 'CUNI', 'Document', 'Dependency', 'Branches'],
         tableColumns: [
@@ -321,6 +414,11 @@
           {
             prop: 'FullName',
             label: 'Nombre Completo',
+            minWidth: 250
+          },
+          {
+            prop: 'DependencyCod',
+            label: 'Cod. Dependecia',
             minWidth: 250
           },
           {
@@ -376,6 +474,15 @@
           StartDate: '',
           EndDate: ''
         },
+        formDataRemove: {
+          Cause: null,
+          FullName: null,
+          CUNI: null,
+          Document: '',
+          EndDate: '',
+          Dependency: '',
+          Positions: ''
+        },
         DepencencySelect: {
           select: '',
           values: []
@@ -399,19 +506,61 @@
           select: '',
           values: [{Id: 'PERMANENTE', Name: 'Personal Permanente'},
             {Id: 'PLAZO FIJO', Name: 'Personal a Plazo Fijo'},
-            {Id: 'TIEMPO HORATIO', Name: 'Tiempo Horario'}]
+            {Id: 'TIEMPO HORARIO', Name: 'Tiempo Horario'}]
+        },
+        selectMotivoBaja: {
+          select: '',
+          values: [{Id: 'FIN CONTRATO', Name: 'Fin de Contrato'},
+            {Id: 'RENUNCIA', Name: 'Renuncia'},
+            {Id: 'JUBILACION', Name: 'Jubilación'},
+            {Id: 'DESTITUCION', Name: 'Destitución'},
+            {Id: 'FIN DESIGNACION', Name: 'Fin Designación'},
+            {Id: 'MUERTE', Name: 'Muerte'}]
         }
       }
     },
     methods: {
-      Modify () {
+      Modify (index) {
         this.actions = 'MODIFY'
         this.loadDependency()
         this.loadBranches()
         this.loadposition()
       },
-      Remove () {
-        this.actions = 'REMOVE'
+      Remove (index) {
+        swal({
+          title: '¿Estas Seguro?',
+          text: 'Se dará de baja a esta persona',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, dar de baja!',
+          cancelButtonText: 'No, cancelar',
+          confirmButtonClass: 'btn btn-success btn-fill',
+          cancelButtonClass: 'btn btn-danger btn-fill',
+          buttonsStyling: false
+        })
+          .then((willDelete) => {
+            if (willDelete) {
+              let baseurl = '/Contract/Baja/'
+              this.actions = 'REMOVE'
+              this.urlRemove = baseurl + index
+              axios.get('/Contract/' + index, {
+                headers: {
+                  'token': localStorage.getItem('token')
+                }
+              })
+                .then(response => {
+                  console.log(response.data)
+                  this.FullName = response.data.FullName
+                  this.CUNI = response.data.CUNI
+                  this.Document = response.data.Document
+                  this.Positions = response.data.Positions
+                  this.Dependency = response.data.Dependency
+                })
+                .catch(error => console.log(error))
+            } else {
+              this.actions = 'LIST'
+            }
+          })
       },
       Create () {
         this.actions = 'CREATE'

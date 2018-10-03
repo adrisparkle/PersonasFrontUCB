@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-md-8 card">
-      <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
+      <data-tables v-bind="{url, propsToSearch, tableColumns}">
         <template slot="buttons" slot-scope="props">
           <el-tooltip class="item" effect="dark" content="Modificar" placement="top-start">
             <a class="btn btn-simple btn-xs btn-icon btn-info" @click="props.handleEdit(props.queriedData[props.index].Id)"><i class="fa fa-edit"></i></a>
@@ -16,11 +16,7 @@
       <crud-form v-bind="{url,formData}">
         <div class="form-group">
           <label>Nombre</label>
-          <input type="text" placeholder="Nombre" class="form-control" v-model="Name">
-        </div>
-        <div class="form-group">
-          <label>Codigo</label>
-          <input type="text" placeholder="Codigo" class="form-control" v-model="Cod">
+          <input type="text" placeholder="Nombre" class="form-control" v-model="Value">
         </div>
       </crud-form>
     </div>
@@ -29,55 +25,37 @@
 <script>
   export default {
     computed: {
-      Name: {
+      Value: {
         get () {
-          return this.$store.state.crud.formData.Name
+          return this.$store.state.crud.formData.Value
         },
         set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'Name', val: value})
-        }
-      },
-      Cod: {
-        get () {
-          return this.$store.state.crud.formData.Cod
-        },
-        set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'Cod', val: value})
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Value', val: value})
         }
       }
     },
     data () {
       return {
-        url: '/organizationalunit/',
-        propsToSearch: ['Name', 'Cod'],
+        url: '/TableOfTables/Linkage',
+        propsToSearch: ['Value'],
         tableColumns: [
           {
             prop: 'Id',
             label: '#',
-            minWidth: 50
+            minWidth: 75
           },
           {
-            prop: 'Cod',
-            label: 'Cod.',
-            minWidth: 50
-          },
-          {
-            prop: 'Name',
+            prop: 'Value',
             label: 'Nombre',
-            minWidth: 100
+            minWidth: 290
           }
         ],
-        pagination: {
-          perPage: 5,
-          currentPage: 1,
-          perPageOptions: [5, 10, 20],
-          total: 0
-        },
         formData: {
-          Name: null,
-          Cod: null
+          Value: null
         }
       }
+    },
+    methods: {
     }
   }
 </script>

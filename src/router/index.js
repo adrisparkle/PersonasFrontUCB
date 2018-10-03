@@ -46,6 +46,14 @@ import B1PlanEstudios from 'src/modules/B1PlanEstudios'
 import B1Paralelo from 'src/modules/B1Paralelo'
 import B1Periodo from 'src/modules/B1Periodo'
 import B1Proyecto from 'src/modules/B1Proyecto'
+import B1BP from 'src/modules/B1BP'
+// ToT
+import Linkage from 'src/modules/ToT_Linkage'
+import Dedication from 'src/modules/ToT_Dedication'
+import CauseDesvinculation from 'src/modules/ToT_CauseDesvinculation'
+import AFP from 'src/modules/ToT_AFP'
+import FileState from 'src/modules/ToT_FileState'
+import ProcessState from 'src/modules/ToT_ProcessState'
 // Contract List
 import Contractlist from 'src/modules/Contract'
 
@@ -174,9 +182,44 @@ let Menu = {
       component: B1Proyecto
     },
     {
+      path: '/B1BP',
+      name: 'Socios de Negocio',
+      component: B1BP
+    },
+    {
       path: '/instancia',
       name: 'Instancias',
       component: Contractlist
+    },
+    {
+      path: '/Linkage',
+      name: 'Vinculación',
+      component: Linkage
+    },
+    {
+      path: '/Dedication',
+      name: 'Dedicación',
+      component: Dedication
+    },
+    {
+      path: '/CauseDesvinculation',
+      name: 'Causa Desvinculación',
+      component: CauseDesvinculation
+    },
+    {
+      path: '/AFP',
+      name: 'AFPs',
+      component: AFP
+    },
+    {
+      path: '/FileState',
+      name: 'Estados Archivos',
+      component: FileState
+    },
+    {
+      path: '/ProcessState',
+      name: 'Estados Procesos',
+      component: ProcessState
     }
   ]
 }

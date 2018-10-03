@@ -15,7 +15,7 @@
       return {
         actions: false,
         url: '/CostCenters/Paralelo/',
-        propsToSearch: ['PrcName', 'U_Sigla', 'U_Materia', 'U_PeriodoPARALELO'],
+        propsToSearch: ['PrcCode', 'PrcName', 'U_Sigla', 'U_Materia', 'U_PeriodoPARALELO'],
         tableColumns: [
           {
             prop: 'PrcCode',

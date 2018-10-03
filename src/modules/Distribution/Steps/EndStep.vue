@@ -64,19 +64,38 @@
       </template>
       <br><br>
       <template v-if="this.$store.state.dist.uploadedFiles.state==='PROCESSED'">
-        <input type="checkbox" id="checkbox" v-model="checked"> He verificado los datos de la distribución
-        <br><br>
-        <template v-if="checked">
-          <button v-if="!inprogress" type="button" class="btn btn-wd btn-fill btn-success" style="margin: 0 auto" @click="SAPVoucher">
-            <span class="btn-label">
-                <i class="fa fa-file-excel" ></i>
-                   Contabilizar en SAP
-            </span>
-          </button>
-          <progressbar v-if="inprogress" :currentValue="value" :addtext="loadingText" :is_error="is_error">
+        <form v-on:submit.prevent="SAPVoucher">
+          <input type="checkbox" id="checkbox" v-model="checked"> He verificado los datos de la distribución
+          <br><br>
+          <template v-if="checked">
+            <div class="form-group">
+              <div class="row">
+                <label>Fecha para el Registro Contable</label>
+              </div>
+              <div class="row">
+                <div class="form-group" style="margin: 0 auto; width: 200px;">
 
-          </progressbar>
-        </template>
+                  <datepicker :typeable="false"
+                              :bootstrap-styling="true"
+                              :format="format" :language="es"
+                              placeholder="Fecha Registro Contable"
+                              v-model="date"
+                              :required=true
+                              style="margin-left: auto;margin-right: auto">
+                  </datepicker></div>
+
+              </div>
+            </div>
+            <button v-if="!inprogress" type="submit" class="btn btn-wd btn-fill btn-success" style="margin: 0 auto">
+              <span class="btn-label">
+                  <i class="fa fa-file-excel" ></i>
+                     Contabilizar en SAP
+              </span>
+            </button>
+            <progressbar v-if="inprogress" :currentValue="value" :addtext="loadingText" :is_error="is_error">
+            </progressbar>
+          </template>
+        </form>
       </template>
 
     </div>
@@ -86,14 +105,20 @@
   import axios from 'axios'
   import progressbar from 'src/components/UIComponents/ProgrssBar'
   import swal from 'sweetalert2'
+  import Datepicker from 'vuejs-datepicker'
+  import {es} from 'vuejs-datepicker/dist/locale'
 
   export default {
     components: {
       progressbar,
-      swal
+      swal,
+      Datepicker
     },
     data () {
       return {
+        es: es,
+        format: 'dd-MMM-yyyy',
+        date: null,
         is_error: false,
         timer: null,
         value: '0',
@@ -139,7 +164,11 @@
     },
     methods: {
       validate () {
-        axios.get('/payroll/validate/' + this.$store.state.dist.uploadedFiles.id)
+        axios.get('/payroll/validate/' + this.$store.state.dist.uploadedFiles.id, {
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        })
         .then(response => {
           this.$store.dispatch('dist/uploadedFiles')
           this.$store.dispatch('crud/loadData', '/Payroll/Geterrors/' + this.$store.state.dist.uploadedFiles.id)
@@ -149,7 +178,11 @@
       },
       ignore () {
         this.tableData = []
-        axios.get('/payroll/acceptwarnings/' + this.$store.state.dist.uploadedFiles.id)
+        axios.get('/payroll/acceptwarnings/' + this.$store.state.dist.uploadedFiles.id, {
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        })
           .then(response => {
             this.$store.dispatch('dist/uploadedFiles')
             this.loadTotales()
@@ -159,7 +192,10 @@
       comprobante () {
         axios.get('/payroll/getdistribution/' + this.$store.state.dist.uploadedFiles.id,
           {
-            responseType: 'arraybuffer'
+            responseType: 'arraybuffer',
+            headers: {
+              'token': localStorage.getItem('token')
+            }
           }
         )
           .then(response => {
@@ -179,7 +215,10 @@
       TotalGeneral () {
         axios.get('/payroll/GetTotalGeneral/' + this.$store.state.dist.uploadedFiles.id,
           {
-            responseType: 'arraybuffer'
+            responseType: 'arraybuffer',
+            headers: {
+              'token': localStorage.getItem('token')
+            }
           }
         )
           .then(response => {
@@ -199,7 +238,10 @@
       TotalCuenta () {
         axios.get('/payroll/GetTotalCuenta/' + this.$store.state.dist.uploadedFiles.id,
           {
-            responseType: 'arraybuffer'
+            responseType: 'arraybuffer',
+            headers: {
+              'token': localStorage.getItem('token')
+            }
           }
         )
           .then(response => {
@@ -217,32 +259,42 @@
           .catch(error => console.log(error))
       },
       SAPVoucher () {
-        this.inprogress = true
-        this.getRows()
-        this.initloader()
-        axios.get('/payroll/GetSAPResume/' + this.$store.state.dist.uploadedFiles.id,
-          {
-            responseType: 'arraybuffer'
-          }
-        )
-          .then(response => {
-            this.value = '100'
-            this.rowsUploaded = this.rowCount
-            this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
-            window.clearTimeout(this.timer)
-            swal('Perfecto!', 'Se genero el asiento contable con exito.', 'success')
-            this.inprogress = false
-          })
-          .catch(error => {
-            console.log(error)
-            this.value = '100'
-            this.rowsUploaded = this.rowCount
-            this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
-            window.clearTimeout(this.timer)
-            this.is_error = true
-            this.loadingText = 'Ocurrio un error en la conexion con SAP B1.. Por favor reportar este problema'
-            swal('Ups!', 'Inconsistencia con cuentas en SAP B1. Por favor reporte este error.', 'error')
-          })
+        if (this.date !== null) {
+          this.inprogress = true
+          this.getRows()
+          this.initloader()
+          axios.post('/payroll/GetSAPResume/' + this.$store.state.dist.uploadedFiles.id,
+            {
+              date: this.date
+            },
+            {
+              responseType: 'arraybuffer',
+              headers: {
+                'token': localStorage.getItem('token')
+              }
+            }
+          )
+            .then(response => {
+              this.value = '100'
+              this.rowsUploaded = this.rowCount
+              this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
+              window.clearTimeout(this.timer)
+              swal('Perfecto!', 'Se genero el asiento contable con exito.', 'success')
+              this.inprogress = false
+            })
+            .catch(error => {
+              console.log(error)
+              this.value = '100'
+              this.rowsUploaded = this.rowCount
+              this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
+              window.clearTimeout(this.timer)
+              this.is_error = true
+              this.loadingText = 'Ocurrio un error en la conexion con SAP B1.. Por favor reportar este problema'
+              swal('Ups!', 'Inconsistencia con cuentas en SAP B1. Por favor reporte este error.', 'error')
+            })
+        } else {
+          swal('Ups!', 'Por favor selecciona una fecha valida .', 'error')
+        }
       },
       process () {
         axios.get('/payroll/distribute/' + this.$store.state.dist.uploadedFiles.id)
@@ -252,21 +304,33 @@
         .catch(error => console.log(error))
       },
       loadTotales () {
-        axios.get('/payroll/sumtotalesplanilla/' + this.$store.state.dist.uploadedFiles.id)
+        axios.get('/payroll/sumtotalesplanilla/' + this.$store.state.dist.uploadedFiles.id, {
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        })
           .then(response => {
             this.tableData = response.data
           })
           .catch(error => console.log(error))
       },
       cancel () {
-        axios.delete('/payroll/process/' + this.$store.state.dist.uploadedFiles.id)
+        axios.delete('/payroll/process/' + this.$store.state.dist.uploadedFiles.id, {
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        })
           .then(response => {
             this.$store.dispatch('dist/uploadedFiles')
           })
           .catch(error => console.log(error))
       },
       getRows () {
-        axios.get('/payroll/processRows/' + this.$store.state.dist.uploadedFiles.id)
+        axios.get('/payroll/processRows/' + this.$store.state.dist.uploadedFiles.id, {
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        })
           .then(response => {
             this.rowCount = response.data.rowCount
             this.estimatedTime = (0.0328 * this.rowCount * this.rowCount) + (102.42 + this.rowCount) - 1605.5

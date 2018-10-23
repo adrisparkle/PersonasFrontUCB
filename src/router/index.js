@@ -47,6 +47,7 @@ import B1Paralelo from 'src/modules/B1Paralelo'
 import B1Periodo from 'src/modules/B1Periodo'
 import B1Proyecto from 'src/modules/B1Proyecto'
 import B1BP from 'src/modules/B1BP'
+import B1employees from 'src/modules/B1Employees'
 // ToT
 import Linkage from 'src/modules/ToT_Linkage'
 import Dedication from 'src/modules/ToT_Dedication'
@@ -163,7 +164,7 @@ let Menu = {
     },
     {
       path: '/B1PlanEstudios',
-      name: 'Planes de Estudios',
+      name: 'Programa Academico',
       component: B1PlanEstudios
     },
     {
@@ -185,6 +186,11 @@ let Menu = {
       path: '/B1BP',
       name: 'Socios de Negocio',
       component: B1BP
+    },
+    {
+      path: '/B1People',
+      name: 'Personas SAP',
+      component: B1employees
     },
     {
       path: '/instancia',

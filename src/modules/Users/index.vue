@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="row" v-if="!branch">
+  <div class="row" v-if="!branch && !rol">
     <div class="col-md-8 card">
       <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
         <template slot="buttons" slot-scope="props">
@@ -9,6 +9,9 @@
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="Añadir Regional" placement="top-start">
             <a class="btn btn-simple btn-xs btn-success btn-icon"  @click="addBranch(props.queriedData[props.index].Id)"><i class="fa fa-plus"></i></a>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="Añadir Rol" placement="top-start">
+            <a class="btn btn-simple btn-xs btn-success btn-icon"  @click="addRol(props.queriedData[props.index].Id)"><i class="fa fa-key"></i></a>
           </el-tooltip>
         </template>
       </data-tables>
@@ -72,6 +75,48 @@
     </div>
 
   </template>
+
+
+
+
+  <template v-if="rol">
+    <h3>Roles del Usuario: <small>{{username}}</small>
+      <button type="button" class="btn btn-wd btn-fill btn-info" style="margin: 0 auto" @click="EndRol">
+          <span class="btn-label">
+              <i class="fa fa-arrow" ></i>
+                 Finalizar
+          </span>
+      </button>
+    </h3>
+    <div class="col-md-8 card">
+      <data-tables v-bind="{url: url2, propsToSearch: propsToSearch2,tableColumns: tableColumns2}">
+        <template slot="buttons" slot-scope="props">
+          <el-tooltip class="item" effect="dark" content="Eliminar" placement="top-start">
+            <a class="btn btn-simple btn-xs btn-danger btn-icon"  @click="removeRol(props.queriedData[props.index].Id)"><i class="fa fa-trash-alt"></i></a>
+          </el-tooltip>
+        </template>
+      </data-tables>
+    </div>
+    <div class="col-md-4">
+      <crud-form v-bind="{url: url2,formData: formData2}">
+        <div class="form-group">
+          <el-select class="select-info"
+                     size="large"
+                     placeholder="Rol"
+                     v-model="RolId">
+            <el-option v-for="option in values2"
+                       class="select-danger"
+                       :value="option.Id"
+                       :label="option.Name"
+                       :key="option.Id">
+            </el-option>
+          </el-select>
+        </div>
+      </crud-form>
+    </div>
+
+  </template>
+
 </div>
 </template>
 <script>
@@ -103,19 +148,34 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'BranchesId', val: value})
         }
+      },
+      RolId: {
+        get () {
+          return this.$store.state.crud.formData.RolId
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'RolId', val: value})
+        }
       }
     },
     data () {
       return {
         // Branches add/ remove
         branch: false,
+        rol: false,
         username: '',
         formData1: {
           BranchesId: null
         },
+        formData2: {
+          RolId: null
+        },
         baseurl: 'user/Branches/',
+        baseurl2: 'user/Rol/',
         url1: '',
+        url2: '',
         propsToSearch1: ['Method', 'Description', 'Path'],
+        propsToSearch2: ['Name'],
         tableColumns1: [
           {
             prop: 'Id',
@@ -133,7 +193,20 @@
             minWidth: 100
           }
         ],
+        tableColumns2: [
+          {
+            prop: 'Id',
+            label: '#',
+            minWidth: 35
+          },
+          {
+            prop: 'Name',
+            label: 'Rol',
+            minWidth: 50
+          }
+        ],
         values1: [],
+        values2: [],
         // user
         url: '/user',
         propsToSearch: ['UserPrincipalName', 'person'],
@@ -205,6 +278,69 @@
         }).then(function () {
           axios.delete(acurl, {params: {
             'BranchesId': index
+          }},
+            {
+              headers: {
+                'token': localStorage.getItem('token')
+              }
+            })
+            .then(response => {
+              swal({
+                title: 'Eliminado!',
+                text: 'Se elimino de forma correcta.',
+                type: 'success',
+                confirmButtonClass: 'btn btn-success btn-fill',
+                buttonsStyling: false
+              })
+              this.$store.commit('crud/loadData', this.formData1.url)
+              // dispatch('loadData', formData.url)
+            })
+            .catch(error => console.log(error))
+        }, function (dismiss) {
+          // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+          if (dismiss === 'cancel') {
+            swal({
+              title: 'Cancelado',
+              text: 'Este item está a salvo :)',
+              type: 'error',
+              confirmButtonClass: 'btn btn-info btn-fill',
+              buttonsStyling: false
+            })
+          }
+        })
+      },
+      //  Rol stuff
+      addRol (index) {
+        this.rol = true
+        this.url2 = this.baseurl2 + index
+        this.username = index
+        this.loadRolsData()
+      },
+      EndRol () {
+        this.rol = false
+      },
+      loadRolsData () {
+        axios.get('rol/')
+          .then(response => {
+            this.values2 = response.data
+          })
+          .catch(error => console.log(error))
+      },
+      removeRol (index) {
+        var acurl = this.url2
+        swal({
+          title: 'Estas Seguro?',
+          text: 'No será posible volver atras!',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, borrar!',
+          cancelButtonText: 'No, cancelar',
+          confirmButtonClass: 'btn btn-success btn-fill',
+          cancelButtonClass: 'btn btn-danger btn-fill',
+          buttonsStyling: false
+        }).then(function () {
+          axios.delete(acurl, {params: {
+            'RolId': index
           }},
             {
               headers: {

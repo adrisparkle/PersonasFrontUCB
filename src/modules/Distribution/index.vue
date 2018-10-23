@@ -7,7 +7,7 @@
                        @on-complete="wizardComplete"
                        error-color="#D32F2F"
                        color="#FFA000"
-                       title="Distribución por Centros de Responsabilidad"
+                       title="Distribucion por Centros de Responsabilidad"
                        subtitle="siga los siguientes pasos">
             <tab-content title="CONFIG"
                          :before-change="validateFirstStep"
@@ -16,36 +16,48 @@
             </tab-content>
             <tab-content title="Planilla"
                          icon="fa fa-file-invoice-dollar">
+              <h5 class="text-center">{{tittle}}</h5>
+
               <h5 class="text-center">PASO :2 Cargar el Archivo Planilla.</h5>
               <file-uploader :url="payrollUrl" fileType="PLANILLA"></file-uploader>
             </tab-content>
             <tab-content title="Paralelos"
                          :before-change="validateFirstStep"
                          icon="fa fa-chalkboard-teacher">
+              <h5 class="text-center">{{tittle}}</h5>
+
               <h5 class="text-center">PASO :3 Cargar el Archivo Paralelo.</h5>
               <file-uploader :url="acadUrl" fileType="PARALELO"></file-uploader>
             </tab-content>
             <tab-content title="Pregrado"
                          :before-change="validateFirstStep"
                          icon="ico-acad">
+              <h5 class="text-center">{{tittle}}</h5>
+
               <h5 class="text-center">PASO :4 Cargar el Archivo Pregrado.</h5>
               <file-uploader :url="PreUrl" fileType="PREGRADO"></file-uploader>
             </tab-content>
             <tab-content title="Posgrado"
                          :before-change="validateFirstStep"
                          icon="ico-diploma">
+              <h5 class="text-center">{{tittle}}</h5>
+
               <h5 class="text-center">PASO :5 Cargar el Archivo Posgrado.</h5>
               <file-uploader :url="PosUrl" fileType="POSGRADO"></file-uploader>
             </tab-content>
             <tab-content title="Otras Regionales"
                          :before-change="validateFirstStep"
                          icon="fa fa-university">
+              <h5 class="text-center">{{tittle}}</h5>
+
               <h5 class="text-center">PASO :6 Cargar el Archivo Otras Regionales.</h5>
               <file-uploader :url="ORUrl" fileType="OTRAS REGIONALES"></file-uploader>
             </tab-content>
             <tab-content title="Descuentos"
                          :before-change="validateFirstStep"
                          icon="ico-tax">
+              <h5 class="text-center">{{tittle}}</h5>
+
               <h5 class="text-center">PASO :7 Cargar el Archivo Descuentos.</h5>
               <file-uploader :url="desUrl" fileType="DESCUENTO"></file-uploader>
             </tab-content>
@@ -73,6 +85,45 @@
   import FileUploader from 'src/components/UIComponents/FileUploader'
 
   export default {
+    computed: {
+      mes: {
+        get () {
+          return this.$store.state.dist.mes
+        }
+      },
+      gestion: {
+        get () {
+          return this.$store.state.dist.gestion
+        }
+      },
+      regional: {
+        get () {
+          switch (this.$store.state.dist.segmentoOrigen) {
+            case 2:
+              return 'TARIJA'
+            case 3:
+              return 'COCHABAMBA'
+            case 6:
+              return 'UNIDAD CENTRAL'
+            case 16:
+              return 'SANTA CRUZ'
+            case 17:
+              return 'LA PAZ'
+            case 18:
+              return 'EPC'
+            case 22:
+              return 'TEOLOGIA'
+            default:
+              return ''
+          }
+        }
+      },
+      tittle: {
+        get () {
+          return this.regional + ' ' + this.mes + '-' + this.gestion
+        }
+      }
+    },
     data () {
       return {
         wizardModel: {},

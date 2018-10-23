@@ -399,7 +399,7 @@
         urlAdd: '/Contract/Alta',
         urlRemove: '/Contract/Baja',
         valid: false,
-        propsToSearch: ['FullName', 'CUNI', 'Document', 'Dependency', 'Branches'],
+        propsToSearch: ['FullName', 'CUNI', 'Document', 'Dependency', 'Branches', 'StartDate'],
         tableColumns: [
           {
             prop: 'CUNI',
@@ -515,7 +515,8 @@
             {Id: 'JUBILACION', Name: 'Jubilación'},
             {Id: 'DESTITUCION', Name: 'Destitución'},
             {Id: 'FIN DESIGNACION', Name: 'Fin Designación'},
-            {Id: 'MUERTE', Name: 'Muerte'}]
+            {Id: 'MUERTE', Name: 'Muerte'},
+            {Id: 'MODIFICACION', Name: 'Modificación'}]
         }
       }
     },

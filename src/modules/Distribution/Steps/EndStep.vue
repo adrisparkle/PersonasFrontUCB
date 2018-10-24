@@ -259,7 +259,7 @@
           .catch(error => console.log(error))
       },
       SAPVoucher () {
-        // if (true) {
+        // if (true) { todo uncomment
         swal({
           title: 'Ups!',
           text: 'Esta funcionalidad se encuentre temporalmente desactivada durante la etapa de pruebas.',

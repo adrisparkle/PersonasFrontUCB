@@ -25,17 +25,7 @@
           {
             prop: 'PrcName',
             label: 'Nombre',
-            minWidth: 100
-          },
-          {
-            prop: 'ValidFrom',
-            label: 'Valido Desde',
-            minWidth: 120
-          },
-          {
-            prop: 'ValidTo',
-            label: 'Valido Hasta',
-            minWidth: 120
+            minWidth: 150
           },
           {
             prop: 'U_GestionCC',
@@ -56,6 +46,16 @@
             prop: 'U_Indicador',
             label: 'Indicador',
             minWidth: 40
+          },
+          {
+            prop: 'ValidFrom',
+            label: 'Valido Desde',
+            minWidth: 120
+          },
+          {
+            prop: 'ValidTo',
+            label: 'Valido Hasta',
+            minWidth: 120
           }
         ],
         pagination: {

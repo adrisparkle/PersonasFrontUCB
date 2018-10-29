@@ -174,7 +174,7 @@
         baseurl2: 'user/Rol/',
         url1: '',
         url2: '',
-        propsToSearch1: ['Method', 'Description', 'Path'],
+        propsToSearch1: ['Id', 'Method', 'Description', 'Path'],
         propsToSearch2: ['Name'],
         tableColumns1: [
           {

@@ -318,6 +318,7 @@
           }
         })
           .then(response => {
+            this.tableData = []
             this.tableData = response.data
           })
           .catch(error => console.log(error))

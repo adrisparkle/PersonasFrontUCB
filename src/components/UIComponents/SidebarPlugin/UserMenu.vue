@@ -3,8 +3,8 @@
     <div class="photo">
       <img src="static/img/faces/face-2.png"/>
     </div>
-    <div class="info" style="font-size: 14px;">
-      <router-link v-if="!sidebarStore.isMinimized" :to="{ }" v-html="name"></router-link>
+    <div class="info" style="font-size: 14px; padding-left: 55px">
+      <router-link :to="{ }" v-html="name"></router-link>
     </div>
   </div>
 </template>
@@ -42,6 +42,11 @@
     },
     created () {
       this.loadData()
+      let isMinimized = localStorage.getItem('isMinimized')
+      console.log(isMinimized)
+      if (isMinimized !== undefined && isMinimized === 'true') {
+        this.sidebarStore.toggleMinimize()
+      }
     }
   }
 </script>

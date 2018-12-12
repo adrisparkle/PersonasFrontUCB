@@ -149,6 +149,10 @@
       tableColumns: {
         type: Array,
         required: true
+      },
+      searchQueryProp: {
+        type: String,
+        default: ''
       }
     },
     data () {
@@ -181,6 +185,7 @@
       this.$store.dispatch('crud/loadData', this.url)
       this.$store.commit('crud/formDataCleaner')
       this.$store.commit('crud/editSetter', false)
+      this.searchQuery = this.searchQueryProp
     }
   }
 </script>

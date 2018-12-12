@@ -21,6 +21,7 @@ const SidebarStore = {
     }, 1000)
 
     this.isMinimized = !this.isMinimized
+    localStorage.setItem('isMinimized', this.isMinimized.toString())
   }
 }
 

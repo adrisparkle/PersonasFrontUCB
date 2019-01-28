@@ -36,7 +36,7 @@
                   <el-select class="select-info"
                              size="large"
                              placeholder="Seleccione Motivo"
-                             v-model="Cause">
+                             v-model="CauseId">
 
                     <el-option v-for="option in selectMotivoBaja.values"
                                class="select-danger"
@@ -77,12 +77,12 @@
       }
     },
     computed: {
-      Cause: {
+      CauseId: {
         get () {
-          return this.$store.state.crud.formData.Cause
+          return this.$store.state.crud.formData.CauseId
         },
         set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'Cause', val: value})
+          this.$store.commit('crud/formDataFieldSetter', {field: 'CauseId', val: value})
         }
       },
       FullName: {
@@ -170,6 +170,18 @@
             })
             .catch(error => console.log(error))
       },
+      loadCause () {
+        axios.get('/CauseOfMovement/Baja', {
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        })
+          .then(response => {
+            console.log(response.data)
+            this.selectMotivoBaja = response.data
+          })
+          .catch(error => console.log(error))
+      },
       Validate () {
         this.valid = true
       }
@@ -178,6 +190,7 @@
       let baseurl = '/Contract/Baja/'
       this.urlRemove = baseurl + this.index
       this.init()
+      this.loadCause()
     },
     components: {
       Datepicker

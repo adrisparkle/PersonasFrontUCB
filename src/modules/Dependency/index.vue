@@ -53,6 +53,20 @@
             </el-option>
           </el-select>
         </div>
+
+        <div class="form-group">
+          <el-select class="select-info"
+                     size="large"
+                     placeholder="Regional"
+                     v-model="BranchesId">
+            <el-option v-for="option in selectBranches.values"
+                       class="select-danger"
+                       :value="option.Id"
+                       :label="option.Abr + '-' + option.Name"
+                       :key="option.Id">
+            </el-option>
+          </el-select>
+        </div>
       </crud-form>
     </div>
   </div>
@@ -92,12 +106,20 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'OrganizationalUnitId', val: value})
         }
+      },
+      BranchesId: {
+        get () {
+          return this.$store.state.crud.formData.BranchesId
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'BranchesId', val: value})
+        }
       }
     },
     data () {
       return {
         url: '/dependency',
-        propsToSearch: ['Name', 'Cod', 'Parent', 'OrganizationalUnit'],
+        propsToSearch: ['Name', 'Cod', 'Parent', 'OrganizationalUnit', 'Branch'],
         tableColumns: [
           {
             prop: 'Id',
@@ -123,6 +145,11 @@
             prop: 'OrganizationalUnit',
             label: 'Unidad Organizacional',
             minWidth: 300
+          },
+          {
+            prop: 'Branch',
+            label: 'Regional',
+            minWidth: 75
           }
         ],
         selectParent: {
@@ -130,6 +157,10 @@
           values: []
         },
         selectOrg: {
+          select: '',
+          values: []
+        },
+        selectBranches: {
           select: '',
           values: []
         },
@@ -155,11 +186,19 @@
             this.selectOrg.values = response.data
           })
           .catch(error => console.log(error))
+      },
+      loadBrData () {
+        axios.get('branches/')
+          .then(response => {
+            this.selectBranches.values = response.data
+          })
+          .catch(error => console.log(error))
       }
     },
     created () {
       this.loadParentData()
       this.loadOrgData()
+      this.loadBrData()
     }
   }
 </script>

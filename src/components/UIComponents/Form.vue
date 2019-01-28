@@ -41,6 +41,10 @@
         type: Boolean,
         default: true
       },
+      refresh: {
+        type: Boolean,
+        default: true
+      },
       alert: {
         type: Boolean,
         default: false
@@ -69,14 +73,14 @@
               .then((willDelete) => {
                 setTimeout(() => {
                   if (this.valid) {
-                    this.$store.dispatch('crud/create', this.url)
+                    this.$store.dispatch('crud/create', this.url, this.refresh)
                   }
                 }, 10)
               })
           } else {
             setTimeout(() => {
               if (this.valid) {
-                this.$store.dispatch('crud/create', this.url)
+                this.$store.dispatch('crud/create', this.url, this.refresh)
               }
             }, 10)
           }

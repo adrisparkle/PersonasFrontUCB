@@ -1,7 +1,8 @@
 <template>
   <div class="user">
     <div class="photo">
-      <img src="static/img/faces/face-2.png"/>
+      <img :src="heOrShe" >
+      <!--img src="static/img/faces/face-2.png"/-->
     </div>
     <div class="info" style="font-size: 14px; padding-left: 55px">
       <router-link :to="{ }" v-html="name"></router-link>
@@ -20,7 +21,8 @@
         isClosed: true,
         name: null,
         posts: [],
-        error: []
+        error: [],
+        heOrShe: 'static/img/faces/face-M.jpg'
       }
     },
     methods: {
@@ -33,6 +35,7 @@
               nth++
               return (nth === 2) ? '<br>' : match
             })
+            this.heOrShe = response.data.Gender === 'M' ? 'static/img/faces/face-M.jpg' : 'static/img/faces/face-F.jpg'
           })
           .catch(error => {
             console.log(error)

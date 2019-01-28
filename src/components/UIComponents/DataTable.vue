@@ -3,7 +3,7 @@
       <div class="card-header">
       </div>
       <div class="card-content row">
-        <div class="col-sm-6">
+        <div class="col-sm-5">
           <el-select
             class="select-default"
             v-model="pagination.perPage"
@@ -17,11 +17,25 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-7">
           <div class="pull-right">
-            <label>
-              <input type="search" class="form-control input-sm" placeholder="Search records" v-model="searchQuery" aria-controls="datatables">
-            </label>
+            <div class="row">
+              <div class="col-sm-2">
+                <label style="vertical-align: middle;">
+                  Buscar
+                </label>
+              </div>
+              <div class="col-sm-8">
+                <input type="search" class="form-control input-sm" placeholder="Criterio de busqueda" v-model="searchQuery" aria-controls="datatables">
+              </div>
+              <div class="col-sm-2">
+                <el-tooltip class="item" effect="dark" content="Exportar en formato Excel" placement="top-start">
+                  <a class="btn btn-icon btn-success pull-right btn-fill" @click="exportExcel()">
+                    <i class="fa fa-file-excel fa-lg" style=""></i>
+                  </a>
+                </el-tooltip>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-sm-12">
@@ -48,13 +62,13 @@
           </el-table>
         </div>
         <div class="col-sm-6 pagination-info">
-          <p class="category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>
+          <p class="category">Mostrando {{from + 1}} a {{to}} de {{pagination.total}} registros</p>
         </div>
         <div class="col-sm-6">
           <p-pagination class="pull-right"
                         v-model="pagination.currentPage"
                         :per-page="pagination.perPage"
-                        :total="pagination.total">
+                        :total="total">
           </p-pagination>
         </div>
       </div>
@@ -81,11 +95,7 @@
       ...mapState({
         tableData: state => state.crud.data
       }),
-      queriedData () {
-        if (!this.searchQuery) {
-          this.pagination.total = this.tableData.length
-          return this.pagedData
-        }
+      dataResult () {
         let result = this.tableData
           .filter((row) => {
             let isIncluded = true
@@ -100,11 +110,19 @@
               if (all.includes && !all.includes(word)) {
                 isIncluded = false
               }
-            }
-            )
+            })
             return isIncluded
           })
+        return result
+      },
+      queriedData () {
+        if (!this.searchQuery) {
+          this.pagination.total = this.tableData.length
+          return this.pagedData
+        }
+        let result = this.dataResult
         this.pagination.total = result.length
+
         return result.slice(this.from, this.to)
       },
       to () {
@@ -119,7 +137,7 @@
       },
       total () {
         this.pagination.total = this.tableData.length
-        return this.tableData.length
+        return this.dataResult.length
       }
     },
     props: {
@@ -161,6 +179,48 @@
       }
     },
     methods: {
+      exportExcel () {
+        this.downloadCSV()
+      },
+      convertArrayOfObjectsToCSV (args) {
+        let result, ctr, keys, columnDelimiter, lineDelimiter, data
+        data = args.data || null
+        if (data == null || !data.length) {
+          return null
+        }
+        columnDelimiter = args.columnDelimiter || ';'
+        lineDelimiter = args.lineDelimiter || '\n'
+        keys = Object.keys(data[0])
+        result = ''
+        result += keys.join(columnDelimiter)
+        result += lineDelimiter
+        data.forEach(function (item) {
+          ctr = 0
+          keys.forEach(function (key) {
+            if (ctr > 0) result += columnDelimiter
+            result += item[key]
+            ctr++
+          })
+          result += lineDelimiter
+        })
+        return result
+      },
+      downloadCSV () {
+        let data, filename, link
+        let csv = this.convertArrayOfObjectsToCSV({
+          data: this.dataResult
+        })
+        if (csv == null) return
+        filename = 'export.csv'
+        if (!csv.match(/^data:text\/csv/i)) {
+          csv = 'data:text/csv;charset=utf-8,' + csv
+        }
+        data = encodeURI(csv)
+        link = document.createElement('a')
+        link.setAttribute('href', data)
+        link.setAttribute('download', filename)
+        link.click()
+      },
       handleEdit (index) {
         const formData = {
           url: this.url,

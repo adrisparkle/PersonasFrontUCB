@@ -61,6 +61,10 @@
           <label>Codigo en SAP</label>
           <input type="text" placeholder="CodigoSAP" class="form-control" v-model="CodigoSAP">
         </div>
+        <div class="form-group">
+          <label>Inicial SN</label>
+          <input type="text" placeholder="Inicial SN" class="form-control" v-model="InicialSN">
+        </div>
       </crud-form>
     </div>
   </div>
@@ -140,6 +144,14 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'CodigoSAP', val: value})
         }
+      },
+      InicialSN: {
+        get () {
+          return this.$store.state.crud.formData.InicialSN
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'InicialSN', val: value})
+        }
       }
     },
     data () {
@@ -213,7 +225,8 @@
           SerieComprobanteContalbeSAP: null,
           InitialsInterRegional: null,
           SocioGenericDerechosLaborales: null,
-          CodigoSAP: null
+          CodigoSAP: null,
+          InicialSN: null
         },
         values: []
       }

@@ -57,6 +57,13 @@
         required: true
       }
     },
+    computed: {
+      valid: {
+        get () {
+          return this.$store.state.dist.uploadedFiles.array.includes(this.fileType)
+        }
+      }
+    },
     methods: {
       deleteFile () {
         axios.delete(this.url, {

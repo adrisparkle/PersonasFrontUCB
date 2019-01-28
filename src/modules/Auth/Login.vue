@@ -42,6 +42,9 @@
                         <label>Contraseña</label>
                         <input type="password" placeholder="Contraseña" class="form-control input-no-border" id="password" v-model="password">
                       </div>
+                      <template v-if="youShallNoPass">
+                        <small id="error" class="form-text text-muted text-danger">*Usuario o contraseña invalidos.</small>
+                      </template>
                     </div>
                     <div class="card-footer text-center">
                       <button type="submit" class="btn btn-fill btn-wd btn-warning ">Ingresar</button>
@@ -83,6 +86,13 @@
         password: ''
       }
     },
+    computed: {
+      youShallNoPass: {
+        get () {
+          return localStorage.getItem('token') === '401'
+        }
+      }
+    },
     methods: {
       onSubmit () {
         const formData = {
@@ -91,6 +101,8 @@
         }
         this.$store.dispatch('auth/login', formData)
       }
+    },
+    created () {
     }
   }
 </script>

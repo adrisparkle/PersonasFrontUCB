@@ -18,23 +18,63 @@
     </div>
     <div class="col-md-4">
       <crud-form v-bind="{url,formData}">
-        <div class="form-group">
+        <div v-if="this.$store.state.crud.edit" class="form-group">
           <label>Nombre de Usuario</label>
           <input type="text" placeholder="Nombre" class="form-control" v-model="UserPrincipalName">
         </div>
         <div class="form-group">
+          <label>Empleado</label>
+          <div>
+            <model-select class="select-info"
+                          :options="values"
+                          v-model="PeopleId"
+                          placeholder="Seleccione un Empleado">
+            </model-select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Autorizador Compras</label>
+          <div>
+            <model-select class="select-info"
+                          :options="values"
+                          v-model="AuthPeopleId"
+                          placeholder="Seleccione un Autorizador">
+            </model-select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo Licencia SAP</label>
           <el-select class="select-info"
                      size="large"
-                     placeholder="CUNI"
-                     v-model="PeopleId">
-            <el-option v-for="option in values"
+                     placeholder="Tipo Licencia SAP"
+                     v-model="TipoLicenciaSAP">
+            <el-option v-for="option in valuesTipoLicencia"
                        class="select-danger"
-                       :value="option.Id"
-                       :label="option.CUNI"
-                       :key="option.Id">
+                       :value="option.value"
+                       :label="option.value"
+                       :key="option.value">
             </el-option>
           </el-select>
         </div>
+
+        <div class="form-group">
+          <label>Caja Chica?</label>
+          <input type="checkbox" placeholder="Caja Chica" class="form-control" v-model="CajaChica">
+        </div>
+        <div class="form-group">
+          <label>Solicitante Compras?</label>
+          <input type="checkbox" placeholder="Solicitante Compras" class="form-control" v-model="SolicitanteCompras">
+        </div>
+        <div class="form-group">
+          <label>Autorizador Compras?</label>
+          <input type="checkbox" placeholder="Autorizador Compras" class="form-control" v-model="AutorizadorCompras">
+        </div>
+        <div class="form-group">
+          <label>Rendiciones?</label>
+          <input type="checkbox" placeholder="Rendiciones" class="form-control" v-model="Rendiciones">
+        </div>
+
       </crud-form>
     </div>
   </div>
@@ -122,6 +162,8 @@
 <script>
   import axios from 'axios'
   import swal from 'sweetalert2'
+  import { ModelSelect } from 'vue-search-select'
+
 
   export default {
     computed: {
@@ -133,12 +175,60 @@
           this.$store.commit('crud/formDataFieldSetter', {field: 'UserPrincipalName', val: value})
         }
       },
+      TipoLicenciaSAP: {
+        get () {
+          return this.$store.state.crud.formData.TipoLicenciaSAP
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'TipoLicenciaSAP', val: value})
+        }
+      },
+      CajaChica: {
+        get () {
+          return this.$store.state.crud.formData.CajaChica
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'CajaChica', val: value})
+        }
+      },
+      SolicitanteCompras: {
+        get () {
+          return this.$store.state.crud.formData.SolicitanteCompras
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'SolicitanteCompras', val: value})
+        }
+      },
+      AutorizadorCompras: {
+        get () {
+          return this.$store.state.crud.formData.AutorizadorCompras
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'AutorizadorCompras', val: value})
+        }
+      },
+      Rendiciones: {
+        get () {
+          return this.$store.state.crud.formData.Rendiciones
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Rendiciones', val: value})
+        }
+      },
       PeopleId: {
         get () {
           return this.$store.state.crud.formData.PeopleId
         },
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'PeopleId', val: value})
+        }
+      },
+      AuthPeopleId: {
+        get () {
+          return this.$store.state.crud.formData.AuthPeopleId
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'AuthPeopleId', val: value})
         }
       },
       BranchesId: {
@@ -205,26 +295,147 @@
             minWidth: 50
           }
         ],
+        valuesTipoLicencia: [
+          {
+            value: 'Profesional'
+          },
+          {
+            value: 'Sin Licencia'
+          },
+          {
+            value: 'Logística'
+          }
+        ],
         values1: [],
         values2: [],
         // user
         url: '/user',
-        propsToSearch: ['UserPrincipalName', 'person'],
+        propsToSearch: ['UserPrincipalName', 'FullName', 'CUNI', 'Document', 'TipoLicenciaSAP'],
         tableColumns: [
           {
             prop: 'Id',
             label: '#',
-            minWidth: 30
+            minWidth: 60
+          },
+          {
+            prop: 'SAPCodeRRHH',
+            label: 'SAP Code',
+            minWidth: 60
+          },
+          {
+            prop: 'CUNI',
+            label: 'CUNI',
+            minWidth: 100
+          },
+          {
+            prop: 'Document',
+            label: 'Document',
+            minWidth: 100
+          },
+          {
+            prop: 'FullName',
+            label: 'FullName',
+            minWidth: 200
+          },
+          {
+            prop: 'TipoLicenciaSAP',
+            label: 'Tipo Licencia',
+            minWidth: 100
+          },
+          {
+            prop: 'CajaChica',
+            label: 'Caja Chica',
+            minWidth: 70
+          },
+          {
+            prop: 'SolicitanteCompras',
+            label: 'Solicitante',
+            minWidth: 80
+          },
+          {
+            prop: 'AutorizadorCompras',
+            label: 'Autorizador',
+            minWidth: 100
+          },
+          {
+            prop: 'Rendiciones',
+            label: 'Rendiciones',
+            minWidth: 100
+          },
+          {
+            prop: 'UcbEmail',
+            label: 'Email',
+            minWidth: 250
           },
           {
             prop: 'UserPrincipalName',
-            label: 'Usuario',
-            minWidth: 130
+            label: 'UserName',
+            minWidth: 250
           },
           {
-            prop: 'person',
-            label: 'Empleado',
-            minWidth: 220
+            prop: 'DependencyCod',
+            label: 'DepCod',
+            minWidth: 80
+          },
+          {
+            prop: 'Dependency',
+            label: 'Dependency',
+            minWidth: 150
+          },
+          {
+            prop: 'OUCod',
+            label: 'OUCod',
+            minWidth: 80
+          },
+          {
+            prop: 'OUName',
+            label: 'OUName',
+            minWidth: 150
+          },
+          {
+            prop: 'Positions',
+            label: 'Positions',
+            minWidth: 100
+          },
+          {
+            prop: 'Dedication',
+            label: 'Dedication',
+            minWidth: 100
+          },
+          {
+            prop: 'Linkage',
+            label: 'Linkage',
+            minWidth: 100
+          },
+          {
+            prop: 'AuthSAPCodeRRHH',
+            label: 'Auth SAPCode',
+            minWidth: 80
+          },
+          {
+            prop: 'AuthCUNI',
+            label: 'AuthCUNI',
+            minWidth: 100
+          },
+          {
+            prop: 'AuthFullName',
+            label: 'AuthFullName',
+            minWidth: 200
+          },
+          {
+            prop: 'AuthPositions',
+            label: 'Auth Positions',
+            minWidth: 100
+          },
+          {
+            prop: 'Branches',
+            label: 'Branches',
+            minWidth: 100
+          },
+          {
+            prop: 'AutoGenPass',
+            label: 'Gen Pass',
+            minWidth: 80
           }
         ],
         pagination: {
@@ -236,15 +447,39 @@
         select: '',
         values: [],
         formData: {
-          UserPrincipalName: null
+          UserPrincipalName: null,
+          TipoLicenciaSAP: null,
+          CajaChica: false,
+          SolicitanteCompras: false,
+          AutorizadorCompras: false,
+          PeopleId: null,
+          AuthPeopleId: null,
+          Rendiciones: false
+        }
+      }
+    },
+    watch: {
+      PeopleId: function (value) {
+        if (value != null && (!this.$store.state.crud.edit)) {
+          axios.get('user/DefAuth/' + value)
+            .then(response => {
+              console.log(response.data)
+              this.AuthPeopleId = response.data
+            })
+            .catch(error => console.log(error))
         }
       }
     },
     methods: {
       loadData () {
+        let op = this.values
         axios.get('people/')
           .then(response => {
-            this.values = response.data
+            response.data.forEach(function (element) {
+              // console.log(element)
+              op.push({value: element.Id, text: element.CUNI + '-' + element.FirstSurName + ' ' + element.Names})
+            })
+            this.values = op
           })
           .catch(error => console.log(error))
       },
@@ -376,6 +611,9 @@
     created () {
       this.loadData()
       this.loadBranchesData()
+    },
+    components: {
+      ModelSelect
     }
   }
 </script>

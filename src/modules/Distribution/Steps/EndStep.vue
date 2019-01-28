@@ -259,50 +259,48 @@
           .catch(error => console.log(error))
       },
       SAPVoucher () {
-        // if (true) { todo uncomment
-        swal({
-          title: 'Ups!',
-          text: 'Esta funcionalidad se encuentre temporalmente desactivada durante la etapa de pruebas.',
-          type: 'success',
-          confirmButtonClass: 'btn btn-success btn-fill',
-          buttonsStyling: false
-        })
-        // } else if (this.date !== null) {
-        //  this.inprogress = true
-        //  this.getRows()
-        //  this.initloader()
-        //  axios.post('/payroll/GetSAPResume/' + this.$store.state.dist.uploadedFiles.id,
-        //    {
-        //      date: this.date
-        //    },
-        //    {
-        //      responseType: 'arraybuffer',
-        //      headers: {
-        //        'token': localStorage.getItem('token')
-        //      }
-        //    }
-        //  )
-        //    .then(response => {
-        //      this.value = '100'
-        //      this.rowsUploaded = this.rowCount
-        //      this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
-        //      window.clearTimeout(this.timer)
-        //      swal('Perfecto!', 'Se genero el asiento contable con exito.', 'success')
-        //      this.inprogress = false
-        //    })
-        //    .catch(error => {
-        //      console.log(error)
-        //      this.value = '100'
-        //      this.rowsUploaded = this.rowCount
-        //      this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
-        //      window.clearTimeout(this.timer)
-        //      this.is_error = true
-        //      this.loadingText = 'Ocurrio un error en la conexion con SAP B1.. Por favor reportar este problema'
-        //      swal('Ups!', 'Inconsistencia con cuentas en SAP B1. Por favor reporte este error.', 'error')
-        //    })
-        // } else {
-        //  swal('Ups!', 'Por favor selecciona una fecha valida .', 'error')
-        // }
+        if (this.date !== null) {
+          this.inprogress = true
+          this.getRows()
+          this.initloader()
+          axios.post('/payroll/GetSAPResume/' + this.$store.state.dist.uploadedFiles.id,
+            {
+              date: this.date
+            },
+            {
+              responseType: 'arraybuffer',
+              headers: {
+                'token': localStorage.getItem('token')
+              }
+            }
+         )
+           .then(response => {
+             this.value = '100'
+             this.rowsUploaded = this.rowCount
+             this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
+             window.clearTimeout(this.timer)
+             swal('Perfecto!', 'Se genero el asiento contable con exito.', 'success')
+             this.inprogress = false
+           })
+           .catch(error => {
+             console.log(error)
+             if (error.response.status === 401) {
+               this.is_error = true
+               this.loadingText = 'Usuario sin permisos suficientes'
+               swal('Ups!', 'Su usuario no cuenta con los permisos necesatios para conabilizar ente comprobante contable.', 'error')
+             } else {
+               this.value = '100'
+               this.rowsUploaded = this.rowCount
+               this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
+               window.clearTimeout(this.timer)
+               this.is_error = true
+               this.loadingText = 'Ocurrio un error en la conexion con SAP B1.. Por favor reportar este problema'
+               swal('Ups!', 'Inconsistencia con cuentas en SAP B1. Por favor reporte este error.', 'error')
+             }
+           })
+        } else {
+          swal('Ups!', 'Por favor selecciona una fecha valida .', 'error')
+        }
       },
       process () {
         axios.get('/payroll/distribute/' + this.$store.state.dist.uploadedFiles.id)
@@ -318,7 +316,6 @@
           }
         })
           .then(response => {
-            this.tableData = []
             this.tableData = response.data
           })
           .catch(error => console.log(error))

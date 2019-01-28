@@ -2,16 +2,21 @@ import axios from 'axios/index'
 import swal from 'sweetalert2'
 
 const loadData = ({ commit }, url) => {
+  commit('loadSetter', true)
   axios.get(url, {
     headers: {
       'token': localStorage.getItem('token')
     }
   })
     .then(response => {
+      commit('loadSetter', false)
       if (response.data === '') { response.data = [] }
       commit('dataSetter', response.data)
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      commit('loadSetter', false)
+    })
 }
 
 const find = ({ commit }, formData) => {

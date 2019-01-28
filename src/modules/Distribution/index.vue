@@ -148,6 +148,7 @@
         return this.$refs.firstStep.validate()
       },
       wizardComplete () {
+        router.go(0)
         router.push('/proceso')
       }
     },

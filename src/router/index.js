@@ -194,7 +194,7 @@ let Menu = {
     },
     {
       path: '/instancia',
-      name: 'Instancias',
+      name: 'Acciones de Personal',
       component: Contractlist
     },
     {

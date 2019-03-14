@@ -15,7 +15,7 @@
 
             <div v-if='showMenuAlta' class='menu'>
               <div class='menu-item' @click="AltaIndividual()">Alta Individual</div>
-              <div class='menu-item' >Alta Grupal</div>
+              <div class='menu-item' @click="AltaGrupal()">Alta Grupal</div>
             </div>
           </li>
 
@@ -61,6 +61,9 @@
     </template>
     <template v-if="action==='ALTAINDIVIDUAL'">
       <h2 style="text-align: center;">Alta Individual</h2>
+    </template>
+    <template v-if="action==='ALTAGRUPAL'">
+      <h2 style="text-align: center;">Alta Grupal</h2>
     </template>
 
     <template v-if="action==='ALTA'">
@@ -126,6 +129,12 @@
           <template v-if="actions==='ALTAINDIVIDUAL'">
             <Alta></Alta>
           </template>
+
+          <!-- ++++++++++++++++++++++++++++++++     ALTAGRUPAL     +++++++++++++++++++++++++++++++++++++++++-->
+
+          <template v-if="actions==='ALTAGRUPAL'">
+            <AltaGrupal></AltaGrupal>
+          </template>
           <!-- ++++++++++++++++++++++++++++++++     LIST     +++++++++++++++++++++++++++++++++++++++++-->
 
           <template v-if="actions==='LIST'">
@@ -161,6 +170,7 @@
 <script>
   import swal from 'sweetalert2'
   import Alta from './Alta'
+  import AltaGrupal from './AltaGrupal/AltaGrupal'
   import Baja from './Baja'
   import DetailEmpleado from '../Employees/DetailEmpleado'
   import Loading from 'vue-loading-overlay'
@@ -272,6 +282,12 @@
         this.action = 'ALTAINDIVIDUAL'
         this.actions = 'ALTAINDIVIDUAL'
       },
+      AltaGrupal () {
+        this.fakeLoad()
+        this.insearch = true
+        this.action = 'ALTAGRUPAL'
+        this.actions = 'ALTAGRUPAL'
+      },
       Movilidad () {
         this.fakeLoad()
         this.insearch = false
@@ -313,6 +329,7 @@
       DetailEmpleado,
       Baja,
       Alta,
+      AltaGrupal,
       Loading
     },
     mounted () {

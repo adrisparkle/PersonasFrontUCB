@@ -556,6 +556,8 @@
       send: function () {
         let entorno = this
         this.$store.commit('crud/loadSetter', true)
+        this.person.UseMariedSurName = this.person.UseMariedSurName ? 1 : 0
+        this.person.UseSecondSurName = this.person.UseSecondSurName ? 1 : 0
         axios.put(this.url + '/' + this.person.Id, this.person, {
           headers: {
             'token': localStorage.getItem('token')

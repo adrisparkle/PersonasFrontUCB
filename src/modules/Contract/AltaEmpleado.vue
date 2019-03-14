@@ -332,6 +332,8 @@
       send: function () {
         this.$store.commit('crud/loadSetter', true)
         let entorno = this
+        this.formData.UseMariedSurName = this.formData.UseMariedSurName ? 1 : 0
+        this.formData.UseSecondSurName = this.formData.UseSecondSurName ? 1 : 0
         if (this.valid()) {
           axios.post('/people', this.formData, {
             headers: {

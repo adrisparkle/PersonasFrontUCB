@@ -7,7 +7,8 @@
                        @on-complete="wizardComplete"
                        error-color="#D32F2F"
                        color="#FFA000"
-                       title="Distribucion por Centros de Responsabilidad"
+                       :start-index="index"
+                       title="Alta Grupal de Docentes Tiempos Horarios"
                        subtitle="siga los siguientes pasos">
             <!-------------------------------------UPLOAD FILES------------------------------------------------->
             <tab-content title="CONFIG"
@@ -94,13 +95,21 @@
             <tab-content title="Revisar"
                          icon="fa fa-upload">
 
-              <h5 class="text-center">PASO :2 Cargar el Archivo Planilla.</h5>
+              <h5 class="text-center">PASO :2 Última revisión de datos.</h5>
+              <template v-if="valid">
+                <data-table :url="reviewURL" :table-columns="tableColumns" :props-to-search="propsToSearch" :actions="false">
 
+                </data-table>
+                <p align="center">
+                  <input type="checkbox" v-model="reviewed"/>
+                  {{reviewText}}
+                </p>
+              </template>
             </tab-content>
 
-            <button slot="prev" class="btn btn-default btn-fill btn-wd btn-back">Atras</button>
+            <button slot="prev" v-on:click="cancel()" class="btn btn-danger btn-fill btn-wd btn-back">Cancelar</button>
             <button slot="next" class="btn btn-info btn-fill btn-wd btn-next">Siguiente</button>
-            <button slot="finish" class="btn btn-warning btn-fill btn-wd">Finalizar</button>
+            <button :disabled="!reviewed" slot="finish" class="btn btn-success btn-fill btn-wd">Finalizar</button>
           </form-wizard>
         </div>
       </div>
@@ -117,10 +126,62 @@
   import {FormWizard, TabContent} from 'vue-form-wizard'
   import 'vue-form-wizard/dist/vue-form-wizard.min.css'
   import swal from 'sweetalert2'
+  import DataTable from '../../../components/UIComponents/DataTable'
 
   export default {
     data () {
       return {
+        reviewed: false,
+        valid: false,
+        propsToSearch: ['CUNI', 'Document', 'Document', 'FullName', 'DependencyCod', 'DependencyCod', 'Dependency', 'Positions'],
+        tableColumns: [
+          {
+            prop: 'CUNI',
+            label: 'CUNI',
+            minWidth: 50
+          },
+          {
+            prop: 'Document',
+            label: 'Documento',
+            minWidth: 50
+          },
+          {
+            prop: 'FullName',
+            label: 'Nombre Completo',
+            minWidth: 50
+          },
+          {
+            prop: 'DependencyCod',
+            label: 'Cod. Dep.',
+            minWidth: 50
+          },
+          {
+            prop: 'Dependency',
+            label: 'Dependencia',
+            minWidth: 50
+          },
+          {
+            prop: 'Positions',
+            label: 'Cargo',
+            minWidth: 50
+          },
+          {
+            prop: 'StartDate',
+            label: 'Fecha Inicio',
+            minWidth: 50
+          },
+          {
+            prop: 'EndDate',
+            label: 'Fecha Fin',
+            minWidth: 50
+          },
+          {
+            prop: 'Branches',
+            label: 'Regional',
+            minWidth: 50
+          }
+        ],
+        index: 0,
         es: es,
         format: 'dd-MMM-yyyy',
         initialview: 'year',
@@ -145,6 +206,16 @@
       }
     },
     computed: {
+      reviewText: {
+        get () {
+          return 'He revisado los datos de alta de los Docentes Tiempo Horario.'
+        }
+      },
+      reviewURL: {
+        get () {
+          return 'ContractAltaExcel/' + this.formData.BranchesId
+        }
+      },
       fileName: {
         get () {
           return this.formData.file === null ? 'Seleccione un Archivo' : this.formData.file.name
@@ -152,6 +223,9 @@
       }
     },
     methods: {
+      cancel () {
+        this.valid = false
+      },
       loadBranchData () {
         axios.get('branches/')
           .then(response => {
@@ -178,11 +252,46 @@
           this.formError.BranchesId = true
           res = false
         }
+        if (this.formData.endDate < this.formData.startDate) {
+          this.formError.endDate = true
+          this.formError.startDate = true
+          res = false
+        }
         let uf = await this.uploadFile()
         res = res && uf
+        this.valid = res
         return res
       },
       wizardComplete () {
+        this.$store.commit('crud/loadSetter', true)
+
+        axios.get('ContractAltaExcelsave/' + this.formData.BranchesId, {
+          responseType: 'arraybuffer',
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        }).then(response => {
+          this.$store.commit('crud/loadSetter', false)
+          // console.log(response)
+          swal({
+            title: 'Exito!',
+            text: 'Se registraron los decentes exitosamente.',
+            type: 'success',
+            confirmButtonClass: 'btn btn-info btn-fill',
+            buttonsStyling: false
+          })
+          return true
+        })
+          .catch(error => {
+            console.log(error)
+            swal({
+              title: 'Ups!',
+              text: 'Hubo un error',
+              type: 'error',
+              confirmButtonClass: 'btn btn-info btn-fill',
+              buttonsStyling: false
+            })
+          })
       },
       handleFileUpload () {
         // console.log('handelUpload')
@@ -228,7 +337,7 @@
           }
         }).then(response => {
           this.$store.commit('crud/loadSetter', false)
-          console.log(response)
+          // console.log(response)
           return true
         })
           .catch(error => {
@@ -264,6 +373,7 @@
       }
     },
     components: {
+      DataTable,
       FormWizard,
       TabContent,
       Datepicker

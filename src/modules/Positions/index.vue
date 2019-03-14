@@ -44,6 +44,20 @@
             </el-option>
           </el-select>
         </div>
+
+        <div class="form-group">
+          <el-select class="select-info"
+                     size="large"
+                     placeholder="Area de Desempeño"
+                     v-model="PerformanceAreaId">
+            <el-option v-for="option in selectPerformanceArea.values"
+                       class="select-danger"
+                       :value="option.Id"
+                       :label="option.Name"
+                       :key="option.Id">
+            </el-option>
+          </el-select>
+        </div>
       </crud-form>
     </div>
   </div>
@@ -75,6 +89,14 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'BranchesId', val: value})
         }
+      },
+      PerformanceAreaId: {
+        get () {
+          return this.$store.state.crud.formData.PerformanceAreaId
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'PerformanceAreaId', val: value})
+        }
       }
     },
     data () {
@@ -101,6 +123,11 @@
             prop: 'Branch',
             label: 'Regional',
             minWidth: 100
+          },
+          {
+            prop: 'PerformanceArea',
+            label: 'Area de Desempeño',
+            minWidth: 100
           }
         ],
         pagination: {
@@ -117,10 +144,15 @@
           select: '',
           values: []
         },
+        selectPerformanceArea: {
+          select: '',
+          values: []
+        },
         formData: {
           Name: null,
           BranchesId: '',
-          LevelId: ''
+          LevelId: '',
+          PerformanceAreaId: ''
         }
       }
     },
@@ -138,11 +170,19 @@
             this.selectLevel.values = response.data
           })
           .catch(error => console.log(error))
+      },
+      loadPerformanceAreaData () {
+        axios.get('PerformanceArea/')
+          .then(response => {
+            this.selectPerformanceArea.values = response.data
+          })
+          .catch(error => console.log(error))
       }
     },
     created () {
       this.loadBranchData()
       this.loadLevelData()
+      this.loadPerformanceAreaData()
     }
   }
 </script>

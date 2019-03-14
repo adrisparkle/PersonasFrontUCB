@@ -39,7 +39,7 @@ const login = ({ commit, dispatch }, authData) => {
         localStorage.setItem('refreshToken', null)
       }
       commit('crud/loadSetter', false, { root: true })
-      router.go(0)
+      // router.go(0)
     })
 }
 

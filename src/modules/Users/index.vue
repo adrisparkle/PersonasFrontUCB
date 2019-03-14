@@ -33,13 +33,29 @@
           </div>
         </div>
         <div class="form-group">
-          <label>Autorizador Compras</label>
-          <div>
-            <model-select class="select-info"
-                          :options="values"
-                          v-model="AuthPeopleId"
-                          placeholder="Seleccione un Autorizador">
-            </model-select>
+          <label>Email</label>
+          <input type="text" placeholder="Email" class="form-control" v-model="UcbEmail">
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-10">
+              <label>Autorizador Compras</label>
+              <div>
+                <model-select class="select-info"
+                              :options="values"
+                              v-model="AuthPeopleId"
+                              placeholder="Seleccione un Autorizador">
+                </model-select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <a class="btn circular btn-simple btn-icon btn-info pull-right btn-fill" @click="getDefAuth()">
+                <i class="fa fa-sync-alt" style=""></i>
+              </a>
+              <a class="btn circular btn-simple btn-icon btn-danger pull-right btn-fill" @click="AuthPeopleId = null">
+                <i class="fa fa-trash-alt" style=""></i>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -246,6 +262,14 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'RolId', val: value})
         }
+      },
+      UcbEmail: {
+        get () {
+          return this.$store.state.crud.formData.UcbEmail
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'UcbEmail', val: value})
+        }
       }
     },
     data () {
@@ -304,13 +328,16 @@
           },
           {
             value: 'Logística'
+          },
+          {
+            value: 'Financiera'
           }
         ],
         values1: [],
         values2: [],
         // user
         url: '/user',
-        propsToSearch: ['UserPrincipalName', 'FullName', 'CUNI', 'Document', 'TipoLicenciaSAP'],
+        propsToSearch: ['UserPrincipalName', 'Branches', 'AuthFullName', 'Dependency', 'DependencyCod', 'FullName', 'CUNI', 'Document', 'TipoLicenciaSAP'],
         tableColumns: [
           {
             prop: 'Id',
@@ -454,23 +481,26 @@
           AutorizadorCompras: false,
           PeopleId: null,
           AuthPeopleId: null,
-          Rendiciones: false
+          Rendiciones: false,
+          UcbEmail: null
         }
       }
     },
     watch: {
       PeopleId: function (value) {
         if (value != null && (!this.$store.state.crud.edit)) {
-          axios.get('user/DefAuth/' + value)
-            .then(response => {
-              console.log(response.data)
-              this.AuthPeopleId = response.data
-            })
-            .catch(error => console.log(error))
+          this.getDefAuth()
         }
       }
     },
     methods: {
+      getDefAuth () {
+        axios.get('user/DefAuth/' + this.PeopleId)
+          .then(response => {
+            this.AuthPeopleId = response.data
+          })
+          .catch(error => console.log(error))
+      },
       loadData () {
         let op = this.values
         axios.get('people/')

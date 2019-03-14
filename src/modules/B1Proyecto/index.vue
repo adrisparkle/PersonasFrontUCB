@@ -15,7 +15,7 @@
       return {
         actions: false,
         url: '/CostCenters/Proyectos/',
-        propsToSearch: ['PrcCode', 'PrcName', 'U_NUM_INT_CAR', 'U_Nivel'],
+        propsToSearch: ['PrjCode', 'PrjName', 'U_ModalidadProy', 'U_Sucursal', 'U_Tipo'],
         tableColumns: [
           {
             prop: 'PrjCode',

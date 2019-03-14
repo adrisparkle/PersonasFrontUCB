@@ -65,6 +65,18 @@
           <label>Inicial SN</label>
           <input type="text" placeholder="Inicial SN" class="form-control" v-model="InicialSN">
         </div>
+        <div class="form-group">
+          <label>Cuenta RCUNI</label>
+          <input type="text" placeholder="Cuenta RCUNI" class="form-control" v-model="CuentaSociosRCUNI">
+        </div>
+        <div class="form-group">
+          <label>Cuenta HCUNI</label>
+          <input type="text" placeholder="Cuenta HCUNI" class="form-control" v-model="CuentaSociosHCUNI">
+        </div>
+        <div class="form-group">
+          <label>Indicador Impuestos</label>
+          <input type="text" placeholder="Indicador Impuestos" class="form-control" v-model="VatGroup">
+        </div>
       </crud-form>
     </div>
   </div>
@@ -152,6 +164,30 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'InicialSN', val: value})
         }
+      },
+      CuentaSociosRCUNI: {
+        get () {
+          return this.$store.state.crud.formData.CuentaSociosRCUNI
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'CuentaSociosRCUNI', val: value})
+        }
+      },
+      CuentaSociosHCUNI: {
+        get () {
+          return this.$store.state.crud.formData.CuentaSociosHCUNI
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'CuentaSociosHCUNI', val: value})
+        }
+      },
+      VatGroup: {
+        get () {
+          return this.$store.state.crud.formData.VatGroup
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'VatGroup', val: value})
+        }
       }
     },
     data () {
@@ -208,6 +244,21 @@
             prop: 'CodigoSAP',
             label: 'Codigo en SAP',
             minWidth: 60
+          },
+          {
+            prop: 'CuentaSociosHCUNI',
+            label: 'Cuenta HCUNI',
+            minWidth: 120
+          },
+          {
+            prop: 'CuentaSociosRCUNI',
+            label: 'Cuenta RCUNI',
+            minWidth: 120
+          },
+          {
+            prop: 'VatGroup',
+            label: 'Ind. Impuesto',
+            minWidth: 120
           }
         ],
         pagination: {
@@ -226,7 +277,10 @@
           InitialsInterRegional: null,
           SocioGenericDerechosLaborales: null,
           CodigoSAP: null,
-          InicialSN: null
+          InicialSN: null,
+          CuentaSociosHCUNI: null,
+          CuentaSociosRCUNI: null,
+          VatGroup: null
         },
         values: []
       }

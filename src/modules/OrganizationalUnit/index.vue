@@ -22,6 +22,10 @@
           <label>Codigo</label>
           <input type="text" placeholder="Codigo" class="form-control" v-model="Cod">
         </div>
+        <div class="form-group">
+          <label>Activo</label>
+          <input type="checkbox" placeholder="Activo" class="form-control" v-model="Active">
+        </div>
       </crud-form>
     </div>
   </div>
@@ -44,6 +48,14 @@
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'Cod', val: value})
         }
+      },
+      Active: {
+        get () {
+          return this.$store.state.crud.formData.Active
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'Active', val: value})
+        }
       }
     },
     data () {
@@ -64,7 +76,12 @@
           {
             prop: 'Name',
             label: 'Nombre',
-            minWidth: 100
+            minWidth: 150
+          },
+          {
+            prop: 'Active',
+            label: 'Activo',
+            minWidth: 40
           }
         ],
         pagination: {
@@ -75,7 +92,8 @@
         },
         formData: {
           Name: null,
-          Cod: null
+          Cod: null,
+          Active: null
         }
       }
     }

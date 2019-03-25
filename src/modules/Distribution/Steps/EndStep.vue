@@ -279,7 +279,14 @@
              this.rowsUploaded = this.rowCount
              this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
              window.clearTimeout(this.timer)
-             swal('Perfecto!', 'Se genero el asiento contable con exito.', 'success')
+             console.log(response)
+             let newkeyStr = ''
+             try {
+               newkeyStr = '\nEl número de comprobante contable en SAP es: ' + response.data.newkey
+             } catch (e) {
+               newkeyStr = ''
+             }
+             swal('Perfecto!', 'Se generó el asiento contable con exito.' + newkeyStr, 'success')
              this.inprogress = false
            })
            .catch(error => {

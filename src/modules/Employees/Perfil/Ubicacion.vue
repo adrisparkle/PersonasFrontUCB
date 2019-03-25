@@ -157,7 +157,7 @@
                   <div class="form-group col-md-3 col-md-offset-1">
                     <label>Vinculacion</label>
                     <div>
-                      <input type="text" placeholder="Nombres" class="form-control" readonly v-model="person.Linkage">
+                      <input type="text" placeholder="Nombres" class="form-control" readonly v-model="person.Linkagestr">
                     </div>
                   </div>
 

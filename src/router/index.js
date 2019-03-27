@@ -240,7 +240,22 @@ const routes = [
   {path: '*', component: NotFound}
 ]
 
-export default new VueRouter({
+const router = new VueRouter({
   routes,
   mode: 'hash'
 })
+
+router.beforeEach((to, from, next) => {
+  let t = localStorage.getItem('token')
+  if (to.name !== 'Login' && (t === null || t === '401')) {
+    next({
+      path: '/',
+      name: 'Login',
+      component: Login
+    })
+  } else {
+    next()
+  }
+})
+
+export default router

@@ -3,6 +3,7 @@ import router from 'src/router/index'
 
 const login = ({ commit, dispatch }, authData) => {
   var accesdef
+  // let token = ''
   commit('crud/loadSetter', true, { root: true })
   axios.post('/auth/GetToken', authData)
     .then(response => {
@@ -26,7 +27,6 @@ const login = ({ commit, dispatch }, authData) => {
       })
     }).then(response => {
       commit('crud/loadSetter', false, { root: true })
-      router.go(0)
       router.push(accesdef)
       localStorage.setItem('Menu', JSON.stringify(response.data))
     })
@@ -39,7 +39,7 @@ const login = ({ commit, dispatch }, authData) => {
         localStorage.setItem('refreshToken', null)
       }
       commit('crud/loadSetter', false, { root: true })
-      // router.go(0)
+      router.go(0)
     })
 }
 

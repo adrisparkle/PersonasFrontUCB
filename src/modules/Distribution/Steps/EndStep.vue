@@ -279,10 +279,10 @@
              this.rowsUploaded = this.rowCount
              this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
              window.clearTimeout(this.timer)
-             console.log(response)
+             let resp = JSON.parse(String.fromCharCode.apply(null, new Uint8Array(response.data)))
              let newkeyStr = ''
              try {
-               newkeyStr = '\nEl número de comprobante contable en SAP es: ' + response.data.newkey
+               newkeyStr = '\nEl número de comprobante contable en SAP es: ' + resp.newkey
              } catch (e) {
                newkeyStr = ''
              }
@@ -290,7 +290,6 @@
              this.inprogress = false
            })
            .catch(error => {
-             console.log(error)
              if (error.response.status === 401) {
                this.is_error = true
                this.loadingText = 'Usuario sin permisos suficientes'

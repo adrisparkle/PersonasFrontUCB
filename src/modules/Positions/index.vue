@@ -58,6 +58,26 @@
             </el-option>
           </el-select>
         </div>
+
+        <div class="form-group">
+          <el-select class="select-info"
+                     size="large"
+                     placeholder="Vinculacion por defecto"
+                     v-model="DefaultLinkage">
+            <el-option v-for="option in selectLinkage.values"
+                       class="select-danger"
+                       :value="option.Id"
+                       :label="option.Name"
+                       :key="option.Id">
+            </el-option>
+          </el-select>
+        </div>
+
+        <div class="form-group">
+          <label>Es cargo de designacion?</label>
+          <input type="checkbox" placeholder="Designado" class="form-control" v-model="IsDesignated">
+        </div>
+
       </crud-form>
     </div>
   </div>
@@ -82,6 +102,22 @@
           this.$store.commit('crud/formDataFieldSetter', {field: 'LevelId', val: value})
         }
       },
+      DefaultLinkage: {
+        get () {
+          return this.$store.state.crud.formData.DefaultLinkage
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'DefaultLinkage', val: value})
+        }
+      },
+      IsDesignated: {
+        get () {
+          return this.$store.state.crud.formData.IsDesignated
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'IsDesignated', val: value})
+        }
+      },
       BranchesId: {
         get () {
           return this.$store.state.crud.formData.BranchesId
@@ -102,7 +138,7 @@
     data () {
       return {
         url: '/positions',
-        propsToSearch: ['Name', 'Cod', 'Branch'],
+        propsToSearch: ['Name', 'Cod', 'Branch', 'IsDesignated'],
         tableColumns: [
           {
             prop: 'Id',
@@ -128,6 +164,16 @@
             prop: 'PerformanceArea',
             label: 'Area de Desempeño',
             minWidth: 100
+          },
+          {
+            prop: 'IsDesignated',
+            label: 'Designado',
+            minWidth: 50
+          },
+          {
+            prop: 'DefaultLinkage',
+            label: 'Vinculacion',
+            minWidth: 100
           }
         ],
         pagination: {
@@ -141,6 +187,10 @@
           values: []
         },
         selectLevel: {
+          select: '',
+          values: []
+        },
+        selectLinkage: {
           select: '',
           values: []
         },
@@ -164,6 +214,14 @@
           })
           .catch(error => console.log(error))
       },
+      loadLinkageData () {
+        axios.get('TableOfTables/Linkage/')
+          .then(response => {
+            console.log(response)
+            this.selectLinkage.values = response.data
+          })
+          .catch(error => console.log(error))
+      },
       loadLevelData () {
         axios.get('level/')
           .then(response => {
@@ -183,6 +241,7 @@
       this.loadBranchData()
       this.loadLevelData()
       this.loadPerformanceAreaData()
+      this.loadLinkageData()
     }
   }
 </script>

@@ -46,7 +46,6 @@
     created () {
       this.loadData()
       let isMinimized = localStorage.getItem('isMinimized')
-      console.log(isMinimized)
       if (isMinimized !== undefined && isMinimized === 'true') {
         this.sidebarStore.toggleMinimize()
       }

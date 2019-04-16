@@ -57,7 +57,12 @@ import FileState from 'src/modules/ToT_FileState'
 import ProcessState from 'src/modules/ToT_ProcessState'
 // Contract List
 import Contractlist from 'src/modules/Contract'
-
+// Contract Nombramiento
+import Nombramiento from 'src/modules/Nombramiento'
+// Contract NombramientoDetail
+import NombramientoDetail from 'src/modules/Nombramiento/detail'
+// Contract Civil Alta
+import Civil from 'src/modules/Civil'
 
 // import store from '../store'
 Vue.use(VueRouter)
@@ -226,6 +231,21 @@ let Menu = {
       path: '/ProcessState',
       name: 'Estados Procesos',
       component: ProcessState
+    },
+    {
+      path: '/Nombramiento',
+      name: 'Nombramientos',
+      component: Nombramiento
+    },
+    {
+      path: '/Nombramiento/:id',
+      name: 'Nombramiento',
+      component: NombramientoDetail
+    },
+    {
+      path: '/Civil',
+      name: 'Crear personal Civil',
+      component: Civil
     }
   ]
 }

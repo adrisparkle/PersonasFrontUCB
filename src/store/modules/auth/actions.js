@@ -29,11 +29,11 @@ const login = ({ commit, dispatch }, authData) => {
       commit('crud/loadSetter', false, { root: true })
       router.push(accesdef)
       localStorage.setItem('Menu', JSON.stringify(response.data))
+      location.reload()
     })
     .catch(error => {
       console.log(error.request.status)
       if (error.request.status === 401) {
-        console.log('neles')
         localStorage.setItem('userId', null)
         localStorage.setItem('token', '401')
         localStorage.setItem('refreshToken', null)

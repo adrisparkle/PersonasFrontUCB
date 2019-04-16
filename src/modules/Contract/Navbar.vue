@@ -1,10 +1,10 @@
 <template>
   <div class="container col-md-12">
-    <nav class="navbar navbar-default" >
-      <div class="container-fluid" style="margin-bottom: 0px">
-        <ul class="nav navbar-nav"  style="margin-top: -30px;">
+    <nav class="navbar navbar-default" style="margin-top: -30px; margin-bottom: 60px">
+      <div class="container-fluid" >
+        <ul class="nav navbar-nav" style="height: 50px">
           <li @click="showMenuAlta = !showMenuAlta" @mouseover="showMenuAlta=true" @mouseleave="showMenuAlta=false" class="active navbar-left">
-            <a style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 15px; padding-top: 0px;">
+            <a style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 0px; padding-top: 0px;">
               <h4 style="margin-top: 10px;">
                 Alta de <br>Personal
                 <span class="btn-label">
@@ -20,7 +20,7 @@
           </li>
 
           <li @click="showMenuBaja = !showMenuBaja" @mouseover="showMenuBaja=true" @mouseleave="showMenuBaja=false" class="active navbar-center">
-            <a style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 15px; padding-top: 0px;">
+            <a style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 0px; padding-top: 0px;">
               <h4 style="margin-top: 10px;">
               Baja de <br>Personal
                 <span class="btn-label">
@@ -30,12 +30,11 @@
             </a>
             <div v-if='showMenuBaja' class='menu'>
               <div class='menu-item' @click="BajaIndividual()">Baja Individual</div>
-              <div class='menu-item' >Baja Grupal</div>
             </div>
           </li>
 
           <li @click="showMenuMod = !showMenuMod" @mouseover="showMenuMod=true" @mouseleave="showMenuMod=false" class="active navbar-right">
-            <a style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 15px; padding-top: 0px;">
+            <a style="margin-top: 0px; margin-bottom: 0px; padding-bottom: 0px; padding-top: 0px;">
               <h4 style="margin-top: 10px;">
               Modificaciones <br> de Personal
                 <span class="btn-label">
@@ -190,7 +189,7 @@
         i: null,
         actions: 'LIST',
         url: '/Contract/',
-        propsToSearch: ['FullName', 'CUNI', 'Document', 'Branches', 'Positions', 'Linkage'],
+        propsToSearch: ['FullName', 'CUNI', 'Document', 'Dependency', 'Branches', 'Positions', 'Linkage'],
         tableColumns: [
           {
             prop: 'CUNI',
@@ -211,17 +210,7 @@
             prop: 'DependencyCod',
             label: 'Cod. Dependecia',
             minWidth: 100
-          },
-          {
-            prop: 'Dependency',
-            label: 'Dependencia',
-            minWidth: 250
           }, */
-          {
-            prop: 'Branches',
-            label: 'Regional',
-            minWidth: 80
-          },
           {
             prop: 'Positions',
             label: 'Cargo',
@@ -231,6 +220,16 @@
             prop: 'Linkage',
             label: 'Vinculacion',
             minWidth: 100
+          },
+          {
+            prop: 'Dependency',
+            label: 'Dependencia',
+            minWidth: 250
+          },
+          {
+            prop: 'Branches',
+            label: 'Regional',
+            minWidth: 80
           }
         ],
         pagination: {
@@ -340,39 +339,6 @@
 </script>
 
 <style scoped>
-  .anchor {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid transparent;
-    padding: .75rem 2rem;
-    font-size: 1rem;
-    border-radius: .25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    color: #fff;
-    background-color: #27AE60;
-    border-color: #27AE60;
-  }
-
-  .anchor::after {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    margin-left: .5em;
-    vertical-align: .255em;
-    content: "";
-    border-top: .3em solid;
-    border-right: .28em solid transparent;
-    border-bottom: 0;
-    border-left: .28em solid transparent;
-  }
-
-  .anchor:hover {
-    color: #fff;
-    background-color: #229954;
-    border-color: #229954;
-    cursor: pointer;
-  }
 
   .menu {
     background-color: #fff;
@@ -388,13 +354,13 @@
     list-style: none;
     margin: .125rem 0 0;
     padding: .5rem 0;
-    //position: absolute;
+    position: absolute;
     text-align: left;
 
-    margin-left: 14px;
-    margin-top: -35px;
-    margin-bottom: -100px;
-    width: 80%;
+    //margin-left: 14px;
+    margin-top: -11px;
+    margin-bottom: -120px;
+    width: 100%;
     z-index: 1;
 
   }

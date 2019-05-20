@@ -193,11 +193,14 @@
         get () {
           let x = true
           this.formError.replace = this.isEmptyBlanckOrNull(this.replace)
-          if (this.replace === 'true' && (this.isEmptyBlanckOrNull(this.motivoCambio.select) || this.isEmptyBlanckOrNull(this.OldCotractsSelect.select))) {
+          if (this.replace === 'true') {
             this.formError.motivoCambio = this.isEmptyBlanckOrNull(this.motivoCambio.select)
             this.formError.OldCotractsSelect = this.isEmptyBlanckOrNull(this.OldCotractsSelect.select)
-            x = false
+          } else {
+            this.formError.motivoCambio = false
+            this.formError.OldCotractsSelect = false
           }
+          x = !(this.formError.replace || this.formError.motivoCambio || this.formError.OldCotractsSelect)
           return x
         }
       }

@@ -63,6 +63,8 @@ import Nombramiento from 'src/modules/Nombramiento'
 import NombramientoDetail from 'src/modules/Nombramiento/detail'
 // Contract Civil Alta
 import Civil from 'src/modules/Civil'
+import ContratosCiviles from 'src/modules/ContratosCiviles'
+import ContratosCivilesHistory from 'src/modules/ContratosCiviles/ContratosCivilesHistory'
 
 // import store from '../store'
 Vue.use(VueRouter)
@@ -246,6 +248,16 @@ let Menu = {
       path: '/Civil',
       name: 'Crear personal Civil',
       component: Civil
+    },
+    {
+      path: '/ContratosCiviles',
+      name: 'Contratos Civiles',
+      component: ContratosCiviles
+    },
+    {
+      path: '/ContratosCivilesProcesos',
+      name: 'Historial de Procesos Contratos Civiles',
+      component: ContratosCivilesHistory
     }
   ]
 }

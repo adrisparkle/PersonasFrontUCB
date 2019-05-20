@@ -319,7 +319,7 @@
         if (Date.parse(this.contract.EndDate) < Date.parse(this.contract.StartDate)) {
           this.formError.EndDate.message = '*Esta fecha no puede ser menor a la fecha Inicio'
         }
-        this.formError.PeopleId.active = this.isEmptyBlanckOrNull(this.contract.PeopleId)
+        this.formError.PeopleId.active = this.isEmptyBlanckOrNull(this.PeopleId)
         x = !(!x || this.formError.DependencyId.active ||
           this.formError.PositionsId.active ||
           this.formError.Dedication.active ||
@@ -497,6 +497,7 @@
       this.loadLinkage()
       this.loadposition()
       this.init()
+      this.checkPermisions()
     },
     components: {
       Datepicker,

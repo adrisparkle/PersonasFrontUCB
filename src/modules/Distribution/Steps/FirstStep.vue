@@ -120,7 +120,11 @@
             {Id: '09', Name: 'Septiembre'},
             {Id: '10', Name: 'Octubre'},
             {Id: '11', Name: 'Noviembre'},
-            {Id: '12', Name: 'Diciembre'}]
+            {Id: '12', Name: 'Diciembre'},
+            {Id: '13', Name: 'Retroactivo Enero'},
+            {Id: '14', Name: 'Retroactivo Febrero'},
+            {Id: '15', Name: 'Retroactivo Marzo'},
+            {Id: '16', Name: 'Retroactivo Abril'}]
         },
         modelValidations: {
           gestion: {

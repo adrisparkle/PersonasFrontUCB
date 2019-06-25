@@ -33,9 +33,15 @@
           </div>
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="text" placeholder="Email" class="form-control" v-model="UcbEmail">
+          <label>Email Administrativo</label>
+          <input type="text" placeholder="Email Administrativo" class="form-control" v-model="UcbEmail">
         </div>
+        <!--Personal-->
+        <div class="form-group">
+          <label>PersonalEmail</label>
+          <input type="text" placeholder="Email Personal" class="form-control" v-model="PersonalEmail">
+        </div>
+
         <div class="form-group">
           <div class="row">
             <div class="col-md-10">
@@ -89,6 +95,11 @@
         <div class="form-group">
           <label>Rendiciones?</label>
           <input type="checkbox" placeholder="Rendiciones" class="form-control" v-model="Rendiciones">
+        </div>
+
+        <div class="form-group">
+          <label>Rendiciones Dolares?</label>
+          <input type="checkbox" placeholder="Rendiciones Dolares" class="form-control" v-model="RendicionesDolares">
         </div>
 
       </crud-form>
@@ -231,6 +242,14 @@
           this.$store.commit('crud/formDataFieldSetter', {field: 'Rendiciones', val: value})
         }
       },
+      RendicionesDolares: {
+        get () {
+          return this.$store.state.crud.formData.RendicionesDolares
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'RendicionesDolares', val: value})
+        }
+      },
       PeopleId: {
         get () {
           return this.$store.state.crud.formData.PeopleId
@@ -269,6 +288,14 @@
         },
         set (value) {
           this.$store.commit('crud/formDataFieldSetter', {field: 'UcbEmail', val: value})
+        }
+      },
+      PersonalEmail: {
+        get () {
+          return this.$store.state.crud.formData.PersonalEmail
+        },
+        set (value) {
+          this.$store.commit('crud/formDataFieldSetter', {field: 'PersonalEmail', val: value})
         }
       }
     },
@@ -337,7 +364,7 @@
         values2: [],
         // user
         url: '/user',
-        propsToSearch: ['UserPrincipalName', 'Branches', 'AuthFullName', 'Dependency', 'DependencyCod', 'FullName', 'CUNI', 'Document', 'TipoLicenciaSAP'],
+        propsToSearch: ['UserPrincipalName', 'Branches', 'AuthFullName', 'Dependency', 'DependencyCod', 'FullName', 'CUNI', 'Document', 'TipoLicenciaSAP', 'PersonalEmail'],
         tableColumns: [
           {
             prop: 'Id',
@@ -390,8 +417,18 @@
             minWidth: 100
           },
           {
+            prop: 'RendicionesDolares',
+            label: 'RendicionesDolares',
+            minWidth: 100
+          },
+          {
             prop: 'UcbEmail',
             label: 'Email',
+            minWidth: 250
+          },
+          {
+            prop: 'PersonalEmail',
+            label: 'PersonalEmail',
             minWidth: 250
           },
           {

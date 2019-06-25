@@ -30,6 +30,7 @@
             </a>
             <div v-if='showMenuBaja' class='menu'>
               <div class='menu-item' @click="BajaIndividual()">Baja Individual</div>
+              <div class='menu-item' @click="BajaGrupal()">Bajas Pendientes</div>
             </div>
           </li>
 
@@ -79,6 +80,11 @@
 
     <template v-if="action==='BAJA'">
       <h2 style="text-align: center;">Baja Individual</h2>
+    </template>
+
+    <!-- ++++++++++++++++++++++++++++++++     BAJAGRUPAL     +++++++++++++++++++++++++++++++++++++++++-->
+    <template v-if="actions==='BAJAGRUPAL'">
+      <h2 style="text-align: center;">Bajas Pendientes</h2>
     </template>
 
 
@@ -134,6 +140,11 @@
           <template v-if="actions==='ALTAGRUPAL'">
             <AltaGrupal></AltaGrupal>
           </template>
+
+          <!-- ++++++++++++++++++++++++++++++++     BAJAGRUPAL     +++++++++++++++++++++++++++++++++++++++++-->
+          <template v-if="actions==='BAJAGRUPAL'">
+            <BajaGrupal></BajaGrupal>
+          </template>
           <!-- ++++++++++++++++++++++++++++++++     LIST     +++++++++++++++++++++++++++++++++++++++++-->
 
           <template v-if="actions==='LIST'">
@@ -171,6 +182,7 @@
   import Alta from './Alta'
   import AltaGrupal from './AltaGrupal/AltaGrupal'
   import Baja from './Baja'
+  import BajaGrupal from './AltaGrupal/ConfirmacionBajaGrupal'
   import DetailEmpleado from '../Employees/DetailEmpleado'
   import Loading from 'vue-loading-overlay'
   import DetailPersonData from '../Employees/DetailPersonData'
@@ -309,6 +321,13 @@
         this.actions = 'LIST'
         this.ButtonMessage = 'Dar de Baja'
       },
+      BajaGrupal () {
+        this.fakeLoad()
+        this.insearch = true
+        this.action = 'BAJAGRUPAL'
+        this.actions = 'BAJAGRUPAL'
+        console.log(this.actions)
+      },
       DatosPersona () {
         this.fakeLoad()
         this.insearch = false
@@ -327,6 +346,7 @@
       DetailPersonData,
       DetailEmpleado,
       Baja,
+      BajaGrupal,
       Alta,
       AltaGrupal,
       Loading

@@ -1,20 +1,7 @@
 <template>
   <div class="row">
     <div class="col-md-12 card" v-if="actions==='LIST'">
-      <div class="btn-group">
-        <button type="button" class="btn btn-lg btn-fill btn-warning" @click="createPeople">
-          <span class="btn-label">
-            <i class="fa fa-plus"></i>
-          </span>
-          Nuevo Empleado
-        </button>
-        <button type="button" class="btn btn-lg btn-fill btn-success">
-          <span class="btn-label">
-            <i class="fa fa-file-excel"></i>
-          </span>
-          Importar Excel
-        </button>
-      </div>
+
       <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
         <template slot="buttons" slot-scope="props">
           <el-tooltip class="item" effect="dark" content="Modificar" placement="top-start">
@@ -24,30 +11,31 @@
       </data-tables>
     </div>
     <template v-if="actions==='MODIFY'">
-      <br>
-      <button type="button" class="btn btn-lg btn-fill btn-warning pull-right" @click="Back">
-          <span class="btn-label">
-            <i class="fa fa-angle-double-left"></i>
-          </span>
-        Volver
-      </button>
-      <br>
-      <br>
-      <br>
-      <DetailPersonData :index="i"></DetailPersonData>
+      <div class=" col-md-12 card">
+        <br>
+        <button type="button" class="btn btn-lg btn-fill btn-warning pull-right" @click="Back">
+            <span class="btn-label">
+              <i class="fa fa-angle-double-left"></i>
+            </span>
+          Volver
+        </button>
+        <br>
+        <br>
+        <br>
+        <DetailEmpleado :index="i" action="SEARCH"></DetailEmpleado>
+      </div>
     </template>
   </div>
 </template>
 <script>
-  import axios from 'axios'
   import Datepicker from 'vuejs-datepicker'
   import {en, es} from 'vuejs-datepicker/dist/locale'
-  import DetailPersonData from '../Employees/DetailPersonData'
+  import DetailEmpleado from '../Employees/DetailEmpleado'
 
   export default {
     components: {
       Datepicker,
-      DetailPersonData
+      DetailEmpleado
     },
     data () {
       return {
@@ -59,7 +47,7 @@
         format: 'dd-MM-yyyy',
         opendate: new Date(1975, 5, 1),
         url: '/people',
-        propsToSearch: ['CUNI', 'Document', 'FirstSurName', 'SecondSurName', 'MariedSurName', 'Names'],
+        propsToSearch: ['Id', 'CUNI', 'Document', 'FullName', 'Status'],
         tableColumns: [
           {
             prop: 'Id',
@@ -73,34 +61,24 @@
           },
           {
             prop: 'Document',
-            label: 'Document',
+            label: 'Documento',
             minWidth: 50
           },
           {
-            prop: 'FirstSurName',
-            label: 'FirstSurName',
+            prop: 'FullName',
+            label: 'Nombre Completo',
             minWidth: 80
           },
           {
-            prop: 'SecondSurName',
-            label: 'SecondSurName',
-            minWidth: 80
-          },
-          {
-            prop: 'MariedSurName',
-            label: 'MariedSurName',
-            minWidth: 80
-          },
-          {
-            prop: 'Names',
-            label: 'Names',
+            prop: 'Status',
+            label: 'Estado',
             minWidth: 80
           }
         ],
         pagination: {
-          perPage: 5,
+          perPage: 10,
           currentPage: 1,
-          perPageOptions: [5, 10, 20],
+          perPageOptions: [10, 20, 50],
           total: 0
         },
         create: false
@@ -112,33 +90,11 @@
         this.i = index
         this.actions = 'MODIFY'
       },
-      createPeople () {
-        this.create = true
-      },
-      cancelCreate () {
-        this.create = false
-      },
-      loadBranchData () {
-        axios.get('branches/')
-          .then(response => {
-            this.selectBranches.values = response.data
-          })
-          .catch(error => console.log(error))
-      },
-      loadLevelData () {
-        axios.get('level/')
-          .then(response => {
-            this.selectLevel.values = response.data
-          })
-          .catch(error => console.log(error))
-      },
       Back () {
         this.actions = 'LIST'
       }
     },
     created () {
-      this.loadBranchData()
-      this.loadLevelData()
     }
   }
 </script>

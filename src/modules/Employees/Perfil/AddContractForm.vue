@@ -83,6 +83,23 @@
 
         </div>
 
+        <div class="row" v-if="isDesignated">
+          <div class="form-group col-md-2 ">
+            <label>Numero de Designacion</label>
+            <div>
+              <input type="text" placeholder="Numero de Designacion" class="form-control" v-model="contract.NumDesignacion">
+            </div>
+            <small v-if="formError.NumDesignacion.active" class="form-text text-muted text-danger">{{formError.NumDesignacion.message}}</small>
+          </div>
+          <div class="form-group col-md-10 ">
+            <label>Comentarios de Designacion</label>
+            <div>
+              <input type="text" placeholder="Comentarios de Designacion" class="form-control" v-model="contract.ComentariosDesignacion">
+            </div>
+            <small v-if="formError.ComentariosDesignacion.active" class="form-text text-muted text-danger">{{formError.ComentariosDesignacion.message}}</small>
+          </div>
+        </div>
+
         <div class="row">
           <div class="form-group col-md-4">
             <label>Fecha Inicio</label>
@@ -162,6 +179,13 @@
             this.contract.Dedication = 'TH'
             this.contract.PositionDescription = 'Docente Tiempo Horario.'
           }
+          if (pos.IsDesignated) {
+            this.isDesignated = true
+          } else {
+            this.isDesignated = false
+            this.contract.ComentariosDesignacion = null
+            this.contract.NumDesignacion = null
+          }
         }
       },
       ContractIdWatch: function () {
@@ -181,6 +205,7 @@
         FullName: '',
         readonly: true,
         // end stetic
+        isDesignated: false,
         contract: {
           Document: null,
           DependencyId: null,
@@ -192,7 +217,9 @@
           EndDate: null,
           AI: false,
           CUNI: null,
-          PeopleId: null
+          PeopleId: null,
+          NumDesignacion: null,
+          ComentariosDesignacion: null
         },
         formError: {
           Document: {
@@ -232,6 +259,14 @@
             message: '*Por favor selecciona una fecha menor a la fecha de inicio.'
           },
           PeopleId: {
+            active: false,
+            message: '*Por favor busca una persona.'
+          },
+          NumDesignacion: {
+            active: false,
+            message: '*Este valor no puede ser vacio.'
+          },
+          ComentariosDesignacion: {
             active: false,
             message: '*Por favor busca una persona.'
           }
@@ -319,6 +354,9 @@
         if (Date.parse(this.contract.EndDate) < Date.parse(this.contract.StartDate)) {
           this.formError.EndDate.message = '*Esta fecha no puede ser menor a la fecha Inicio'
         }
+        if (this.isDesignated) {
+          this.formError.NumDesignacion.active = this.isEmptyBlanckOrNull(this.contract.NumDesignacion)
+        }
         this.formError.PeopleId.active = this.isEmptyBlanckOrNull(this.PeopleId)
         x = !(!x || this.formError.DependencyId.active ||
           this.formError.PositionsId.active ||
@@ -326,7 +364,8 @@
           this.formError.Linkage.active ||
           this.formError.StartDate.active ||
           this.formError.EndDate.active ||
-          this.formError.PeopleId.active)
+          this.formError.PeopleId.active ||
+          this.formError.NumDesignacion.active)
         console.log(x)
         return x && this.ExternalValid
       },

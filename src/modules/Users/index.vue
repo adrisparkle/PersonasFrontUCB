@@ -372,11 +372,6 @@
             minWidth: 60
           },
           {
-            prop: 'SAPCodeRRHH',
-            label: 'SAP Code',
-            minWidth: 60
-          },
-          {
             prop: 'CUNI',
             label: 'CUNI',
             minWidth: 100
@@ -392,33 +387,13 @@
             minWidth: 200
           },
           {
-            prop: 'TipoLicenciaSAP',
-            label: 'Tipo Licencia',
-            minWidth: 100
+            prop: 'Dependency',
+            label: 'Dependency',
+            minWidth: 150
           },
           {
-            prop: 'CajaChica',
-            label: 'Caja Chica',
-            minWidth: 70
-          },
-          {
-            prop: 'SolicitanteCompras',
-            label: 'Solicitante',
-            minWidth: 80
-          },
-          {
-            prop: 'AutorizadorCompras',
-            label: 'Autorizador',
-            minWidth: 100
-          },
-          {
-            prop: 'Rendiciones',
-            label: 'Rendiciones',
-            minWidth: 100
-          },
-          {
-            prop: 'RendicionesDolares',
-            label: 'RendicionesDolares',
+            prop: 'Branches',
+            label: 'Branches',
             minWidth: 100
           },
           {
@@ -427,9 +402,19 @@
             minWidth: 250
           },
           {
-            prop: 'PersonalEmail',
-            label: 'PersonalEmail',
-            minWidth: 250
+            prop: 'Rol',
+            label: 'Rol',
+            minWidth: 100
+          },
+          {
+            prop: 'MensajeAprobacion',
+            label: 'MensajeAprobacion',
+            minWidth: 100
+          },
+          {
+            prop: 'AuthFullName',
+            label: 'AuthFullName',
+            minWidth: 200
           },
           {
             prop: 'UserPrincipalName',
@@ -437,14 +422,24 @@
             minWidth: 250
           },
           {
-            prop: 'DependencyCod',
-            label: 'DepCod',
+            prop: 'AutoGenPass',
+            label: 'Gen Pass',
             minWidth: 80
           },
           {
-            prop: 'Dependency',
-            label: 'Dependency',
-            minWidth: 150
+            prop: 'State',
+            label: 'State',
+            minWidth: 100
+          },
+          {
+            prop: 'PersonalEmail',
+            label: 'PersonalEmail',
+            minWidth: 250
+          },
+          {
+            prop: 'DependencyCod',
+            label: 'DepCod',
+            minWidth: 80
           },
           {
             prop: 'OUCod',
@@ -460,46 +455,6 @@
             prop: 'Positions',
             label: 'Positions',
             minWidth: 100
-          },
-          {
-            prop: 'Dedication',
-            label: 'Dedication',
-            minWidth: 100
-          },
-          {
-            prop: 'Linkage',
-            label: 'Linkage',
-            minWidth: 100
-          },
-          {
-            prop: 'AuthSAPCodeRRHH',
-            label: 'Auth SAPCode',
-            minWidth: 80
-          },
-          {
-            prop: 'AuthCUNI',
-            label: 'AuthCUNI',
-            minWidth: 100
-          },
-          {
-            prop: 'AuthFullName',
-            label: 'AuthFullName',
-            minWidth: 200
-          },
-          {
-            prop: 'AuthPositions',
-            label: 'Auth Positions',
-            minWidth: 100
-          },
-          {
-            prop: 'Branches',
-            label: 'Branches',
-            minWidth: 100
-          },
-          {
-            prop: 'AutoGenPass',
-            label: 'Gen Pass',
-            minWidth: 80
           }
         ],
         pagination: {
@@ -544,7 +499,7 @@
           .then(response => {
             response.data.forEach(function (element) {
               // console.log(element)
-              op.push({value: element.Id, text: element.CUNI + '-' + element.FirstSurName + ' ' + element.Names})
+              op.push({value: element.Id, text: element.CUNI + '-' + element.FullName})
             })
             this.values = op
           })

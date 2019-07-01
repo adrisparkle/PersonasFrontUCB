@@ -21,19 +21,6 @@
         <div class="form-group">
           <el-select class="select-info"
                      size="large"
-                     placeholder="Regional"
-                     v-model="BranchesId">
-            <el-option v-for="option in selectBranches.values"
-                       class="select-danger"
-                       :value="option.Id"
-                       :label="option.Name"
-                       :key="option.Id">
-            </el-option>
-          </el-select>
-        </div>
-        <div class="form-group">
-          <el-select class="select-info"
-                     size="large"
                      placeholder="Nivel"
                      v-model="LevelId">
             <el-option v-for="option in selectLevel.values"
@@ -118,14 +105,6 @@
           this.$store.commit('crud/formDataFieldSetter', {field: 'IsDesignated', val: value})
         }
       },
-      BranchesId: {
-        get () {
-          return this.$store.state.crud.formData.BranchesId
-        },
-        set (value) {
-          this.$store.commit('crud/formDataFieldSetter', {field: 'BranchesId', val: value})
-        }
-      },
       PerformanceAreaId: {
         get () {
           return this.$store.state.crud.formData.PerformanceAreaId
@@ -138,7 +117,7 @@
     data () {
       return {
         url: '/positions',
-        propsToSearch: ['Name', 'Cod', 'Branch', 'IsDesignated'],
+        propsToSearch: ['Name', 'Cod', 'IsDesignated'],
         tableColumns: [
           {
             prop: 'Id',
@@ -154,11 +133,6 @@
             prop: 'Cod',
             label: 'Nivel',
             minWidth: 50
-          },
-          {
-            prop: 'Branch',
-            label: 'Regional',
-            minWidth: 100
           },
           {
             prop: 'PerformanceArea',

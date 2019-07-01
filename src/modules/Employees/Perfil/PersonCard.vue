@@ -15,7 +15,7 @@
         <h4 class="title"> {{person.FullName}}
           <br>
           <a href="#">
-            <small>{{person.UserName}}</small>
+            <small>CUNI: {{person.CUNI}}</small>
           </a>
         </h4>
       </div>

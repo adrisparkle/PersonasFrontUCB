@@ -66,8 +66,10 @@
                     <small v-if="formError.BranchesId" class="form-text text-muted text-danger">*Por favor, selecciona una regional</small>
                   </div>
                 </div>
+
                 <br>
                 <div class="form-group col-md-6 el-col-offset-9">
+
                   <div class="row">
                     <label>Archivo de Altas:</label>
                   </div>
@@ -87,6 +89,11 @@
                     <div>
                       <small v-if="formError.file" class="form-text text-muted text-danger">*Por favor, selecciona un archivo en formato .xlsx</small>
                     </div>
+                  </div>
+
+                  <div class="row">
+                    <br>
+                    <button class="btn btn-info btn-fill" @click="GetTemplate()">Descargar Plantilla</button>
                   </div>
                 </div>
               </div>
@@ -223,6 +230,29 @@
       }
     },
     methods: {
+      GetTemplate () {
+        axios.get('/ContractAltaExcel',
+          {
+            responseType: 'arraybuffer',
+            headers: {
+              'token': localStorage.getItem('token')
+            }
+          }
+        )
+          .then(response => {
+            const blob = new Blob([response.data], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            var filename = response.request.getResponseHeader('Content-Disposition')
+            link.setAttribute('download', filename.split('filename=')[1])
+            document.body.appendChild(link)
+            link.click()
+          })
+          .catch(error => console.log(error))
+      },
       cancel () {
         this.valid = false
       },

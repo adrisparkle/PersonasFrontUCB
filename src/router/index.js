@@ -81,7 +81,7 @@ let Menu = {
     },
     {
       path: 'persona/',
-      name: 'Empleados',
+      name: 'Historial Empleados',
       component: Employee
     },
     {

@@ -358,7 +358,7 @@
           return element.name === 'GPS'
         })
         let child = found.children.find(function (element) {
-          return element.name === 'Empleados'
+          return element.name === 'Historial Empleados'
         })
         return child.methods.includes('PUT')
       },

@@ -1,7 +1,6 @@
 <template>
   <div class="row">
     <div class="col-md-8 card">
-
       <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
         <template slot="buttons" slot-scope="props">
           <el-tooltip class="item" effect="dark" content="Modificar" placement="top-start">

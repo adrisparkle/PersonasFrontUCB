@@ -84,19 +84,33 @@
         </div>
 
         <div class="row" v-if="isDesignated">
-          <div class="form-group col-md-2 ">
+          <div class="form-group col-md-4 ">
             <label>Numero de Designacion</label>
             <div>
-              <input type="text" placeholder="Numero de Designacion" class="form-control" v-model="contract.NumDesignacion">
+              <input type="text" placeholder="Numero de Gestión" class="form-control" v-model="contract.NumGestion">
             </div>
-            <small v-if="formError.NumDesignacion.active" class="form-text text-muted text-danger">{{formError.NumDesignacion.message}}</small>
+            <small v-if="formError.NumGestion.active" class="form-text text-muted text-danger">{{formError.NumGestion.message}}</small>
           </div>
-          <div class="form-group col-md-10 ">
-            <label>Comentarios de Designacion</label>
+          <div class="form-group col-md-4 ">
+            <label>Respaldo</label>
             <div>
-              <input type="text" placeholder="Comentarios de Designacion" class="form-control" v-model="contract.ComentariosDesignacion">
+              <input type="text" placeholder="Numero de Gestión" class="form-control" v-model="contract.Respaldo">
             </div>
-            <small v-if="formError.ComentariosDesignacion.active" class="form-text text-muted text-danger">{{formError.ComentariosDesignacion.message}}</small>
+            <small v-if="formError.Respaldo.active" class="form-text text-muted text-danger">{{formError.Respaldo.message}}</small>
+          </div>
+          <div class="form-group col-md-4 ">
+            <label>Comunicado</label>
+            <div>
+              <input type="text" placeholder="Comunicado" class="form-control" v-model="contract.Comunicado">
+            </div>
+            <small v-if="formError.Comunicado.active" class="form-text text-muted text-danger">{{formError.Comunicado.message}}</small>
+          </div>
+          <div class="form-group col-md-12 ">
+            <label>Seguimiento</label>
+            <div>
+              <textarea type="text" placeholder="Seguimiento" class="form-control" v-model="contract.Seguimiento" />
+            </div>
+            <small v-if="formError.Seguimiento.active" class="form-text text-muted text-danger">{{formError.Seguimiento.message}}</small>
           </div>
         </div>
 
@@ -163,7 +177,7 @@
     },
     watch: {
       possitionWath: function (newval, oldval) {
-        if (newval !== null && this.ContractId === -1) {
+        if (newval !== null /* && this.ContractId === -1 */) {
           console.log(newval)
           let pos = this.FindPositionByCode(newval)
           console.log(pos)
@@ -218,8 +232,10 @@
           AI: false,
           CUNI: null,
           PeopleId: null,
-          NumDesignacion: null,
-          ComentariosDesignacion: null
+          NumGestion: null,
+          Seguimiento: null,
+          Respaldo: null,
+          Comunicado: null
         },
         formError: {
           Document: {
@@ -262,13 +278,21 @@
             active: false,
             message: '*Por favor busca una persona.'
           },
-          NumDesignacion: {
+          NumGestion: {
             active: false,
             message: '*Este valor no puede ser vacio.'
           },
-          ComentariosDesignacion: {
+          Seguimiento: {
             active: false,
-            message: '*Por favor busca una persona.'
+            message: ''
+          },
+          Respaldo: {
+            active: false,
+            message: ''
+          },
+          Comunicado: {
+            active: false,
+            message: ''
           }
         },
         DepencencySelect: {
@@ -355,7 +379,7 @@
           this.formError.EndDate.message = '*Esta fecha no puede ser menor a la fecha Inicio'
         }
         if (this.isDesignated) {
-          this.formError.NumDesignacion.active = this.isEmptyBlanckOrNull(this.contract.NumDesignacion)
+          this.formError.NumGestion.active = this.isEmptyBlanckOrNull(this.contract.NumGestion)
         }
         this.formError.PeopleId.active = this.isEmptyBlanckOrNull(this.PeopleId)
         x = !(!x || this.formError.DependencyId.active ||
@@ -365,7 +389,7 @@
           this.formError.StartDate.active ||
           this.formError.EndDate.active ||
           this.formError.PeopleId.active ||
-          this.formError.NumDesignacion.active)
+          this.formError.NumGestion.active)
         console.log(x)
         return x && this.ExternalValid
       },
@@ -461,6 +485,10 @@
         this.contract.StartDate = null
         this.contract.EndDate = null
         this.contract.CUNI = null
+        this.contract.Seguimiento = null
+        this.contract.NumGestion = null
+        this.contract.Respaldo = null
+        this.contract.Comunicado = null
         this.FullName = null
         // this.ContractId = -1
       },
@@ -517,7 +545,11 @@
             EndDate: null,
             AI: false,
             CUNI: null,
-            PeopleId: null
+            PeopleId: null,
+            NumGestion: null,
+            Seguimiento: null,
+            Respaldo: null,
+            Comunicado: null
           }
         } else {
           axios.get('contract/' + this.ContractId)

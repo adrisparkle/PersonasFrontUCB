@@ -85,16 +85,16 @@
 
         <div class="row" v-if="isDesignated">
           <div class="form-group col-md-4 ">
-            <label>Numero de Designacion</label>
+            <label>Numero de Gestion</label>
             <div>
-              <input type="text" placeholder="Numero de Gestión" class="form-control" v-model="contract.NumGestion">
+              <input type="text" placeholder="Numero de Gestion" class="form-control" v-model="contract.NumGestion">
             </div>
             <small v-if="formError.NumGestion.active" class="form-text text-muted text-danger">{{formError.NumGestion.message}}</small>
           </div>
           <div class="form-group col-md-4 ">
             <label>Respaldo</label>
             <div>
-              <input type="text" placeholder="Numero de Gestión" class="form-control" v-model="contract.Respaldo">
+              <input type="text" placeholder="Respaldo" class="form-control" v-model="contract.Respaldo">
             </div>
             <small v-if="formError.Respaldo.active" class="form-text text-muted text-danger">{{formError.Respaldo.message}}</small>
           </div>

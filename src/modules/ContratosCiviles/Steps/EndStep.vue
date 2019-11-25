@@ -40,7 +40,7 @@
               <button type="button" class="btn btn-wd btn-fill btn-success" style="margin: 0 auto" @click="SendToApprove">
                 <span class="btn-label">
                   <i class="fa fa-file-excel" ></i>
-                     Enviar a Aprovación
+                     Enviar a Aprobación
                 </span>
               </button>
             </template>
@@ -146,6 +146,7 @@
           this.inprogress = true
           this.getRows()
           this.initloader()
+          console.log(this.$store.state.civ.uploadedFiles.id + 'es el serv que se manda')
           axios.post('/ServContractToSAP/' + this.$store.state.civ.uploadedFiles.id,
             {
               date: this.date
@@ -163,6 +164,11 @@
              this.loadingText = '[' + this.rowsUploaded + '/' + this.rowCount + '] Registros Completados'
              window.clearTimeout(this.timer)
              let resp = JSON.parse(String.fromCharCode.apply(null, new Uint8Array(response.data)))
+             console.log(response.data + 'respuesta original')
+             console.log(resp + 'respuesta con formato')
+             console.log(JSON.stringify(response.headers) + 'Son los headers de respuesta')
+             console.log(localStorage.getItem('token') + 'los tokens mandaados en el header')
+             console.log(this.date + 'es la fecha enviada')
              let newkeyStr = ''
              try {
                newkeyStr = '\nEl número de comprobante contable en SAP es: ' + resp
@@ -223,7 +229,7 @@
           .then(response => {
             this.rowCount = response.data.rowCount
             this.estimatedTime = (0.0328 * this.rowCount * this.rowCount) + (102.42 + this.rowCount) - 1605.5
-            console.log(this.rowCount + '-' + this.estimatedTime)
+            console.log(this.rowCount + ' es el row Count' + '- ' + this.estimatedTime)
           })
           .catch(error => console.log(error))
       },

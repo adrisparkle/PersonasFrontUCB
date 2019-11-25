@@ -4,14 +4,19 @@
       <template v-if="!showWizard">
         <data-tables v-bind="{url, propsToSearch, tableColumns,pagination}">
           <template slot="buttons" slot-scope="props">
-            <el-tooltip class="item" effect="dark" content="Aprobar" placement="top-start">
+            <el-tooltip class="item" effect="dark" content="Revisar" placement="top-start">
               <a class="btn btn-simple btn-xs btn-icon btn-info" @click="initWizard(props.queriedData[props.index].Id)"><i class="fa fa-edit"></i></a>
             </el-tooltip>
           </template>
         </data-tables>
       </template>
       <template v-else>
-        <button  class="btn btn-warning btn-fill btn-wd btn-back" style="margin-left: 80%" @click="showWizard= false">Volver a Historial</button>
+        <button  type="button" class="btn btn-wd btn-fill btn-success" style="margin: 0 80%" @click="comprobante">
+                <span class="btn-label">
+                    <i class="fa fa-file-excel" ></i>
+                       Descargar Detalle
+                </span>
+        </button>
         <div class="card card-wizard" id="wizardCard">
           <form-wizard shape="tab" ref="wizard"
                        @on-complete="wizardComplete"
@@ -19,20 +24,11 @@
                        color="#FFA000"
                        title="Asignacion de Centros de Responsabilidad"
                        subtitle="siga los siguientes pasos">
-
             <tab-content title="Comprobación"
                          icon="ti-check">
               <BeforeEndStep></BeforeEndStep>
             </tab-content>
-
-            <tab-content title="Confirmación"
-                         icon="ti-check">
-              <EndStep :ToAprove="ToAprove"></EndStep>
-            </tab-content>
-
-            <button slot="prev" class="btn btn-default btn-fill btn-wd btn-back">Atras</button>
-            <button slot="next" class="btn btn-info btn-fill btn-wd btn-next">Siguiente</button>
-            <button slot="finish" class="btn btn-warning btn-fill btn-wd">Finalizar</button>
+            <button slot="finish" class="btn btn-warning btn-fill btn-wd" @click="showWizard= false">Volver al historial</button>
           </form-wizard>
         </div>
       </template>
@@ -47,7 +43,6 @@
   import BeforeEndStep from './Steps/BeforeEndStep'
   import EndStep from './Steps/EndStep'
   import router from 'src/router/index'
-
   export default {
     data () {
       return {
@@ -138,7 +133,7 @@
         axios.get('ServContract/' + id, this.formData)
           .then(response => {
             console.log(response.data.State)
-            if (response.data.State === 'ESPERANDO APROBACION') {
+            if (response.data.State) {
               this.$store.commit('civ/uploadedFilesIdSetter', id)
               this.$store.commit('civ/segmentoSetter', response.data.BranchesId)
               this.$store.commit('civ/tipoArchivoSetter', response.data.FileType)
@@ -153,6 +148,29 @@
       wizardComplete () {
         router.go(0)
         router.push('/ContratosCivilesProcesos')
+      },
+      comprobante () {
+        axios.get('/ServContract/getdistribution/' + this.$store.state.civ.uploadedFiles.id,
+          {
+            responseType: 'arraybuffer',
+            headers: {
+              'token': localStorage.getItem('token')
+            }
+          }
+        )
+          .then(response => {
+            const blob = new Blob([response.data], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            var filename = response.request.getResponseHeader('Content-Disposition')
+            link.setAttribute('download', filename.split('filename=')[1])
+            document.body.appendChild(link)
+            link.click()
+          })
+          .catch(error => console.log(error))
       }
     },
     components: {
@@ -262,7 +280,6 @@
     width: 119px;
     animation: animateSuccessLong .75s;
   }
-
   @keyframes animateSuccessTip {
     0%, 54% {
       width: 0;

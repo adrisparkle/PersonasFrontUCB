@@ -65,6 +65,7 @@ import NombramientoDetail from 'src/modules/Nombramiento/detail'
 import Civil from 'src/modules/Civil'
 import ContratosCiviles from 'src/modules/ContratosCiviles'
 import ContratosCivilesHistory from 'src/modules/ContratosCiviles/ContratosCivilesHistory'
+import ContratosCivilesAprobacion from 'src/modules/ContratosCiviles/ContratosCivilesAprobacion'
 
 // import store from '../store'
 Vue.use(VueRouter)
@@ -256,8 +257,13 @@ let Menu = {
     },
     {
       path: '/ContratosCivilesProcesos',
-      name: 'Historial de Procesos Contratos Civiles',
+      name: 'Historial',
       component: ContratosCivilesHistory
+    },
+    {
+      path: '/ContratosCivilesAprobacion',
+      name: 'Aprobación',
+      component: ContratosCivilesAprobacion
     }
   ]
 }

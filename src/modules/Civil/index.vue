@@ -11,7 +11,7 @@
               <div class="form-group row">
                 <label>Codigo SAP:</label>
                 <div>
-                <input type="text" placeholder="Codigo SAP" class="form-control" v-model="formData.SAPId" @keyup.enter="findBP()" @change="ResetForm()">
+                  <input type="text" placeholder="Codigo SAP" class="form-control" v-model="formData.SAPId" @keyup.enter="findBP()" @change="ResetForm()">
                 </div>
               </div>
             </div>
@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-7 col-md-offset-2">
               <div class="form-group row">
-                  <button class="btn btn-fill btn-success btn-block" @click="send()" style="margin-top: 25px;">Crear como Personal Civil</button>
+                <button class="btn btn-fill btn-success btn-block" @click="send()" style="margin-top: 25px;">Crear como Personal Civil</button>
               </div>
             </div>
 
@@ -56,9 +56,7 @@
 <script>
   import axios from 'axios'
   import swal from 'sweetalert2'
-
   export default {
-
     computed: {
     },
     data () {
@@ -71,7 +69,6 @@
           NIT: null,
           Document: null
         },
-
         action: false,
         url2: '/CivilbyBranch/0',
         propsToSearch: ['Id', 'FullName', 'Category', 'SAPId', 'NIT'],
@@ -151,6 +148,8 @@
           .then(response => {
             this.successMessage()
             this.formData.SAPId = null
+            // permite cargar la información después de haberla mandado
+            this.$store.dispatch('crud/loadData', this.url2)
             this.ResetForm()
           })
           .catch(error => {

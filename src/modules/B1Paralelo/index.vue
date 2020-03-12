@@ -15,7 +15,7 @@
       return {
         actions: false,
         url: '/CostCenters/Paralelo/',
-        propsToSearch: ['PrcCode', 'PrcName', 'U_Sigla', 'U_Materia', 'U_PeriodoPARALELO'],
+        propsToSearch: [ 'PrcCode', 'PrcName', 'U_Sigla', 'U_Materia', 'U_PeriodoPARALELO', 'U_Paralelo', 'U_EstadoParalelo', 'U_NivelParalelo', 'U_TipoParalelo' ],
         tableColumns: [
           {
             prop: 'PrcCode',
@@ -26,16 +26,6 @@
             prop: 'PrcName',
             label: 'Nombre',
             minWidth: 150
-          },
-          {
-            prop: 'ValidFrom',
-            label: 'Valido Desde',
-            minWidth: 120
-          },
-          {
-            prop: 'ValidTo',
-            label: 'Valido Hasta',
-            minWidth: 120
           },
           {
             prop: 'U_PeriodoPARALELO',
@@ -55,11 +45,6 @@
           {
             prop: 'U_Paralelo',
             label: 'Paralelo',
-            minWidth: 100
-          },
-          {
-            prop: 'U_ModalidadPARALELO',
-            label: 'Modalidad',
             minWidth: 100
           },
           {

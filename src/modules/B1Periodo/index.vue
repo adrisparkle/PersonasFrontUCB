@@ -15,7 +15,7 @@
       return {
         actions: false,
         url: '/CostCenters/Periodo/',
-        propsToSearch: ['PrcName', 'U_GestionPeriodo', 'U_TipoPeriodo'],
+        propsToSearch: ['PrcCode', 'PrcName', 'U_GestionPeriodo', 'U_TipoPeriodo'],
         tableColumns: [
           {
             prop: 'PrcCode',
@@ -26,16 +26,6 @@
             prop: 'PrcName',
             label: 'Nombre',
             minWidth: 150
-          },
-          {
-            prop: 'ValidFrom',
-            label: 'Valido Desde',
-            minWidth: 120
-          },
-          {
-            prop: 'ValidTo',
-            label: 'Valido Hasta',
-            minWidth: 120
           },
           {
             prop: 'U_GestionPeriodo',

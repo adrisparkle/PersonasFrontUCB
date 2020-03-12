@@ -15,7 +15,7 @@
       return {
         actions: false,
         url: '/CostCenters/PEI/',
-        propsToSearch: ['PrcName', 'U_AmbitoPEI', 'U_Indicador'],
+        propsToSearch: ['PrcCode', 'PrcName', 'U_GestionCC', 'U_AmbitoPEI', 'U_DirectrizPEI', 'U_Indicador', 'ValidFrom', 'ValidTo'],
         tableColumns: [
           {
             prop: 'PrcCode',

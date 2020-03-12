@@ -15,42 +15,42 @@
       return {
         actions: false,
         url: '/CostCenters/Proyectos/',
-        propsToSearch: ['PrjCode', 'PrjName', 'U_ModalidadProy', 'U_Sucursal', 'U_Tipo'],
+        propsToSearch: ['PrjCode', 'PrjName', 'ValidFrom', 'ValidTo', 'U_ModalidadProy', 'U_Sucursal', 'U_Tipo'],
         tableColumns: [
           {
             prop: 'PrjCode',
             label: '#',
-            minWidth: 80
+            minWidth: 40
           },
           {
             prop: 'PrjName',
             label: 'Nombre  ',
-            minWidth: 100
+            minWidth: 120
           },
           {
             prop: 'ValidFrom',
             label: 'Valido Desde',
-            minWidth: 120
+            minWidth: 80
           },
           {
             prop: 'ValidTo',
             label: 'Valido Hasta',
-            minWidth: 120
+            minWidth: 80
           },
           {
             prop: 'U_ModalidadProy',
             label: 'Modalidad',
-            minWidth: 100
+            minWidth: 50
           },
           {
             prop: 'U_Sucursal',
             label: 'Sucursal',
-            minWidth: 100
+            minWidth: 50
           },
           {
             prop: 'U_Tipo',
             label: 'Tipo',
-            minWidth: 100
+            minWidth: 50
           }
         ],
         pagination: {

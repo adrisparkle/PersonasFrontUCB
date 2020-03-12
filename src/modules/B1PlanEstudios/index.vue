@@ -15,7 +15,7 @@
       return {
         actions: false,
         url: '/CostCenters/PlanDeEstudios/',
-        propsToSearch: ['PrcCode', 'PrcName', 'U_NUM_INT_CAR', 'U_Nivel'],
+        propsToSearch: ['PrcCode', 'PrcName', 'ValidFrom', 'ValidTo'],
         tableColumns: [
           {
             prop: 'PrcCode',
@@ -25,7 +25,7 @@
           {
             prop: 'PrcName',
             label: 'Nombre  ',
-            minWidth: 100
+            minWidth: 120
           },
           {
             prop: 'ValidFrom',
@@ -36,16 +36,6 @@
             prop: 'ValidTo',
             label: 'Valido Hasta',
             minWidth: 120
-          },
-          {
-            prop: 'U_NUM_INT_CAR',
-            label: 'Numero Interno',
-            minWidth: 100
-          },
-          {
-            prop: 'U_Nivel',
-            label: 'Nivel',
-            minWidth: 100
           }
         ],
         pagination: {

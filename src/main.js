@@ -8,7 +8,6 @@ import locale from 'element-ui/lib/locale'
 import App from './App.vue'
 import axios from 'axios'
 import VueWorker from 'vue-worker'
-
 // Plugins
 import GlobalComponents from './gloablComponents'
 import GlobalDirectives from './globalDirectives'
@@ -24,7 +23,6 @@ import store from './store/index.js'
 import './assets/sass/paper-dashboard.scss'
 import './assets/sass/element_variables.scss'
 import './assets/sass/demo.scss'
-
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(GlobalDirectives)
@@ -36,11 +34,9 @@ Vue.use(VueWorker)
 locale.use(lang)
 
 // Dev server
-// axios.defaults.baseURL = 'http://172.16.0.187:8001/api'
-
+axios.defaults.baseURL = 'http://172.18.11.39:8001/api'
 // Production server
-axios.defaults.baseURL = 'http://192.168.18.75:8002/api'
-
+// axios.defaults.baseURL = 'http://192.168.18.75:8002/api'
 axios.defaults.headers.common['id'] = localStorage.getItem('userId')
 axios.defaults.headers.common['token'] = localStorage.getItem('token')
 

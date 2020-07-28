@@ -66,7 +66,11 @@ import Civil from 'src/modules/Civil'
 import ContratosCiviles from 'src/modules/ContratosCiviles'
 import ContratosCivilesHistory from 'src/modules/ContratosCiviles/ContratosCivilesHistory'
 import ContratosCivilesAprobacion from 'src/modules/ContratosCiviles/ContratosCivilesAprobacion'
-
+import RRHHSearch from 'src/modules/RRHHSearch'
+import BusquedaGrupal from 'src/modules/RRHHSearch/BusquedaGrupal.vue'
+import Organigrama from 'src/modules/RRHHSearch/Organigrama.vue'
+import NovedadesAltas from 'src/modules/RRHHSearch/NovedadesAltas.vue'
+import NovedadesBajas from 'src/modules/RRHHSearch/NovedadesBajas.vue'
 // import store from '../store'
 Vue.use(VueRouter)
 
@@ -264,6 +268,31 @@ let Menu = {
       path: '/ContratosCivilesAprobacion',
       name: 'Aprobación',
       component: ContratosCivilesAprobacion
+    },
+    {
+      path: '/BusquedaIndividual',
+      name: 'Búsqueda individual',
+      component: RRHHSearch
+    },
+    {
+      path: '/BusquedaGrupal',
+      name: 'Búsqueda grupal',
+      component: BusquedaGrupal
+    },
+    {
+      path: '/Organigrama',
+      name: 'Organigrama',
+      component: Organigrama
+    },
+    {
+      path: '/NovedadesAltas',
+      name: 'Novedades Altas',
+      component: NovedadesAltas
+    },
+    {
+      path: '/NovedadesBajas',
+      name: 'Novedades Bajas',
+      component: NovedadesBajas
     }
   ]
 }

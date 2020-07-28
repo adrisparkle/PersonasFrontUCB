@@ -160,10 +160,10 @@
           <!-- ++++++++++++++++++++++++++++++++     DETAIL     +++++++++++++++++++++++++++++++++++++++++-->
 
           <template v-if="actions==='DETAIL'">
-            <br>
-            <DetailPersonData v-if="action==='DATOSPERSONA'" :index="i" source="Contract"></DetailPersonData>
-            <DetailEmpleado v-else :action="action" :index="i" source="Contract"></DetailEmpleado>
-          </template>
+          <br>
+          <DetailPersonData v-if="action==='DATOSPERSONA'" :index="i" source="Contract"></DetailPersonData>
+          <DetailEmpleado v-else :action="action" :index="i" source="Contract"></DetailEmpleado>
+        </template>
 
           <!-- ++++++++++++++++++++++++++++++++     CREATE     +++++++++++++++++++++++++++++++++++++++++-->
           <template v-if="actions==='CREATE'">
